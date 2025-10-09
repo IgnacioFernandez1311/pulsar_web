@@ -9,6 +9,11 @@
 
 ## Installation
 
+First of all create a new web project with Dart using:
+```bash
+  dart create -t web app_name
+```
+
 Add **pulsar_web** as a dependency in your **pubspec.yaml** manually or use the next command:
 ```bash
   dart pub add pulsar_web
@@ -27,10 +32,10 @@ A Pulsar project must have the structure of the example below:
     ├─ index.html
     ├─ main.dart
     └─ components/
-        └─ counter/
-            ├─ counter.dart
-            ├─ counter.html
-            └─ counter.css
+        └─ hello/
+            ├─ hello.dart
+            ├─ hello.html
+            └─ hello.css
 
 ```
 
@@ -43,10 +48,10 @@ Every component extends from **Component** class and defines:
   - **methodRegistry** -> Available methods in the HTML template
 
 example:
+**hello.dart**
 ```dart counter.dart
 
 import 'package:pulsar_web/pulsar.dart';
-import 'package:web/web.dart';
 
 class Hello extends Component {
   String hello = "Hello Pulsar!";
@@ -69,11 +74,12 @@ class Hello extends Component {
   void helloMethod(PulsarEvent event) => setState(() => hello = "Goodbye Pulsar!");
 }
 ```
+**hello.html**
 ```html counter.html
 <span>{{hello}}</span>
 <button @click="helloMethod">Press Me</button>
 ```
-
+**main.dart**
 ```dart main.dart
   import 'package:pulsar_web/pulsar.dart';
   import 'components/hello/hello.dart';
