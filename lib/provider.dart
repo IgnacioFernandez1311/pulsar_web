@@ -1,4 +1,4 @@
-import 'package:pulsar/core.dart';
+import 'package:pulsar_web/core.dart';
 import 'registry.dart';
 
 abstract class Provider {

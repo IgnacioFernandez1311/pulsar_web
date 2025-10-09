@@ -1,4 +1,4 @@
-import 'package:pulsar/pulsar.dart';
+import 'package:pulsar_web/pulsar.dart';
 
 typedef ComponentFactory = Component Function();
 

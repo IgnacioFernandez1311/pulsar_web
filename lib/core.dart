@@ -1,7 +1,9 @@
-import 'package:pulsar/pulsar.dart';
+import 'package:pulsar_web/pulsar.dart';
 import 'package:web/web.dart';
 import 'dart:js_interop';
 import 'package:jinja/jinja.dart';
+
+typedef PulsarEvent = Event;
 
 abstract class Component {
   late HTMLElement host;
@@ -128,6 +130,7 @@ Future<String> loadFile(String path) async {
   return text.toDart;
 }
 
+/// Main function to run the List of Components to append to the body
 void runApp(List<Component> components, {Provider? componentProvider}) {
   for (final Component component in components) {
     document.body?.append(component.build());
