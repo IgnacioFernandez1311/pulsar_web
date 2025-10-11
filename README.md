@@ -128,7 +128,7 @@ Example:
 `component_provider.dart`
 ```dart component_provider.dart
 import 'package:pulsar_web/pulsar.dart';
-import '';
+import 'hello/hello.dart';
 class ComponentProvider extends Provider {
   @override
   void registerComponents() {

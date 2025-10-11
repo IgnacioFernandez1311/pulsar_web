@@ -3,8 +3,27 @@ import 'package:web/web.dart';
 import 'dart:js_interop';
 import 'package:jinja/jinja.dart';
 
+/// Extends from Event. It is the Event type of the @events in the templates. example: @click, @submit, @mouseover
 typedef PulsarEvent = Event;
 
+/// The base class to create a component. Every component extends from this class and defines `props()`, `tagName`, `template()`, `style()` and `methodRegistry`.
+/// A Component structure must be like the following syntax:
+/// ```dart
+/// class ComponentName extends Component {
+///   String var = "example prop";
+///   @override
+///   Future<String> template() async => await "<p>{{var}} works</p>";
+///   @override
+///   Map<String, dynamic> props() => {"var": var};
+/// }
+/// ```
+/// Also can be used with the `loadFile()` method to use an extern template.
+/// ```dart
+/// class ComponentName extends Component {
+///  @override
+///  Future<String> template() async => await loadFile('path/to/component_name.html');
+/// }
+/// ```
 abstract class Component {
   late HTMLElement host;
   String tagName = "div";
@@ -14,6 +33,7 @@ abstract class Component {
   Map<String, Function> get methodRegistry => {};
   static final Environment jinjaEnv = Environment();
 
+  /// Method to handle logic after the component get rendered.
   void afterRender() {}
 
   HTMLElement build() {
@@ -22,6 +42,7 @@ abstract class Component {
     return host;
   }
 
+  /// Method used to modifie properties of a component.
   void setState(void Function() updater) {
     updater();
     _render();
@@ -123,14 +144,17 @@ abstract class Component {
 */
 }
 
-/// Function to load templates and styles from a url. The base directory is always considered the web/ directory.
+/// Function to load templates and styles from a url. The base directory is always considered the `web/` directory so you must use the following path styles:
+/// `components/component_name/component_name.html or component_name.css`
+/// `layouts/layout_name/layout_name.html or layout_name.css`
+///Note that every template must be at least inside of the `web/` directory to work correctly and avoid to use paths like `web/components/component_name/component_name.html`.
 Future<String> loadFile(String path) async {
   final Response response = await window.fetch(path.toJS).toDart;
   final JSString text = await response.text().toDart;
   return text.toDart;
 }
 
-/// Main function to run the List of Components to append to the body
+/// Main function to run the List of Components to append to the body and it is also useful to pass it the current Component Provider to register the Components we want to insert in the templates of other Components.
 void runApp(List<Component> components, {Provider? componentProvider}) {
   for (final Component component in components) {
     document.body?.append(component.build());
