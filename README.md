@@ -9,18 +9,13 @@
 
 ## Installation
 
-First of all create a new web project with Dart using:
+Use the `pulsar_cli` to create and serve projects. Run the following command to activate it
 ```bash
-  dart create -t web app_name
+  dart pub global activate pulsar_cli
 ```
-
-Add **pulsar_web** as a dependency in your **pubspec.yaml** manually or use the next command:
+Then use the `create` command for make a new project.
 ```bash
-  dart pub add pulsar_web
-```
-Then execute:
-```bash
-  dart pub get
+  pulsar create hello
 ```
 
 ## Project structure
@@ -96,7 +91,7 @@ class Hello extends Component {
 Then execute:
 
 ```bash
-  webdev serve
+  pulsar serve
 ```
 
 ## Register and insert components using Provider
