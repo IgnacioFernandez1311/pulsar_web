@@ -1,5 +1,5 @@
 import 'package:pulsar_web/pulsar.dart';
-import 'package:web/web.dart';
+import 'package:universal_web/web.dart';
 import 'dart:js_interop';
 import 'package:jinja/jinja.dart';
 

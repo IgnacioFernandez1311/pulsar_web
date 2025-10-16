@@ -2,12 +2,14 @@
   <img src="./billboard_img.png" alt="Pulsar" width="740">
 </p>
 
-<h1>Pulsar web Framework</h1>
+<h1>Pulsar Web Framework</h1>
 
 > **Pulsar** is a lightweight Dart web framework for building web **SPAs** combining the simplicity of HTML + CSS with Dart using **Jinja** templates and reactive components
 
 
 ## Installation
+
+> **Disclaimer**: Pulsar Web Framework is still under development so the versions `0.x.y` can be strongly modified as this package gets new features and fixes. This version of Pulsar is only recommended for personal, private or test use. Please consider to give feedback for every bug you find or open a new issue at the [Github Repository](https://github.com/IgnacioFernandez1311/pulsar_web).
 
 Use the `pulsar_cli` to create and serve projects. Run the following command to activate it
 ```bash
@@ -151,7 +153,7 @@ class AppRoot extends Component {
   Map<String, dynamic> props() => {};
 }
 ```
-Then use the `{% insert "Hello" %}` syntax to import the component in the `app_root.html` and we can insert it the times we want.
+Then use the `{% insert "Hello" %}` syntax to import the component in the `app_root.html` and we can insert it the times we want. Remember that you can use Jinja tags into the HTML like `{% if condition %}`, `{% for item in list %}` if you want.
 
 `app_root.html`
 ```html app_root.html
