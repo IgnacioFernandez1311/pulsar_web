@@ -62,7 +62,7 @@ abstract class Component {
 
     final String? css = await style();
     if (css != null && css.isNotEmpty) {
-      final String styleId = "style-${runtimeType.toString()}";
+      final String styleId = "style-${_safeId(runtimeType.toString())}";
       if (document.head?.querySelector("#$styleId") == null) {
         final HTMLStyleElement styleElement = HTMLStyleElement()
           ..id = styleId
@@ -85,6 +85,10 @@ abstract class Component {
     _bindEvents();
     afterRender();
     await _resolveInserts();
+  }
+
+  String _safeId(String input) {
+    return input.replaceAll(RegExp(r'[^a-zA-Z0-9_-]'), '_');
   }
 
   void _bindEvents() {
