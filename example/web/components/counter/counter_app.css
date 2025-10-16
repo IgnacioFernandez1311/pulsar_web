@@ -1,0 +1,21 @@
+.logo {
+  margin-top: 20px;
+  max-width: 200px;
+}
+
+.buttons {
+  
+  margin: 0 auto;
+  max-width: 120px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.button-circular {
+  font-size: 24px;
+  width: 50px;
+  height: 50px;
+  border: 0px;
+  border-radius: 50%;
+}
+
