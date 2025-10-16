@@ -1,3 +1,6 @@
+## 0.1.4
+- Fix for the components styleId escape characters.
+
 ## 0.1.3
 - Added universal_web instead of web package.
 - Added the disclaimer at the begining of the README file.

@@ -1,6 +1,6 @@
 name: pulsar_web
 description: A lightweight frontend framework for Dart with HTML templates, CSS styles, reactivity and Jinja-like templating.
-version: 0.1.3
+version: 0.1.4
 repository: https://github.com/IgnacioFernandez1311/pulsar_web
 
 topics:
