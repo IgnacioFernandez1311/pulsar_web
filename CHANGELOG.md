@@ -1,3 +1,13 @@
+## 0.2.0
+- Removed the Registry class and Provider class because they ara no longer needed.
+- Classes hierarchy restructured to add the parent class Renderable. Now Component and View extends from Renderable.
+- Added View super class with LayoutView and ContentView as children.
+- Function runApp modified. It no longer receives a List<Component> but a single View. Removed componentProvider because is no longer needed.
+- Added LayoutView, a class to handle the Layout for the views that needs persistante UI as a Navbar or a Footer.
+- Added ContentView, a class to handle a view that can be a main view or contained as the content of a LayoutView. It can be used as the main view in the runApp function.
+- Added Routing system for LayoutViews. The class Router can define all the possible routes for the Layout.
+
+
 ## 0.1.4
 - Fix for the components styleId escape characters.
 
