@@ -141,6 +141,7 @@ A `LayoutView` is a view that can contain `ContentView` elements to use routing 
   - `defineRoutes()` -> Function to define and register all the routes for the `LayoutView`.
 
 You must create a new view that extends from LayoutView:
+
 `persistent_view.dart`
 ```dart
 import 'package:pulsar_web/pulsar.dart';
