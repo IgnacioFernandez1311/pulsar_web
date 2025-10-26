@@ -137,7 +137,7 @@ As you can see, every Component and View defines an `imports` list that defines 
 A `LayoutView` is a view that can contain `ContentView` elements to use routing with Layout persistence like a Navbar or a Footer. Every `LayoutView` extends from `Renderable` and defines:
   - `router` -> Property to register and handle routes on LayoutView.
   - `content` -> The `Renderable` content that renders as a child contained by `LayoutView`.
-  - `navigateTo()` -> Function to navigate between the routes defined in the `ListView`. It receives a `String route` parameter.
+  - `navigateTo()` -> Function to navigate between the routes defined in the `LayoutView`. It receives a `String route` parameter.
   - `defineRoutes()` -> Function to define and register all the routes for the `LayoutView`.
 
 You must create a new view that extends from LayoutView:
