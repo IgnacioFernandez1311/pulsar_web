@@ -134,22 +134,22 @@ As you can see, every Component and View defines an `imports` list that defines 
 
 ### LayoutView
 
-A `LayoutView` is a view that can contain `ContentView` elements to use routing with Layout persistance like a Navbar or a Footer. Every `LayoutView`extends from `Renderable`and defines:
+A `LayoutView` is a view that can contain `ContentView` elements to use routing with Layout persistence like a Navbar or a Footer. Every `LayoutView` extends from `Renderable` and defines:
   - `router` -> Property to register and handle routes on LayoutView.
   - `content` -> The `Renderable` content that renders as a child contained by `LayoutView`.
   - `navigateTo()` -> Function to navigate between the routes defined in the `ListView`. It receives a `String route` parameter.
   - `defineRoutes()` -> Function to define and register all the routes for the `LayoutView`.
 
 You must create a new view that extends from LayoutView:
-`persistant_view.dart`
+`persistent_view.dart`
 ```dart
 import 'package:pulsar_web/pulsar.dart';
 import '../app_view/app_view.dart';
 import '../about_view/about_view.dart';
 
-class PersistantView extends LayoutView {
+class PersistentView extends LayoutView {
   @override
-  Future<String> get template async => await loadFile("views/persistant_view/persistant_view.html");
+  Future<String> get template async => await loadFile("views/persistent_view/persistent_view.html");
 
   @override
   Map<String, Function> get methodRegistry => {
@@ -164,7 +164,7 @@ class PersistantView extends LayoutView {
   }
 }
 ```
-`persistant_view.html`
+`persistent_view.html`
 ```html
 <div class="layout">
   <header>
