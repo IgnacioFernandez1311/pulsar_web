@@ -3,8 +3,8 @@ import '../../components/counter/counter_app.dart';
 
 class AppRoot extends ContentView {
   @override
-  List<Renderable Function()> get imports => [
-    () => CounterApp()
+  List<Renderable> get imports => [
+    CounterApp()
   ];
   @override
   Future<String> get template async =>

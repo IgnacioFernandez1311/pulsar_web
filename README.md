@@ -2,6 +2,11 @@
   <img src="./billboard_img.png" alt="Pulsar" width="740">
 </p>
 
+[![pub package](https://img.shields.io/pub/v/pulsar_web.svg)](https://pub.dev/packages/pulsar_web)
+[![pub points](https://img.shields.io/pub/points/pulsar_web)](https://pub.dev/packages/pulsar_web/score)
+[![likes](https://img.shields.io/pub/likes/pulsar_web)](https://pub.dev/packages/pulsar_web/score)
+
+
 <h1>Pulsar Web Framework</h1>
 
 > **Pulsar** is a lightweight Dart web framework for building web **SPAs** combining the simplicity of HTML + CSS with Dart using **Jinja** templates and reactive components.
@@ -104,9 +109,7 @@ import '../../components/hello/hello.dart';
 
 class AppView extends ContentView {
   @override
-  List<Renderable Function()> get imports => [
-    () => Hello()
-  ];
+  List<Renderable> get imports => [Hello()];
 
   @override
   Future<String> get template async =>
@@ -130,7 +133,7 @@ Then execute:
 ```
 ### Insert components
 
-As you can see, every Component and View defines an `imports` list that defines the list of `Renderable Function()` items you can insert into the `View` html template using the syntax `{% insert "Hello" %}`.
+As you can see, every Component and View defines an `imports` list that defines the list of `Renderable` items you can insert into the `View` html template using the syntax `<Hello />`.
 
 ### LayoutView
 
@@ -152,22 +155,25 @@ class PersistentView extends LayoutView {
   @override
   Future<String> get template async => await loadFile("views/persistent_view/persistent_view.html");
 
+  // Define the methods for the navigation into methodRegistry
   @override
   Map<String, Function> get methodRegistry => {
         'goHome': (_) => router.navigateTo('/'),
-        'goAbout': (_) => router.navigateTo('/about')
+        'goAbout': goAbout
       };
+
+  // Or use named functions
+  void goAbout(PulsarEvent event) => router.navigateTo('/about');
 
   @override
   void defineRoutes() {
-    router.define('/', () => AppView());
-    router.define('/about', () => AboutView());
+    router.define('/', AppView());
+    router.define('/about', AboutView());
   }
 }
 ```
 `persistent_view.html`
 ```html
-<div class="layout">
   <header>
     <nav>
       <a @click="goHome">Home</a>
@@ -175,12 +181,11 @@ class PersistentView extends LayoutView {
      </nav>
    </header>
 
-  {% content %}
+  <@View />
 
   <footer>
      <small>Pulsar © 2025</small>
   </footer>
-</div>
 ```
 
 This will make the `AppView()` the default (**/** route) view to render for the `LayoutView` and the `AboutView()` will be at the **/about** route.

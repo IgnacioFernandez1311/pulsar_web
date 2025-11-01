@@ -2,7 +2,7 @@ import 'renderable.dart';
 
 abstract class View extends Renderable {
   @override
-  List<Renderable Function()> get imports => [];
+  List<Renderable> get imports => [];
 
   void onInit() {}
 }

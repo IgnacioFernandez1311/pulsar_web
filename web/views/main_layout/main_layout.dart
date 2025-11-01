@@ -7,19 +7,16 @@ class MainLayout extends LayoutView {
   Future<String> get template async => await loadFile("views/main_layout/main_layout.html");
 
   @override
-  Map<String, dynamic> get props => {
-    ...super.props,
-  };
-
-  @override
   Map<String, Function> get methodRegistry => {
         'goHome': (_) => router.navigateTo('/'),
-        'goAbout': (_) => router.navigateTo('/about')
+        'goAbout': goAbout
       };
+
+  void goAbout(PulsarEvent event) => router.navigateTo('/about');
 
   @override
   void defineRoutes() {
-    router.define('/', () => AppRoot());
-    router.define('/about', () => AboutView());
+    router.define('/', AppRoot());
+    router.define('/about', AboutView());
   }
 }

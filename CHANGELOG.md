@@ -1,3 +1,9 @@
+## 0.2.1
+- Changed Syntax for the inserts from {% insert "ComponentName" %} to <ComponentName />.
+- Changed the syntax for the ContentView slot from {% content %} to <@View />.
+- Changed the way to import Renderable elements into imports property-
+- Changed the way to define routes.
+
 ## 0.2.0
 - Removed the Registry class and Provider class because they ara no longer needed.
 - Classes hierarchy restructured to add the parent class Renderable. Now Component and View extends from Renderable.

@@ -6,7 +6,7 @@ abstract class Renderable {
   late HTMLElement host;
   static final Environment jinjaEnv = Environment();
 
-  List<Renderable Function()> get imports => [];
+  List<Renderable> get imports => [];
 
   Map<String, dynamic> get props => {};
   Future<String> get template;
@@ -22,17 +22,18 @@ abstract class Renderable {
   Future<void> render() async {
     String tpl = await template;
 
+    // Content Slot
+    tpl = tpl.replaceAllMapped(
+      RegExp(r'<@View\s*/>'),
+      (match) => '<div data-slot="content"></div>',
+    );
+
     // Inserciones
     tpl = tpl.replaceAllMapped(
-      RegExp(r'{%\s*insert\s+"([^"]+)"\s*%}'),
+      RegExp(r'<([A-Z][A-Za-z0-9_-]*)\s*\/>'),
       (match) => '<div data-insert="${match.group(1)!}"></div>',
     );
 
-    // Content Slot
-    tpl = tpl.replaceAllMapped(
-      RegExp(r'{%\s*content\s*%}'),
-      (match) => '<div data-slot="content"></div>',
-    );
 
     final Template jinjaTemplate = jinjaEnv.fromString(tpl);
     final String processedTemplate = jinjaTemplate.render(props);
@@ -101,7 +102,7 @@ abstract class Renderable {
 
   Renderable? _createImport(String name) {
     for (final renderableFactory in imports) {
-      final instance = renderableFactory();
+      final instance = renderableFactory;
       if (instance.runtimeType.toString() == name) {
         return instance;
       }

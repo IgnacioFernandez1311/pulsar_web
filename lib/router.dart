@@ -8,8 +8,8 @@ class Router {
 
   Router(this.mountPoint);
 
-  void define(String path, ContentView Function() builder) {
-    _routes[path] = builder;
+  void define(String path, ContentView builder) {
+    _routes[path] = () => builder;
   }
 
   void start() {

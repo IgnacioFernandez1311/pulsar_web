@@ -4,30 +4,30 @@ import 'package:universal_web/web.dart';
 /// Extends from Event. It is the Event type of the @events in the templates. example: @click, @submit, @mouseover
 typedef PulsarEvent = Event;
 
-/// The base class to create a component. Every component extends from this class and defines `props()`, `tagName`, `template()`, `style()` and `methodRegistry`.
+/// The base class to create a component. Every component extends from this class and defines `props`, `tagName`, `template`, `style` and `methodRegistry`.
 /// A Component structure must be like the following syntax:
 /// ```dart
 /// class ComponentName extends Component {
 ///   String var = "example prop";
 ///   @override
-///   Future<String> template() async => await "<p>{{var}} works</p>";
+///   Future<String> get template async => await "<p>{{var}} works</p>";
 ///   @override
-///   Map<String, dynamic> props() => {"var": var};
+///   Map<String, dynamic> get props => {"var": var};
 /// }
 /// ```
 /// Also can be used with the `loadFile()` method to use an extern template.
 /// ```dart
 /// class ComponentName extends Component {
 ///  @override
-///  Future<String> template() async => await loadFile('path/to/component_name.html');
+///  Future<String> get template async => await loadFile('path/to/component_name.html');
 /// }
 /// ```
 abstract class Component extends Renderable {
   @override
-  List<Renderable Function()> get imports => [];
+  List<Component> get imports => [];
   /*
   String _interpolate(String template) {
-    final values = props();
+    final values = props;
     return template.replaceAllMapped(RegExp(r'{{\s*(\w+)\s*}}'), (match) {
       final String key = match.group(1)!;
       final value = values[key];
