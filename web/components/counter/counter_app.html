@@ -1,13 +1,6 @@
-<h2> Count: {{count}}</h2>
-{% if count >= 100 %}
-<h3>Please Stop!!</h3>
-{% elif count >= 20 %}
-<h3>Congratulations!</h3>
-{% elif count >= 10 %}
-<h3>Now reach 20!</h3>
-{% else %}
-<h3>Reach 10!</h3>
-{% endif %}
+<h1>{{ title }}</h1>
+<hr />
+<h2> Count: {{ count }}</h2>
 <div class="buttons">
   <button @click="decrement" class="button-circular">-</button>
   <button @click="increment" class="button-circular">+</button>

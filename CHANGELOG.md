@@ -1,17 +1,24 @@
+## 0.3.0
+- New functionallity and syntax for prop parsing, `<ComponentName prop="literalValue" otherprop="{{dynamicValue}}"/>`.
+- Added `state.statename`, `prop.propname` and `trigger.triggerName` for props and states usage via noSuchMethod.
+- `props` map is no longer needed.
+- `methodRegistry` map is no longer needed.
+
+
 ## 0.2.1
-- Changed Syntax for the inserts from {% insert "ComponentName" %} to <ComponentName />.
-- Changed the syntax for the ContentView slot from {% content %} to <@View />.
+- Changed Syntax for the inserts from `{% insert "ComponentName" %}` to `<ComponentName />`.
+- Changed the syntax for the ContentView slot from `{% content %}` to `<@View />`.
 - Changed the way to import Renderable elements into imports property-
 - Changed the way to define routes.
 
 ## 0.2.0
-- Removed the Registry class and Provider class because they ara no longer needed.
-- Classes hierarchy restructured to add the parent class Renderable. Now Component and View extends from Renderable.
-- Added View super class with LayoutView and ContentView as children.
-- Function runApp modified. It no longer receives a List<Component> but a single View. Removed componentProvider because is no longer needed.
+- Removed the `Registry` class and `Provider` class because they are no longer needed.
+- Classes hierarchy restructured to add the parent class `Renderable`. Now `Component` and `View` extends from `Renderable`.
+- Added View super class with LayoutView and `ContentView` as children.
+- Function `runApp()` modified. It no longer receives a `List<Component>` but a single `View`. Removed componentProvider because is no longer needed.
 - Added LayoutView, a class to handle the Layout for the views that needs persistante UI as a Navbar or a Footer.
-- Added ContentView, a class to handle a view that can be a main view or contained as the content of a LayoutView. It can be used as the main view in the runApp function.
-- Added Routing system for LayoutViews. The class Router can define all the possible routes for the Layout.
+- Added `ContentView`, a class to handle a view that can be a main view or contained as the content of a `LayoutView`. It can be used as the main view in the `runApp()` function.
+- Added Routing system for LayoutViews. The class `Router` can define all the possible routes for the Layout.
 
 
 ## 0.1.4

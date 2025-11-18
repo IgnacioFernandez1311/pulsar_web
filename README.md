@@ -51,11 +51,13 @@ A Pulsar project must have the structure of the example below:
 ### Component Creation
 
 Every `Component` extends from `Renderable` class and defines:
-  - `props` -> Available variables in the HTML template.
   - `imports` -> A list of components available to insert into the html template.
   - `template` -> HTML content (inline using multiline Strings or extern using `loadFile()` function).
   - `style` -> CSS content (inline using multiline Strings or extern using `loadFile()` function).
-  - `methodRegistry` -> Available methods in the HTML template.
+  - `prop` -> A namespace for prop creation using the syntax `prop.propname`. All prop names must be lowercase
+  - `state` -> A namespace for state creation using the syntax `state.propname`. All state names must be lowercase
+  - `trigger` -> A namespace for event trigger creation using the syntax `trigger.propname`.
+
 
 Example:
 `hello.dart`
@@ -64,15 +66,12 @@ Example:
 import 'package:pulsar_web/pulsar.dart';
 
 class Hello extends Component {
-  String hello = "Hello Pulsar!";
+  Hello() {
+    state.hello = "Hello Pulsar!";
+    prop.title = "Default prop value";
+    trigger.helloMethod = (PulsarEvent event) => state.hello = "Goodbye Pulsar!";
+  }
 
-  @override
-  Map<String, dynamic> get props => {'hello': hello};
-
-  @override
-  Map<String, Function> get methodRegistry => {
-    "helloMethod": helloMethod,
-  };
 
   @override
   Future<String> get template async =>
@@ -80,8 +79,6 @@ class Hello extends Component {
   @override
   Future<String?> get style async =>
       await loadFile('path/to/hello.css');
-
-  void helloMethod(PulsarEvent event) => setState(() => hello = "Goodbye Pulsar!");
 }
 ```
 
@@ -89,6 +86,7 @@ class Hello extends Component {
 
 `hello.html`
 ```html hello.html
+<h1>{{title}}</h1>
 <span>{{hello}}</span>
 <button @click="helloMethod">Press Me</button>
 ```
@@ -96,11 +94,9 @@ class Hello extends Component {
 ### View Creation
 
 The `ContentView` class is a `Renderable` used to render the page content. It contains components or another views and defines:
-  - `props` -> Available variables in the HTML template.
   - `imports` -> A list of renderables available to insert into the html template.
   - `template` -> HTML content (inline using multiline Strings or extern using `loadFile()` function).
   - `style` -> CSS content (inline using multiline Strings or extern using `loadFile()` function).
-  - `methodRegistry` -> Available methods in the HTML template.
 
 `app_view.dart`
 ```dart app_view.dart
@@ -113,9 +109,17 @@ class AppView extends ContentView {
 
   @override
   Future<String> get template async =>
-      await loadFile('views/app_root/app_root.html');
+      await loadFile('views/app_view/app_view.html');
 }
 ```
+
+You can insert the Component `Hello` into the view template using the following syntax.
+
+`app_view.html`
+```html
+<Hello title="Hello App Title" />
+```
+
 `main.dart`
 ```dart
 import 'package:pulsar_web/pulsar.dart';
@@ -133,15 +137,15 @@ Then execute:
 ```
 ### Insert components
 
-As you can see, every Component and View defines an `imports` list that defines the list of `Renderable` items you can insert into the `View` html template using the syntax `<Hello />`.
+As you can see, every Component and View defines an `imports` list that defines the list of `Renderable` items you can insert into the `View` or `Component` html template using the syntax `<Hello />`.
 
 ### LayoutView
 
 A `LayoutView` is a view that can contain `ContentView` elements to use routing with Layout persistence like a Navbar or a Footer. Every `LayoutView` extends from `Renderable` and defines:
   - `router` -> Property to register and handle routes on LayoutView.
   - `content` -> The `Renderable` content that renders as a child contained by `LayoutView`.
-  - `navigateTo()` -> Function to navigate between the routes defined in the `LayoutView`. It receives a `String route` parameter.
   - `defineRoutes()` -> Function to define and register all the routes for the `LayoutView`.
+  - `route()` -> Function for route definitions like `/` or `/about`.
 
 You must create a new view that extends from LayoutView:
 
@@ -155,20 +159,11 @@ class PersistentView extends LayoutView {
   @override
   Future<String> get template async => await loadFile("views/persistent_view/persistent_view.html");
 
-  // Define the methods for the navigation into methodRegistry
-  @override
-  Map<String, Function> get methodRegistry => {
-        'goHome': (_) => router.navigateTo('/'),
-        'goAbout': goAbout
-      };
-
-  // Or use named functions
-  void goAbout(PulsarEvent event) => router.navigateTo('/about');
 
   @override
   void defineRoutes() {
-    router.define('/', AppView());
-    router.define('/about', AboutView());
+    route('/', AppView());
+    route('/about', AboutView());
   }
 }
 ```
@@ -176,8 +171,8 @@ class PersistentView extends LayoutView {
 ```html
   <header>
     <nav>
-      <a @click="goHome">Home</a>
-      <a @click="goAbout">About</a>
+      <a @click="goToHome">Home</a>
+      <a @click="goToAbout">About</a>
      </nav>
    </header>
 
@@ -189,15 +184,6 @@ class PersistentView extends LayoutView {
 ```
 
 This will make the `AppView()` the default (**/** route) view to render for the `LayoutView` and the `AboutView()` will be at the **/about** route.
+Note that the `route()` method always create the default name as `goToRouteName` like `goToHome` if the `route()` is defined like `route('/', AppView)`. The `/` route case is special since its the only route definition that will be registered as "goToHome" at the method registry used by the template.
 
-If you want to add props to the LayoutView, you can use the following way.
 
-```dart
-@override
-  Map<String, dynamic> get props => {
-    ...super.props,
-    'newProp': newPropValueOrVar
-  };
-```
-
-> Note: LayoutView is recommended to use only methodRegistry, not props so this is completely optional.
