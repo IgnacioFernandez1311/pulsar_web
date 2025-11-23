@@ -1,3 +1,6 @@
+## 0.3.1
+- Quick fix for double state execution on first interaction.
+
 ## 0.3.0
 - New functionallity and syntax for prop parsing, `<ComponentName prop="literalValue" otherprop="{{dynamicValue}}"/>`.
 - Added `state.statename`, `prop.propname` and `trigger.triggerName` for props and states usage via noSuchMethod.

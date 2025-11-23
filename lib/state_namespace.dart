@@ -12,8 +12,7 @@ class StateNamespace extends DynamicNamespace {
 
   @override
   dynamic handleSet(String key, value) {
-    owner.updateState(key, value);
-    owner.states[key.toLowerCase()] = value;
+    owner.updateState(key.toLowerCase(), value);
     return value;
   }
 }
