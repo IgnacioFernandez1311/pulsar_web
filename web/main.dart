@@ -1,6 +1,6 @@
 import 'package:pulsar_web/pulsar.dart';
-import 'views/main_layout/main_layout.dart';
+import 'components/counter/counter_app.dart';
 
 void main() {
-  runApp(MainLayout());
+  mountApp(CounterApp(), selector: "#app");
 }
