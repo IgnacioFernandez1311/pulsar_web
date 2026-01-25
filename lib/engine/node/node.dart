@@ -56,8 +56,15 @@ final class ElementNode extends PulsarNode {
   }
 }
 
-class ComponentNode extends PulsarNode {
+final class ComponentNode extends PulsarNode {
   final Component component;
 
+  PulsarNode? rendered;
+
   ComponentNode({required this.component, super.key});
+
+  PulsarNode render() {
+    rendered = component.render();
+    return rendered!;
+  }
 }

@@ -1,4 +1,6 @@
 import 'package:pulsar_web/pulsar.dart';
+import 'package:universal_web/web.dart';
+import '../title/title.dart';
 
 class CounterApp extends Component {
   @override
@@ -6,21 +8,17 @@ class CounterApp extends Component {
 
   int count = 0;
 
-  void increment(_) {
-    count++;
-    update();
-  }
+  void increment(Event event) => setState(() => count++);
 
-  void decrement(_) {
-    count--;
-    update();
-  }
+  void decrement(Event event) => setState(() => count--);
 
   @override
   PulsarNode render() {
     return div(
       children: <PulsarNode>[
-        text("Count $count"),
+        ComponentNode(
+          component: TitleComponent("Welcome to Pulsar Web: $count"),
+        ),
         div(
           classes: "buttons",
           children: <PulsarNode>[

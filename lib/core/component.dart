@@ -15,6 +15,11 @@ abstract class Component {
     }
   }
 
+  void setState(void Function() updater) {
+    updater();
+    update();
+  }
+
   void update() {
     final runtime = _runtime;
     if (runtime == null) {

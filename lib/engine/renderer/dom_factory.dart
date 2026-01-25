@@ -7,6 +7,11 @@ PulsarNode assertNode(dynamic n) => n as PulsarNode;
 PulsarNode assertDom(dynamic n) => n as PulsarNode;
 
 Node createDom(PulsarNode node) {
+  if (node is ComponentNode) {
+    final rendered = node.render();
+    return createDom(rendered);
+  }
+
   if (node is TextNode) {
     return document.createTextNode(node.value);
   }

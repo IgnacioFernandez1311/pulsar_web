@@ -7,11 +7,14 @@ final class ComponentRuntime {
   final Renderer renderer;
   final StyleRegistry styles = StyleRegistry();
 
+  final ComponentRuntime? parent;
+  final List<ComponentRuntime> children = [];
+
   Component? _rootComponent;
   PulsarNode? _currentTree;
   bool _mounted = false;
 
-  ComponentRuntime(this.renderer);
+  ComponentRuntime(this.renderer, {this.parent});
 
   /// Montaje inicial
   void mount(Component root) {

@@ -1,3 +1,6 @@
+## 0.4.0
+- Core rewrite - stable NodeTree architecture.
+
 ## 0.3.1
 - Quick fix for double state execution on first interaction.
 
