@@ -9,12 +9,12 @@
 
 <h1>Pulsar Web Framework</h1>
 
-> **Pulsar** is a lightweight Dart web framework for building web **SPAs** combining the simplicity of HTML + CSS with Dart using **Jinja** templates and reactive components.
+> **Pulsar** is a simple Dart web framework for building apps combining the simplicity of the web with the power of Dart.
 
 
 ## Installation
 
-> **Disclaimer**: Pulsar Web Framework is still under development so the versions `0.x.y` can be strongly modified as this package gets new features and fixes. This version of Pulsar is only recommended for personal, private or test use. Please consider to give feedback for every bug you find or open a new issue at the [Github Repository](https://github.com/IgnacioFernandez1311/pulsar_web).
+> **Note**: Pulsar Web Framework is still under development but `0.4` is a stable version so you can use it to work in real projects. Please consider to give feedback for every bug you find or open a new issue at the [Github Repository](https://github.com/IgnacioFernandez1311/pulsar_web).
 
 Use the `pulsar_cli` to create and serve projects. Run the following command to activate it.
 ```bash
@@ -33,101 +33,125 @@ A Pulsar project must have the structure of the example below:
   web/
     ├─ index.html
     ├─ main.dart
-    ├─ components/
-    │   └─ hello/
-    │        ├─ hello.dart
-    │        ├─ hello.html
-    │        └─ hello.css
-    └─ views/
-        └─ app_view/
-            ├─ app_view.dart
-            ├─ app_view.html
-            └─ app_view.css
-
+    └─ components/
+        └─ hello/
+             ├─ hello.dart
+             ├─ hello.html
+             └─ hello.css
 ```
 
 ## How to use Pulsar
 
 ### Component Creation
 
-Every `Component` extends from `Renderable` class and defines:
-  - `imports` -> A list of components available to insert into the html template.
-  - `template` -> HTML content (inline using multiline Strings or extern using `loadFile()` function).
-  - `style` -> CSS content (inline using multiline Strings or extern using `loadFile()` function).
-  - `prop` -> A namespace for prop creation using the syntax `prop.propname`. All prop names must be lowercase
-  - `state` -> A namespace for state creation using the syntax `state.propname`. All state names must be lowercase
-  - `trigger` -> A namespace for event trigger creation using the syntax `trigger.propname`.
-
 
 Example:
-`hello.dart`
+`counter.dart`
 ```dart counter.dart
 
 import 'package:pulsar_web/pulsar.dart';
 
-class Hello extends Component {
-  Hello() {
-    state.hello = "Hello Pulsar!";
-    prop.title = "Default prop value";
-    trigger.helloMethod = (PulsarEvent event) => state.hello = "Goodbye Pulsar!";
+class Counter extends Component {
+  @override
+  List<Stylesheet> get styles => [css("components/counter/counter.css")];
+
+  int count = 0;
+
+  void increment(Event event) => setState(() => count++);
+
+  void decrement(Event event) => setState(() => count--);
+
+  @override
+  PulsarNode render() {
+    return div(
+      children: <PulsarNode>[
+        ComponentNode(
+          component: TitleComponent(title: "Welcome to Pulsar Web"),
+        ), // This is another component defined just like Counter
+        h2(children: <PulsarNode>[text("$count")]),
+        div(
+          classes: "buttons",
+          children: <PulsarNode>[
+            button(
+              attrs: <String, Attribute>{'onClick': EventAttribute(decrement)},
+              children: <PulsarNode>[
+                text('-'),
+              ],
+            ),
+            button(
+              attrs: <String, Attribute>{'onClick': EventAttribute(increment)},
+              children: <PulsarNode>[
+                text("+"),
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
   }
-
-
-  @override
-  Future<String> get template async =>
-      await loadFile('path/to/hello.html');
-  @override
-  Future<String?> get style async =>
-      await loadFile('path/to/hello.css');
 }
 ```
 
-> Note: If you are using `loadFile()` keep in mind that the root directory for this function is `web/`. So every template must be inside the `web/` directory. Example: `loadFile("components/hello/hello.html")` or `loadFile("views/app_view/app_view.html")`.
+> Note: If you are using `css()` keep in mind that the root directory for this function is `web/`. So every css file must be inside the `web/` directory. Example: `css("components/counter/counter.css")`.
 
-`hello.html`
-```html hello.html
-<h1>{{title}}</h1>
-<span>{{hello}}</span>
-<button @click="helloMethod">Press Me</button>
-```
+### Layout Creation
 
-### View Creation
-
-The `ContentView` class is a `Renderable` used to render the page content. It contains components or another views and defines:
-  - `imports` -> A list of renderables available to insert into the html template.
-  - `template` -> HTML content (inline using multiline Strings or extern using `loadFile()` function).
-  - `style` -> CSS content (inline using multiline Strings or extern using `loadFile()` function).
-
-`app_view.dart`
-```dart app_view.dart
+`app_layout.dart`
+```dart app_layout.dart
 import 'package:pulsar_web/pulsar.dart';
-import '../../components/hello/hello.dart';
+import '../../components/counter/counter.dart';
 
-class AppView extends ContentView {
-  @override
-  List<Renderable> get imports => [Hello()];
+class AppLayout extends Component {
+  final Component child;
+
+  AppLayout(this.child);
 
   @override
-  Future<String> get template async =>
-      await loadFile('views/app_view/app_view.html');
+  PulsarNode render() {
+    return div(
+      children: <PulsarNode>[
+        h1("This is a persistant title"),
+        ComponentNode(component: child),
+    ]);
+  }
+ 
 }
 ```
-
-You can insert the Component `Hello` into the view template using the following syntax.
-
-`app_view.html`
-```html
-<Hello title="Hello App Title" />
-```
+This is how the main file might look like with `Routing`. The `Layout` has to define a child you may pass as a parameter `page`
 
 `main.dart`
 ```dart
 import 'package:pulsar_web/pulsar.dart';
-import 'views/app_view/app_view.dart';
-
+import 'layout/app_layout/app_layout.dart';
 void main() {
-  runApp(AppView());
+  mountApp(
+    RouterComponent(
+      router: Router(
+        routes: [
+          Route(path: '/', builder: () => HomePage()),
+          Route(path: '/counter', builder: () => Counter()),
+        ],
+        notFound: () => NotFoundPage(),
+      ),
+      layout: (page) => AppLayout(page),
+    ),
+  );
 }
+
+```
+
+> Note: To navigate through routes use the `navigateTo(String path)` function this way `navigateTo("/counter")`.
+
+And this is how the main file looks with a single component.
+
+`main.dart`
+```dart
+import 'package:pulsar_web/pulsar.dart';
+import 'components/counter/counter.dart';
+void main() {
+  mountApp(Counter(), selector: "#app");
+}
+
 ```
 
 Then execute:
@@ -135,55 +159,4 @@ Then execute:
 ```bash
   pulsar serve
 ```
-### Insert components
-
-As you can see, every Component and View defines an `imports` list that defines the list of `Renderable` items you can insert into the `View` or `Component` html template using the syntax `<Hello />`.
-
-### LayoutView
-
-A `LayoutView` is a view that can contain `ContentView` elements to use routing with Layout persistence like a Navbar or a Footer. Every `LayoutView` extends from `Renderable` and defines:
-  - `router` -> Property to register and handle routes on LayoutView.
-  - `content` -> The `Renderable` content that renders as a child contained by `LayoutView`.
-  - `defineRoutes()` -> Function to define and register all the routes for the `LayoutView`.
-  - `route()` -> Function for route definitions like `/` or `/about`.
-
-You must create a new view that extends from LayoutView:
-
-`persistent_view.dart`
-```dart
-import 'package:pulsar_web/pulsar.dart';
-import '../app_view/app_view.dart';
-import '../about_view/about_view.dart';
-
-class PersistentView extends LayoutView {
-  @override
-  Future<String> get template async => await loadFile("views/persistent_view/persistent_view.html");
-
-
-  @override
-  void defineRoutes() {
-    route('/', AppView());
-    route('/about', AboutView());
-  }
-}
-```
-`persistent_view.html`
-```html
-  <header>
-    <nav>
-      <a @click="goToHome">Home</a>
-      <a @click="goToAbout">About</a>
-     </nav>
-   </header>
-
-  <@View />
-
-  <footer>
-     <small>Pulsar © 2025</small>
-  </footer>
-```
-
-This will make the `AppView()` the default (**/** route) view to render for the `LayoutView` and the `AboutView()` will be at the **/about** route.
-Note that the `route()` method always create the default name as `goToRouteName` like `goToHome` if the `route()` is defined like `route('/', AppView)`. The `/` route case is special since its the only route definition that will be registered as "goToHome" at the method registry used by the template.
-
 

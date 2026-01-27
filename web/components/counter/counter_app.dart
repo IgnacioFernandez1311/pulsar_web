@@ -19,7 +19,7 @@ class CounterApp extends Component {
         ComponentNode(
           component: TitleComponent(title: "Welcome to Pulsar Web"),
         ),
-        el("h2", children: [text("$count")]),
+        h2(children: [text("$count")]),
         div(
           classes: "buttons",
           children: <PulsarNode>[
