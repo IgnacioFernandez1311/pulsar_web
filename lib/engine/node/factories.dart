@@ -1,5 +1,4 @@
-import './node.dart';
-import '../attribute/attribute.dart';
+import 'package:pulsar_web/pulsar.dart';
 
 TextNode text(String value) => TextNode(value);
 

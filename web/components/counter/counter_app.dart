@@ -17,20 +17,25 @@ class CounterApp extends Component {
     return div(
       children: <PulsarNode>[
         ComponentNode(
-          component: TitleComponent("Welcome to Pulsar Web: $count"),
+          component: TitleComponent(title: "Welcome to Pulsar Web"),
         ),
+        el("h2", children: [text("$count")]),
         div(
           classes: "buttons",
           children: <PulsarNode>[
             button(
-              classes: "button-circular",
+              classes: "btn-floating btn-large waves-effect blue darken-2",
               attrs: <String, Attribute>{'onClick': EventAttribute(decrement)},
-              children: <PulsarNode>[text("-")],
+              children: <PulsarNode>[
+                el('i', classes: "material-icons", children: [text('remove')]),
+              ],
             ),
             button(
-              classes: "button-circular",
+              classes: "btn-floating btn-large waves-effect blue darken-2",
               attrs: <String, Attribute>{'onClick': EventAttribute(increment)},
-              children: <PulsarNode>[text("+")],
+              children: <PulsarNode>[
+                el('i', classes: "material-icons", children: [text("add")]),
+              ],
             ),
           ],
         ),

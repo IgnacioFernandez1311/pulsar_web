@@ -1,15 +1,13 @@
-import 'package:pulsar_web/engine/attribute/attribute.dart';
-import 'package:pulsar_web/engine/node/node.dart';
 import 'dart:js_interop';
 import 'package:universal_web/web.dart';
+import 'package:pulsar_web/pulsar.dart';
 
 PulsarNode assertNode(dynamic n) => n as PulsarNode;
 PulsarNode assertDom(dynamic n) => n as PulsarNode;
 
 Node createDom(PulsarNode node) {
   if (node is ComponentNode) {
-    final rendered = node.render();
-    return createDom(rendered);
+    return createDom(node.render());
   }
 
   if (node is TextNode) {

@@ -1,4 +1,4 @@
-import 'package:pulsar_web/engine/node/node.dart';
+import 'package:pulsar_web/pulsar.dart';
 
 abstract class Renderer {
   void mount(PulsarNode root);

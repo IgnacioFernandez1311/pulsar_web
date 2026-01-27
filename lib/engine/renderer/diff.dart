@@ -1,9 +1,6 @@
 import 'package:universal_web/web.dart';
 
-import 'package:pulsar_web/engine/node/node.dart';
-import 'package:pulsar_web/engine/attribute/attribute.dart';
-
-import 'dom_factory.dart';
+import 'package:pulsar_web/pulsar.dart';
 
 void patch(Node dom, PulsarNode prev, PulsarNode next) {
   // Tipo distinto → reemplazo

@@ -1,10 +1,5 @@
 import 'package:universal_web/web.dart';
-
-import '../node/node.dart';
-import './renderer.dart';
-
-import 'dom_factory.dart';
-import 'diff.dart';
+import 'package:pulsar_web/pulsar.dart';
 
 final class WebRenderer implements Renderer {
   final Element mountPoint;

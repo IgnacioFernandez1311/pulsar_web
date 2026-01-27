@@ -1,5 +1,4 @@
-import 'package:pulsar_web/engine/stylesheet/css_file.dart';
-import 'package:pulsar_web/engine/stylesheet/stylesheet.dart';
+import 'package:pulsar_web/pulsar.dart';
 
 final class StyleRegistry {
   final _loaded = <String>{};
