@@ -29,3 +29,5 @@ export 'package:pulsar_web/engine/renderer/diff.dart';
 export 'package:pulsar_web/engine/renderer/dom_factory.dart';
 export 'package:pulsar_web/engine/renderer/render_context.dart';
 export 'package:pulsar_web/engine/renderer/web_renderer.dart';
+
+export 'package:universal_web/web.dart';

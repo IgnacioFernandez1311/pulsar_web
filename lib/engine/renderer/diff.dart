@@ -1,5 +1,3 @@
-import 'package:universal_web/web.dart';
-
 import 'package:pulsar_web/pulsar.dart';
 
 void patch(Node dom, PulsarNode prev, PulsarNode next) {

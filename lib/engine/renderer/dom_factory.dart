@@ -1,5 +1,4 @@
 import 'dart:js_interop';
-import 'package:universal_web/web.dart';
 import 'package:pulsar_web/pulsar.dart';
 
 PulsarNode assertNode(dynamic n) => n as PulsarNode;
@@ -21,6 +20,8 @@ Node createDom(PulsarNode node) {
       // Atributos string genéricos
       if (attr is StringAttribute) {
         element.setAttribute(key, attr.value);
+      } else if (attr is BooleanAttribute) {
+        element.setAttribute(key, attr.value.toString());
       } else if (attr is ClassAttribute) {
         element.setAttribute('class', attr.classes);
       } else if (attr is StyleAttribute) {

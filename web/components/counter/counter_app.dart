@@ -1,6 +1,4 @@
 import 'package:pulsar_web/pulsar.dart';
-import 'package:universal_web/web.dart';
-import '../title/title.dart';
 
 class CounterApp extends Component {
   @override
@@ -16,26 +14,21 @@ class CounterApp extends Component {
   PulsarNode render() {
     return div(
       children: <PulsarNode>[
-        ComponentNode(
-          component: TitleComponent(title: "Welcome to Pulsar Web"),
-        ),
+        h1(children: [text("Welcome to Pulsar Web")]),
+        hr(),
         h2(children: [text("$count")]),
         div(
           classes: "buttons",
           children: <PulsarNode>[
             button(
-              classes: "btn-floating btn-large waves-effect blue darken-2",
-              attrs: <String, Attribute>{'onClick': EventAttribute(decrement)},
-              children: <PulsarNode>[
-                el('i', classes: "material-icons", children: [text('remove')]),
-              ],
+              classes: "button-circular",
+              onClick: decrement,
+              children: <PulsarNode>[text('-')],
             ),
             button(
-              classes: "btn-floating btn-large waves-effect blue darken-2",
-              attrs: <String, Attribute>{'onClick': EventAttribute(increment)},
-              children: <PulsarNode>[
-                el('i', classes: "material-icons", children: [text("add")]),
-              ],
+              classes: "button-circular",
+              onClick: increment,
+              children: <PulsarNode>[text("+")],
             ),
           ],
         ),

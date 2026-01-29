@@ -73,13 +73,13 @@ class Counter extends Component {
           classes: "buttons",
           children: <PulsarNode>[
             button(
-              attrs: <String, Attribute>{'onClick': EventAttribute(decrement)},
+              onClick: decrement,
               children: <PulsarNode>[
                 text('-'),
               ],
             ),
             button(
-              attrs: <String, Attribute>{'onClick': EventAttribute(increment)},
+              onClick: increment,
               children: <PulsarNode>[
                 text("+"),
               ],
@@ -90,6 +90,27 @@ class Counter extends Component {
     );
   }
 }
+```
+
+### List of available DOM events
+
+You can use any of these events in most of HTML elements.
+
+`HTML DOM events`
+```dart
+  EventCallback? onClick,
+  EventCallback? onDoubleClick,
+  EventCallback? onMouseEnter,
+  EventCallback? onMouseLeave,
+  EventCallback? onMouseMove,
+  EventCallback? onMouseDown,
+  EventCallback? onMouseUp,
+  EventCallback? onFocus,
+  EventCallback? onBlur,
+  EventCallback? onKeyDown,
+  EventCallback? onKeyUp,
+  EventCallback? onInput,
+  EventCallback? onChange,
 ```
 
 > Note: If you are using `css()` keep in mind that the root directory for this function is `web/`. So every css file must be inside the `web/` directory. Example: `css("components/counter/counter.css")`.

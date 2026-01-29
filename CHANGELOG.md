@@ -1,3 +1,8 @@
+## 0.4.1
+- Added several HTML DOM event on tags like onClick, onDoubleClick, onFocus, onSubmit, etc. attrs map is still available for edge case attributes.
+- Added data map for data attributes.
+- Added BooleanAttribute for bool attributes values.
+
 ## 0.4.0
 - Core rewrite - stable NodeTree architecture.
 

@@ -1,5 +1,4 @@
 import 'package:pulsar_web/pulsar.dart';
-import 'package:universal_web/web.dart';
 
 final class CssFile extends Stylesheet {
   final String href;

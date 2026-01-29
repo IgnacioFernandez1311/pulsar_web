@@ -1,15 +1,17 @@
 import 'package:pulsar_web/pulsar.dart';
 
 final class StyleRegistry {
-  final _loaded = <String>{};
+  final loaded = <String>{};
 
   void use(Stylesheet sheet) {
-    if (sheet is CssFile && _loaded.contains(sheet.href)) {}
+    if (sheet is CssFile && loaded.contains(sheet.href)) {
+      return;
+    }
 
     sheet.apply();
 
     if (sheet is CssFile) {
-      _loaded.add(sheet.href);
+      loaded.add(sheet.href);
     }
   }
 }

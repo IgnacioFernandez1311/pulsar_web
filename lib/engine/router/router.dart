@@ -1,6 +1,5 @@
 import 'package:pulsar_web/pulsar.dart';
 import 'package:pulsar_web/types.dart';
-import 'package:universal_web/web.dart';
 
 class Router {
   final List<Route> routes;

@@ -1,4 +1,3 @@
-import 'package:universal_web/web.dart';
 import 'package:pulsar_web/pulsar.dart';
 
 final class WebRenderer implements Renderer {

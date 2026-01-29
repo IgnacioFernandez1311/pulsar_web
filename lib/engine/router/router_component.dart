@@ -1,5 +1,4 @@
 import 'package:pulsar_web/pulsar.dart';
-import 'package:universal_web/web.dart';
 
 class RouterComponent extends Component {
   static RouterComponent? _instance;

@@ -19,11 +19,16 @@ final class EventAttribute extends Attribute {
 final class ClassAttribute extends Attribute {
   final String classes;
 
-  ClassAttribute(this.classes);
+  const ClassAttribute(this.classes);
 }
 
 final class StyleAttribute extends Attribute {
   final Map<String, String> styles;
 
-  StyleAttribute(this.styles);
+  const StyleAttribute(this.styles);
+}
+
+final class BooleanAttribute extends Attribute {
+  final bool value;
+  const BooleanAttribute(this.value);
 }
