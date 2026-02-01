@@ -9,7 +9,8 @@
 
 <h1>Pulsar Web Framework</h1>
 
-> **Pulsar** is a simple Dart web framework for building apps combining the simplicity of the web with the power of Dart.
+**Pulsar** is a simple Dart web framework for building apps combining the simplicity of the web with the power of Dart.
+See [Pulsar Web Framework](https://pulsar-web.netlify.app) and enjoy creating with Pulsar.
 
 
 ## Installation
@@ -25,20 +26,28 @@ Then use the `create` command for make a new project.
   pulsar create hello
 ```
 
+See [pulsar_cli](https://pub.dev/packages/pulsar_cli) for more information on how to configurate the project creation.
+
 ## Project structure
 
 A Pulsar project must have the structure of the example below:
 
+> Note: Now every component and layout lives inside `lib/` directory. Pulsar avoids intentionally using `web/` for the components and layouts but not for CSS styling files. Pulsar dont want to use this directory to avoid relative import routes. So instead of using the syntax `import '../../some_component.dart';` use the following `import 'package:app_name/some_component.dart'`.
+
 ```
+  lib/
+    ├─ app.dart
+    └─ components/
+        └─ hello.dart
   web/
     ├─ index.html
     ├─ main.dart
-    └─ components/
-        └─ hello/
-             ├─ hello.dart
-             ├─ hello.html
-             └─ hello.css
+    └─ styles/
+        └─ hello.css
 ```
+
+The `app.dart` is the entry point that comunicates `lib/` directory with `web/` directory.
+
 
 ## How to use Pulsar
 
@@ -92,6 +101,8 @@ class Counter extends Component {
 }
 ```
 
+> Note: If you are using `css()` keep in mind that the root directory for this function is `web/`. So every css file must be inside the `web/` directory. Example: `css("components/counter/counter.css")`.
+
 ### List of available DOM events
 
 You can use any of these events in most of HTML elements.
@@ -113,19 +124,19 @@ You can use any of these events in most of HTML elements.
   EventCallback? onChange,
 ```
 
-> Note: If you are using `css()` keep in mind that the root directory for this function is `web/`. So every css file must be inside the `web/` directory. Example: `css("components/counter/counter.css")`.
 
 ### Layout Creation
+
+You can use the `app.dart` to make it the main layout of the application by passing it a `child`. 
 
 `app_layout.dart`
 ```dart app_layout.dart
 import 'package:pulsar_web/pulsar.dart';
-import '../../components/counter/counter.dart';
 
-class AppLayout extends Component {
+class App extends Component {
   final Component child;
 
-  AppLayout(this.child);
+  App(this.child);
 
   @override
   PulsarNode render() {
@@ -138,12 +149,15 @@ class AppLayout extends Component {
  
 }
 ```
-This is how the main file might look like with `Routing`. The `Layout` has to define a child you may pass as a parameter `page`
+This is how the main file might look like with `Routing`. The `Layout` has to define a child you may pass as the `page` parameter in the constructor.
 
 `main.dart`
 ```dart
 import 'package:pulsar_web/pulsar.dart';
-import 'layout/app_layout/app_layout.dart';
+import 'package:app_name/app.dart';
+import 'package:app_name/home_page.dart';
+import 'package:app_name/counter.dart';
+
 void main() {
   mountApp(
     RouterComponent(
@@ -154,7 +168,7 @@ void main() {
         ],
         notFound: () => NotFoundPage(),
       ),
-      layout: (page) => AppLayout(page),
+      layout: (page) => App(page),
     ),
   );
 }
@@ -168,9 +182,9 @@ And this is how the main file looks with a single component.
 `main.dart`
 ```dart
 import 'package:pulsar_web/pulsar.dart';
-import 'components/counter/counter.dart';
+import 'package:app_name/app.dart';
 void main() {
-  mountApp(Counter(), selector: "#app");
+  mountApp(App(), selector: "#app");
 }
 
 ```

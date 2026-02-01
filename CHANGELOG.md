@@ -1,3 +1,6 @@
+## 0.4.2
+- README rewrite.
+
 ## 0.4.1
 - Added several HTML DOM event on tags like onClick, onDoubleClick, onFocus, onSubmit, etc. attrs map is still available for edge case attributes.
 - Added data map for data attributes.
