@@ -106,6 +106,7 @@ final textarea = tag('textarea');
 final label = tag('label');
 final pre = tag('pre');
 final code = tag('code');
+final i = tag("i");
 
 // ==============================
 // Specialized tags

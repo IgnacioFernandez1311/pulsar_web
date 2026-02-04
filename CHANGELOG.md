@@ -1,3 +1,6 @@
+## 0.4.4+1
+- Correction on tags factories.
+
 ## 0.4.4
 - Added special tags factories for HTML elements like `img`, `a`, `link`, `form`, `input`, etc.
 
