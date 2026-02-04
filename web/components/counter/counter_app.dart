@@ -15,6 +15,7 @@ class CounterApp extends Component {
     return div(
       children: <PulsarNode>[
         h1(children: [text("Welcome to Pulsar Web")]),
+        img(src: "assets/Logo.png", width: 180),
         hr(),
         h2(children: [text("$count")]),
         div(
