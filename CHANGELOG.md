@@ -1,3 +1,6 @@
+## 0.4.4
+- Added special tags factories for HTML elements like `img`, `a`, `link`, `form`, `input`, etc.
+
 ## 0.4.3
 - New README.
 
