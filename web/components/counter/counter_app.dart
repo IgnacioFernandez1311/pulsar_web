@@ -11,6 +11,16 @@ class CounterApp extends Component {
   void decrement(Event event) => setState(() => count--);
 
   @override
+  void onMount() {
+    print("Hello from onMount function");
+  }
+
+  @override
+  void onUpdate() {
+    print("Hello from onUpdate function");
+  }
+
+  @override
   PulsarNode render() {
     return div(
       children: <PulsarNode>[

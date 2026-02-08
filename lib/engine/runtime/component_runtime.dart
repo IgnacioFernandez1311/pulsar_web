@@ -4,16 +4,12 @@ final class ComponentRuntime {
   final Renderer renderer;
   final StyleRegistry styles = StyleRegistry();
 
-  final ComponentRuntime? parent;
-  final List<ComponentRuntime> children = [];
-
   Component? rootComponent;
   PulsarNode? _currentTree;
   bool _mounted = false;
 
-  ComponentRuntime(this.renderer, {this.parent});
+  ComponentRuntime(this.renderer);
 
-  /// Montaje inicial
   void mount(Component root) {
     if (_mounted) {
       throw StateError('ComponentRuntime is already mounted');
@@ -23,25 +19,33 @@ final class ComponentRuntime {
     root.attach(this);
 
     RenderContext.run(this, () {
-      final rawTree = root.render();
-      final tree = resolveNode(rawTree);
+      final tree = resolveNode(root.render());
       _currentTree = tree;
       renderer.mount(tree);
       _mounted = true;
     });
   }
 
-  /// Pedido de actualización desde un Component
-  void requestUpdate(Component component) {
-    if (!_mounted) {
-      throw StateError('ComponentRuntime is not mounted');
-    }
+  void unmount() {
+    if (!_mounted) return;
+
+    rootComponent?.onUnmount();
+    renderer.unmount();
+
+    rootComponent = null;
+    _currentTree = null;
+    _mounted = false;
+  }
+
+  /// 🔑 UPDATE GLOBAL
+  void requestUpdate() {
+    if (!_mounted) return;
 
     RenderContext.run(this, () {
-      final rawTree = rootComponent!.render();
-      final nextTree = resolveNode(rawTree);
+      final nextTree = resolveNode(rootComponent!.render());
       renderer.update(_currentTree!, nextTree);
       _currentTree = nextTree;
+      rootComponent?.onUpdate();
     });
   }
 }

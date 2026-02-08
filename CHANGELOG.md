@@ -1,3 +1,8 @@
+## 0.4.5
+- Added component lifecycle functions like `onMount`,`onUpdate`,`onUnmount`.
+- New parametric routing system. Now builder receives `params`.
+- Added fetch data system
+
 ## 0.4.4+1
 - Correction on tags factories.
 

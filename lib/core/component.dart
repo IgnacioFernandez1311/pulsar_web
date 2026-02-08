@@ -31,6 +31,7 @@ abstract class Component {
 
   void onMount() {}
   void onUnmount() {}
+  void onUpdate() {}
 
   void setState(void Function() updater) {
     updater();
@@ -38,7 +39,7 @@ abstract class Component {
   }
 
   void update() {
-    runtime.requestUpdate(this);
+    runtime.requestUpdate();
   }
 
   PulsarNode render();

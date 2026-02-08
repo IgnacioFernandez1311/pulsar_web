@@ -5,19 +5,16 @@ class Router {
   final List<Route> routes;
   final ComponentBuilder notFound;
 
-  final Map<String, Component> _cache = {};
-
   Router({required this.routes, required this.notFound});
 
   Component resolve(String path) {
-    return _cache.putIfAbsent(path, () {
-      for (final route in routes) {
-        if (route.path == path) {
-          return route.builder();
-        }
+    for (final route in routes) {
+      final match = route.match(path);
+      if (match != null) {
+        return match.component;
       }
-      return notFound();
-    });
+    }
+    return notFound();
   }
 }
 

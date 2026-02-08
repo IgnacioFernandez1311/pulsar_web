@@ -10,7 +10,7 @@ final class CssFile extends Stylesheet {
     final HTMLLinkElement link =
         document.createElement('link') as HTMLLinkElement;
     link.rel = 'stylesheet';
-    link.href = href;
+    link.href = "/$href";
     document.head!.append(link);
   }
 }

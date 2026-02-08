@@ -1,4 +1,3 @@
-import 'dart:js_interop';
 import 'package:pulsar_web/pulsar.dart';
 
 PulsarNode assertNode(dynamic n) => n as PulsarNode;

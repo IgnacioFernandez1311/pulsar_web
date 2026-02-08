@@ -144,21 +144,171 @@ void main() {
     RouterComponent(
       router: Router(
         routes: [
-          Route(path: '/', builder: () => HomePage()),
-          Route(path: '/counter', builder: () => Counter()),
+          Route(path: '/', builder: (_) => HomePage()),
+          Route(path: '/items', builder: (_) => ListPage()),
+          Route(
+            path: '/items/:id',
+            builder: (params) => ItemPage(params['id']!),
+          ),
         ],
         notFound: () => NotFoundPage(),
       ),
-      layout: (page) => App(page),
+      layout: (page) => AppLayout(page),
     ),
   );
 }
+
 ```
 
-Navigate programmatically using:
+Routes can declare dynamic segments using `:paramName`.
+The resolved values are passed to the builder via the `params` map.
+
+### Navigating Between Routes
+
+Programmatic navigation:
 ```dart
-navigateTo('/counter');
+navigateTo('/items/abc123');
 ```
+
+Declarative navigation:
+
+```dart
+a(
+  href: '/coffees/abc123',
+  onClick: (e) {
+    e.preventDefault();
+    navigateTo('/coffees/abc123');
+  },
+  children: [text('Open coffee')],
+);
+```
+Both approaches produce the same result.
+No reloads, no remounts unless necessary.
+
+### Data fetching
+
+Pulsar does not wrap or replace the web platform.
+
+Fetching data is done using the browser `fetch` API via u`niversal_web`.
+
+```dart
+import 'dart:convert';
+
+class ListPage extends Component {
+  List<Map<String, dynamic>> items = [];
+  bool loading = true;
+
+  @override
+  void onMount() {
+    _load();
+  }
+
+  Future<void> _load() async {
+    final res = await fetch(
+      'https://example.com/api/items',
+    );
+
+    final text = await res.text().toDart;
+    final data = jsonDecode(text.toDart) as Map<String, dynamic>;
+
+    setState(() {
+      items = List<Map<String, dynamic>>.from(data['items']);
+      loading = false;
+    });
+  }
+
+  @override
+  PulsarNode render() {
+    if (loading) {
+      return div(children: [text('Loading...')]);
+    }
+
+    return ul(
+      children: items.map((c) {
+        return li(
+          children: [
+            text('${c['name']} — \$${c['id']}'),
+          ],
+        );
+      }).toList(),
+    );
+  }
+}
+```
+There are no implicit retries, observers, or hidden subscriptions.
+What you write is exactly what runs.
+
+### Component Lifecylce
+
+Pulsar components expose a small, explicit lifecycle.
+
+```dart
+class Example extends Component {
+  @override
+  void onMount() {
+    // Runs once when the component is attached
+  }
+
+  @override
+  void onUpdate() {
+    // Runs after each update triggered by setState or update()
+  }
+
+  @override
+  void onUnmount() {
+    // Cleanup logic (timers, listeners, etc.)
+  }
+
+  @override
+  PulsarNode render() {
+    return div(children: [text('Hello')]);
+  }
+}
+```
+
+Lifecycle methods are optional.
+If you don’t need them, you don’t pay for them.
+
+### Morphic Components
+Pulsar components are morphic by design.
+
+A component is not tied to a single immutable configuration.
+It can evolve over time without being destroyed and recreated.
+
+This allows patterns such as:
+
+- Updating route parameters without remounting
+- Reusing the same component instance across navigations
+- Preserving internal state intentionally
+
+```dart
+class CoffeePage extends Component {
+  String id;
+
+  CoffeePage(this.id);
+
+  void updateId(String newId) {
+    if (id != newId) {
+      id = newId;
+      update();
+    }
+  }
+
+  @override
+  PulsarNode render() {
+    return div(children: [text('Coffee ID: $id')]);
+  }
+}
+```
+
+This model avoids:
+
+- Hooks
+- Controllers
+- Providers
+- Implicit dependency graphs
+
+Components are stateful objects, not render functions.
 
 ## Core Philosophy
 

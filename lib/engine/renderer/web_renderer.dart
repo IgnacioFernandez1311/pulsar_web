@@ -15,4 +15,9 @@ final class WebRenderer implements Renderer {
   void update(PulsarNode prev, PulsarNode next) {
     patch(mountPoint.firstChild!, prev, next);
   }
+
+  @override
+  void unmount() {
+    mountPoint.textContent = "";
+  }
 }

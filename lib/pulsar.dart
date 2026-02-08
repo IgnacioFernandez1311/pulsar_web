@@ -5,11 +5,12 @@ export 'package:pulsar_web/engine/stylesheet/css_file.dart';
 export 'package:pulsar_web/engine/stylesheet/stylesheet.dart';
 export 'package:pulsar_web/engine/stylesheet/style_registry.dart';
 
+// Utils Export
+export 'package:pulsar_web/utils/fetch.dart';
+export 'package:pulsar_web/utils/mount_app.dart';
+
 // Component Export
 export 'package:pulsar_web/core/component.dart';
-
-// Mount App Export
-export 'package:pulsar_web/utils/mount_app.dart';
 
 // Attributes Export
 export 'package:pulsar_web/engine/attribute/attribute.dart';
@@ -31,3 +32,4 @@ export 'package:pulsar_web/engine/renderer/render_context.dart';
 export 'package:pulsar_web/engine/renderer/web_renderer.dart';
 
 export 'package:universal_web/web.dart';
+export 'package:universal_web/js_interop.dart';
