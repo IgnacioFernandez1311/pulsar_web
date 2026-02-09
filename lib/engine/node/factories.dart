@@ -289,3 +289,94 @@ ElementNode script({
     children: content != null ? [text(content)] : const [],
   );
 }
+
+// HTML Semantico
+
+final aside = tag('aside');
+final address = tag('address');
+final figure = tag('figure');
+final figcaption = tag('figcaption');
+final details = tag('details');
+final summary = tag('summary');
+final dialog = tag('dialog');
+final search = tag('search'); // experimental pero válido
+
+// Elementos de texto
+
+final blockquote = tag('blockquote');
+final cite = tag('cite');
+final em = tag('em');
+final strong = tag('strong');
+final small = tag('small');
+final mark = tag('mark');
+final del = tag('del');
+final ins = tag('ins');
+final sub = tag('sub');
+final sup = tag('sup');
+final abbr = tag('abbr');
+final dfn = tag('dfn');
+final q = tag('q');
+final time = tag('time');
+final data = tag('data');
+final b = tag('b');
+final u = tag('u');
+final s = tag('s');
+
+// Listas de detalles
+
+final dl = tag('dl');
+final dt = tag('dt');
+final dd = tag('dd');
+
+// Elementos de tablas
+
+final table = tag('table');
+final caption = tag('caption');
+final colgroup = tag('colgroup');
+final col = tag('col');
+final thead = tag('thead');
+final tbody = tag('tbody');
+final tfoot = tag('tfoot');
+final tr = tag('tr');
+final th = tag('th');
+final td = tag('td');
+
+final select = tag('select');
+final option = tag('option');
+final optgroup = tag('optgroup');
+
+final fieldset = tag('fieldset');
+final legend = tag('legend');
+
+final output = tag('output');
+
+final progress = tag('progress');
+final meter = tag('meter');
+
+// Multimedia
+
+final audio = tag('audio');
+final video = tag('video');
+final source = tag('source');
+final track = tag('track');
+final picture = tag('picture');
+
+// Embed
+
+final iframe = tag('iframe');
+final embed = tag('embed');
+final object = tag('object');
+final param = tag('param');
+
+final canvas = tag('canvas');
+final noscript = tag('noscript');
+final template = tag('template');
+final slot = tag('slot');
+
+final title = tag('title');
+final base = tag('base');
+final styleTag = tag('style');
+
+final html = tag('html');
+final head = tag('head');
+final body = tag('body');

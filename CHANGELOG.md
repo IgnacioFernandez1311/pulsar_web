@@ -1,3 +1,6 @@
+## 0.4.6
+- Added every single HTML tag factory.
+
 ## 0.4.5
 - Added component lifecycle functions like `onMount`,`onUpdate`,`onUnmount`.
 - New parametric routing system. Now builder receives `params`.
