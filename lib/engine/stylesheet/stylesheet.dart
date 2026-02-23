@@ -1,4 +1,4 @@
 abstract class Stylesheet {
   const Stylesheet();
-  void apply();
+  String get path;
 }

@@ -1,17 +1,11 @@
 import 'package:pulsar_web/pulsar.dart';
 
 final class StyleRegistry {
-  final loaded = <String>{};
+  final _registered = <String>{};
 
   void use(Stylesheet sheet) {
-    if (sheet is CssFile && loaded.contains(sheet.href)) {
-      return;
-    }
-
-    sheet.apply();
-
-    if (sheet is CssFile) {
-      loaded.add(sheet.href);
-    }
+    _registered.add(sheet.path);
   }
+
+  Set<String> get registered => _registered;
 }

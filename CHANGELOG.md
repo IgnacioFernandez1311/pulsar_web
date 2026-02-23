@@ -1,3 +1,7 @@
+## 0.4.7
+- FOUC fix on bundle
+- CSS files minification
+
 ## 0.4.6
 - Added every single HTML tag factory.
 

@@ -1,16 +1,18 @@
 import 'package:pulsar_web/pulsar.dart';
 
 final class CssFile extends Stylesheet {
-  final String href;
+  final String path;
 
-  const CssFile(this.href);
+  const CssFile(this.path);
 
-  @override
   void apply() {
-    final HTMLLinkElement link =
-        document.createElement('link') as HTMLLinkElement;
+    final existing = document.querySelector('link[path="/$path"]');
+
+    if (existing != null) return;
+
+    final link = document.createElement('link') as HTMLLinkElement;
     link.rel = 'stylesheet';
-    link.href = "/$href";
+    link.href = "/$path";
     document.head!.append(link);
   }
 }
