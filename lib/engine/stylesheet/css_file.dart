@@ -1,6 +1,7 @@
 import 'package:pulsar_web/pulsar.dart';
 
 final class CssFile extends Stylesheet {
+  @override
   final String path;
 
   const CssFile(this.path);

@@ -1,3 +1,6 @@
+## 0.4.8
+- Added Example
+
 ## 0.4.7
 - FOUC fix on bundle
 - CSS files minification

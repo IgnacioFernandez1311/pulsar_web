@@ -1,0 +1,13 @@
+name: example
+description: A Pulsar application
+version: 0.1.0
+
+environment:
+  sdk: ^3.9.0
+
+dependencies:
+  pulsar_web: ^0.4.7
+  universal_web: ^1.1.1+1
+
+dev_dependencies:
+  lints: ^6.0.0
