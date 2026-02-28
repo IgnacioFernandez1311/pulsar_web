@@ -6,7 +6,6 @@ export 'package:pulsar_web/engine/stylesheet/stylesheet.dart';
 export 'package:pulsar_web/engine/stylesheet/style_registry.dart';
 
 // Utils Export
-export 'package:pulsar_web/utils/fetch.dart';
 export 'package:pulsar_web/utils/mount_app.dart';
 
 // Component Export

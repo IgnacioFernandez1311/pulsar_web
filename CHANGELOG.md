@@ -1,3 +1,7 @@
+## 0.4.9
+- Removed unnecesary fetch util
+- Added Pulsar Logo
+
 ## 0.4.8
 - Added Example
 

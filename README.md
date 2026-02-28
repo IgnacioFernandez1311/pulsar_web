@@ -185,59 +185,6 @@ a(
 Both approaches produce the same result.
 No reloads, no remounts unless necessary.
 
-### Data fetching
-
-Pulsar does not wrap or replace the web platform.
-
-Fetching data is done using the browser `fetch` API via u`niversal_web`.
-
-```dart
-import 'dart:convert';
-
-class ListPage extends Component {
-  List<Map<String, dynamic>> items = [];
-  bool loading = true;
-
-  @override
-  void onMount() {
-    _load();
-  }
-
-  Future<void> _load() async {
-    final res = await fetch(
-      'https://example.com/api/items',
-    );
-
-    final text = await res.text().toDart;
-    final data = jsonDecode(text.toDart) as Map<String, dynamic>;
-
-    setState(() {
-      items = List<Map<String, dynamic>>.from(data['items']);
-      loading = false;
-    });
-  }
-
-  @override
-  PulsarNode render() {
-    if (loading) {
-      return div(children: [text('Loading...')]);
-    }
-
-    return ul(
-      children: items.map((c) {
-        return li(
-          children: [
-            text('${c['name']} — \$${c['id']}'),
-          ],
-        );
-      }).toList(),
-    );
-  }
-}
-```
-There are no implicit retries, observers, or hidden subscriptions.
-What you write is exactly what runs.
-
 ### Component Lifecylce
 
 Pulsar components expose a small, explicit lifecycle.
