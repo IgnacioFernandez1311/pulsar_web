@@ -1,3 +1,6 @@
+## 0.4.9+1
+- Quick fix for Pulsar Logo
+
 ## 0.4.9
 - Removed unnecesary fetch util
 - Added Pulsar Logo

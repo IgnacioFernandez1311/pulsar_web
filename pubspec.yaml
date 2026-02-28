@@ -1,6 +1,6 @@
 name: pulsar_web
 description: A simple Dart web framework for building modern web applications.
-version: 0.4.9
+version: 0.4.9+1
 repository: https://github.com/IgnacioFernandez1311/pulsar_web
 homepage: https://pulsar-web.netlify.app
 
