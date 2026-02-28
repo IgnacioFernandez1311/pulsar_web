@@ -10,7 +10,7 @@ topics:
   - css
 
 screenshots:
-  description: Pulsar Logo
+- description: Pulsar Logo
   path: assets/Logo.png
 
 environment:
