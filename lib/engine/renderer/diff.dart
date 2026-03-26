@@ -1,6 +1,16 @@
 import 'package:pulsar_web/pulsar.dart';
 
-void patch(Node dom, PulsarNode prev, PulsarNode next) {
+void patch(Node dom, Morphic prev, Morphic next) {
+  // Sanity check: Estos árboles deben estar resueltos
+  assert(
+    _isResolved(prev),
+    'prev tree contains unresolved Components. Call resolveNode() first.',
+  );
+  assert(
+    _isResolved(next),
+    'next tree contains unresolved Components. Call resolveNode() first.',
+  );
+
   // Tipo distinto → reemplazo
   if (prev.runtimeType != next.runtimeType) {
     _replace(dom, createDom(next));
@@ -8,7 +18,7 @@ void patch(Node dom, PulsarNode prev, PulsarNode next) {
   }
 
   // Text
-  if (prev is TextNode && next is TextNode) {
+  if (prev is TextMorphic && next is TextMorphic) {
     if (prev.value != next.value) {
       (dom as Text).data = next.value;
     }
@@ -16,7 +26,7 @@ void patch(Node dom, PulsarNode prev, PulsarNode next) {
   }
 
   // Element
-  if (prev is ElementNode && next is ElementNode) {
+  if (prev is ElementMorphic && next is ElementMorphic) {
     if (prev.tag != next.tag) {
       _replace(dom, createDom(next));
       return;
@@ -25,8 +35,24 @@ void patch(Node dom, PulsarNode prev, PulsarNode next) {
     final el = dom as Element;
 
     _patchAttributes(el, prev, next);
-    _patchChildren(el, prev.children, next.children);
+
+    // Cast children a List<Morphic> (safe porque está resuelto)
+    final prevChildren = prev.children.cast<Morphic>();
+    final nextChildren = next.children.cast<Morphic>();
+
+    _patchChildren(el, prevChildren, nextChildren);
   }
+}
+
+// Helper para verificar que el árbol está resuelto
+bool _isResolved(Morphic node) {
+  if (node is ElementMorphic) {
+    for (final child in node.children) {
+      if (child is Component) return false;
+      if (child is Morphic && !_isResolved(child)) return false;
+    }
+  }
+  return true;
 }
 
 void _replace(Node oldNode, Node newNode) {
@@ -36,7 +62,7 @@ void _replace(Node oldNode, Node newNode) {
   parent.replaceChild(newNode, oldNode);
 }
 
-void _patchAttributes(Element el, ElementNode prev, ElementNode next) {
+void _patchAttributes(Element el, ElementMorphic prev, ElementMorphic next) {
   // remove old
   for (final key in prev.attributes.keys) {
     if (!next.attributes.containsKey(key)) {
@@ -53,13 +79,13 @@ void _patchAttributes(Element el, ElementNode prev, ElementNode next) {
 }
 
 class _KeyedChild {
-  final PulsarNode vnode;
+  final Morphic vnode;
   final Node dom;
 
   _KeyedChild(this.vnode, this.dom);
 }
 
-void _patchChildren(Element el, List<PulsarNode> prev, List<PulsarNode> next) {
+void _patchChildren(Element el, List<Morphic> prev, List<Morphic> next) {
   final childNodes = el.childNodes;
 
   // ---- Indexar hijos viejos ----

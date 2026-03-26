@@ -1,3 +1,5 @@
+// lib/engine/runtime/component_runtime.dart
+
 import 'package:pulsar_web/pulsar.dart';
 
 final class ComponentRuntime {
@@ -5,7 +7,7 @@ final class ComponentRuntime {
   final StyleRegistry styles = StyleRegistry();
 
   Component? rootComponent;
-  PulsarNode? _currentTree;
+  Morphic? _currentTree;
   bool _mounted = false;
 
   ComponentRuntime(this.renderer);
@@ -29,15 +31,13 @@ final class ComponentRuntime {
   void unmount() {
     if (!_mounted) return;
 
-    rootComponent?.onUnmount();
     renderer.unmount();
-
     rootComponent = null;
     _currentTree = null;
     _mounted = false;
   }
 
-  /// 🔑 UPDATE GLOBAL
+  /// Update global (triggers morphing)
   void requestUpdate() {
     if (!_mounted) return;
 
@@ -45,25 +45,62 @@ final class ComponentRuntime {
       final nextTree = resolveNode(rootComponent!.render());
       renderer.update(_currentTree!, nextTree);
       _currentTree = nextTree;
-      rootComponent?.onUpdate();
+      rootComponent?.onMorph();
     });
   }
 }
 
-PulsarNode resolveNode(PulsarNode node) {
-  if (node is ComponentNode) {
-    node.component.attach(RenderContext.runtime);
-    return resolveNode(node.component.render());
+/// Resolve a Morphic tree, expanding any Components found.
+///
+/// Components are NOT nodes - they produce nodes.
+/// This function recursively resolves Components to their
+/// rendered Morphic output.
+Morphic resolveNode(dynamic node) {
+  // Component → attach y resolve to Morphic
+  if (node is Component) {
+    node.attach(RenderContext.runtime);
+
+    final rendered = RenderContext.runWithComponent(node, () {
+      return node.render();
+    });
+
+    return resolveNode(rendered);
   }
 
-  if (node is ElementNode) {
-    return ElementNode(
+  // ElementMorphic → resolve children recursively
+  if (node is ElementMorphic) {
+    final resolvedChildren = <Morphic>[]; // 🔑 Garantizamos List<Morphic>
+
+    for (final child in node.children) {
+      // child puede ser Component, Morphic, String, etc.
+      try {
+        final resolved = resolveNode(child);
+        resolvedChildren.add(resolved);
+      } catch (e) {
+        // Skip invalid children
+        continue;
+      }
+    }
+
+    // 🔑 Retornar ElementMorphic con children resueltos (List<Morphic>)
+    // Pero el tipo es List<Object> para compatibilidad
+    return ElementMorphic(
       tag: node.tag,
       attributes: node.attributes,
-      children: node.children.map(resolveNode).toList(),
+      children: resolvedChildren, // List<Morphic> es subtipo de List<Object>
       key: node.key,
     );
   }
 
-  return node; // TextNode
+  // TextMorphic → no resolution needed
+  if (node is TextMorphic) {
+    return node;
+  }
+
+  // String → convert to TextMorphic
+  if (node is String) {
+    return TextMorphic(node);
+  }
+
+  throw UnsupportedError('Unknown node type: ${node.runtimeType}');
 }

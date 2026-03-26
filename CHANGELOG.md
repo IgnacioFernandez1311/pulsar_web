@@ -1,3 +1,8 @@
+## 1.0.0
+- Rethinked syntax to avoid verbosity.
+- Removed `onUnmount` because not necessary.
+- Removed `navigateTo` util because `A()` element already does what is needed for navigation.
+
 ## 0.4.9+1
 - Quick fix for Pulsar Logo
 

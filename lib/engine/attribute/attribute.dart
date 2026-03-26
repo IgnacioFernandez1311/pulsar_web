@@ -1,34 +1,42 @@
-import 'package:universal_web/web.dart';
+import 'package:pulsar_web/pulsar.dart';
+
+typedef EventCallback = void Function(Event event);
+
+// lib/core/attributes.dart
 
 sealed class Attribute {
   const Attribute();
 }
 
-final class StringAttribute extends Attribute {
+class StringAttribute extends Attribute {
   final String value;
   const StringAttribute(this.value);
 }
 
-typedef EventCallback = void Function(Event event);
-
-final class EventAttribute extends Attribute {
-  final EventCallback callback;
-  const EventAttribute(this.callback);
+class BooleanAttribute extends Attribute {
+  final bool value;
+  const BooleanAttribute(this.value);
 }
 
-final class ClassAttribute extends Attribute {
+class ClassAttribute extends Attribute {
   final String classes;
-
   const ClassAttribute(this.classes);
 }
 
-final class StyleAttribute extends Attribute {
+class StyleAttribute extends Attribute {
   final Map<String, String> styles;
-
   const StyleAttribute(this.styles);
 }
 
-final class BooleanAttribute extends Attribute {
-  final bool value;
-  const BooleanAttribute(this.value);
+// 🔑 ACTUALIZADO: Event attribute con owner
+class EventAttribute extends Attribute {
+  final EventCallback callback;
+  final Component? owner; // 🔑 NUEVO
+
+  const EventAttribute(this.callback, {this.owner});
+
+  // Helper para crear con owner desde context
+  factory EventAttribute.fromContext(EventCallback callback) {
+    return EventAttribute(callback, owner: RenderContext.currentComponent);
+  }
 }

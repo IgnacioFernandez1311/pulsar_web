@@ -1,8 +1,8 @@
 import 'package:pulsar_web/pulsar.dart';
 
-class App extends Component {
+final class App extends Component {
   @override
-  PulsarNode render() {
-    return h1(children: [text("Welcome to Pulsar!")]);
+  Morphic render() {
+    return H1()(["Welcome to Pulsar!"]);
   }
 }

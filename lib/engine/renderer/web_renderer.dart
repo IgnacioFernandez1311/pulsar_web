@@ -6,13 +6,13 @@ final class WebRenderer implements Renderer {
   WebRenderer(this.mountPoint);
 
   @override
-  void mount(PulsarNode root) {
+  void mount(Morphic root) {
     mountPoint.textContent = "";
     mountPoint.append(createDom(root));
   }
 
   @override
-  void update(PulsarNode prev, PulsarNode next) {
+  void update(Morphic prev, Morphic next) {
     patch(mountPoint.firstChild!, prev, next);
   }
 

@@ -1,57 +1,69 @@
 import 'package:pulsar_web/pulsar.dart';
 
-PulsarNode assertNode(dynamic n) => n as PulsarNode;
-PulsarNode assertDom(dynamic n) => n as PulsarNode;
+Morphic assertNode(dynamic n) => n as Morphic;
+Morphic assertDom(dynamic n) => n as Morphic;
 
-Node createDom(PulsarNode node) {
-  if (node is ComponentNode) {
-    return createDom(node.render());
-  }
-
-  if (node is TextNode) {
+Node createDom(Morphic node) {
+  if (node is TextMorphic) {
     return document.createTextNode(node.value);
   }
 
-  if (node is ElementNode) {
+  if (node is ElementMorphic) {
     final element = document.createElement(node.tag);
 
+    // Set attributes
     node.attributes.forEach((key, attr) {
-      // Atributos string genéricos
       if (attr is StringAttribute) {
         element.setAttribute(key, attr.value);
       } else if (attr is BooleanAttribute) {
-        element.setAttribute(key, attr.value.toString());
+        if (attr.value) {
+          element.setAttribute(key, '');
+        }
       } else if (attr is ClassAttribute) {
         element.setAttribute('class', attr.classes);
       } else if (attr is StyleAttribute) {
         final htmlElement = element as HTMLElement;
-
-        for (final entry in attr.styles.entries) {
-          htmlElement.style.setProperty(_toKebabCase(entry.key), entry.value);
-        }
-      }
-      // Eventos
-      else if (attr is EventAttribute) {
+        attr.styles.forEach((key, value) {
+          htmlElement.style.setProperty(_toKebabCase(key), value);
+        });
+      } else if (attr is EventAttribute) {
         final eventName = key.startsWith('on')
             ? key.substring(2).toLowerCase()
             : key;
 
+        // 🔑 FIX: Guardar el runtime actual también
+        final owner = attr.owner;
+        final ownerRuntime = owner?.runtime; // Acceso a runtime privado
+
         final jsHandler = ((Event e) {
-          attr.callback(e);
+          if (owner != null && ownerRuntime != null) {
+            // Restaurar AMBOS: runtime y component
+            RenderContext.run(ownerRuntime, () {
+              RenderContext.runWithComponent(owner, () {
+                attr.callback(e);
+              });
+            });
+          } else {
+            // No owner, llamar directamente (pero no debería pasar)
+            attr.callback(e);
+          }
         }).toJS;
 
         element.addEventListener(eventName, jsHandler);
       }
     });
 
-    for (final child in node.children) {
+    // Create children
+    final morphicChildren = node.children.cast<Morphic>();
+
+    for (final child in morphicChildren) {
       element.append(createDom(child));
     }
 
     return element;
   }
 
-  throw UnsupportedError('Unknown node type: $node');
+  throw UnsupportedError('Unknown node type: ${node.runtimeType}');
 }
 
 String _toKebabCase(String input) {

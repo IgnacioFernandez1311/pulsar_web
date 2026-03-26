@@ -17,8 +17,3 @@ class Router {
     return notFound();
   }
 }
-
-void navigateTo(String path) {
-  window.history.pushState(null, '', path);
-  RouterComponent.notifyNavigation();
-}

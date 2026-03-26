@@ -1,27 +1,37 @@
 import 'package:pulsar_web/pulsar.dart';
 
-sealed class PulsarNode {
+// lib/core/morphic.dart
+
+/// Base type for all morphable nodes in Pulsar.
+///
+/// A Morphic represents a piece of UI that can evolve (morph)
+/// over time without being recreated.
+sealed class Morphic {
   final Object? key;
-  const PulsarNode({this.key});
+  const Morphic({this.key});
 }
 
-final class TextNode extends PulsarNode {
+/// Text content node
+final class TextMorphic extends Morphic {
   final String value;
-  const TextNode(this.value, {super.key});
+
+  const TextMorphic(this.value, {super.key});
 
   @override
-  bool operator ==(Object other) => other is TextNode && other.value == value;
+  bool operator ==(Object other) =>
+      other is TextMorphic && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 }
 
-final class ElementNode extends PulsarNode {
+/// HTML element node
+final class ElementMorphic extends Morphic {
   final String tag;
   final Map<String, Attribute> attributes;
-  final List<PulsarNode> children;
+  final List<Object> children; // 🔑 Object en lugar de dynamic
 
-  const ElementNode({
+  const ElementMorphic({
     required this.tag,
     this.attributes = const {},
     this.children = const [],
@@ -30,7 +40,7 @@ final class ElementNode extends PulsarNode {
 
   @override
   bool operator ==(Object other) {
-    if (other is! ElementNode) return false;
+    if (other is! ElementMorphic) return false;
     return tag == other.tag &&
         _mapEquals(attributes, other.attributes) &&
         _listEquals(children, other.children);
@@ -56,13 +66,4 @@ final class ElementNode extends PulsarNode {
   }
 }
 
-final class ComponentNode extends PulsarNode {
-  final Component component;
-
-  ComponentNode({required this.component, super.key});
-
-  PulsarNode render() {
-    component.attach(RenderContext.runtime);
-    return component.render();
-  }
-}
+// ComponentNode ELIMINADO - Components se resuelven directamente

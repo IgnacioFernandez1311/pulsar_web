@@ -1,0 +1,379 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   Pulsar TodoApp - Dark Theme
+   ══════════════════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+/* ══════════════════════════════════════════════════════════════════════════
+   CSS Variables - Dark Theme
+   ══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Dark Theme Colors */
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --surface: #1e293b;
+  --surface-hover: #334155;
+  --border: #475569;
+  --border-light: #64748b;
+  
+  /* Text Colors */
+  --text-primary: #e5e7eb;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  
+  /* Accent Colors */
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  --success: #10b981;
+  
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  
+  /* Border Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.7);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Base Styles
+   ══════════════════════════════════════════════════════════════════════════ */
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  place-items: center;
+  justify-content: center;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  background-color: #0f172a;
+  color: #e5e7eb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Todo App Container
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.todo-app {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 550px;
+  overflow: hidden;
+}
+
+.todo-app h1 {
+  margin: 0;
+  padding: var(--space-xl) var(--space-lg);
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-secondary);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Input Section
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.input-section {
+  padding: var(--space-lg);
+  display: flex;
+  gap: var(--space-sm);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-secondary);
+}
+
+.input-section input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-family: 'Roboto', sans-serif;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.input-section input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.input-section input::placeholder {
+  color: var(--text-muted);
+}
+
+.input-section button {
+  padding: 0.75rem 1.5rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.input-section button:hover {
+  background: var(--accent-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.input-section button:active {
+  transform: scale(0.98);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Filters
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.filters {
+  display: flex;
+  gap: var(--space-xs);
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.filters button {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filters button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.filters button.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Todo List
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.todo-list:empty::after {
+  content: 'No todos yet. Add one above!';
+  display: block;
+  padding: var(--space-xl);
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 0.875rem;
+}
+
+.todo-list li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.2s ease;
+}
+
+.todo-list li:hover {
+  background: var(--surface-hover);
+}
+
+.todo-list li:last-child {
+  border-bottom: none;
+}
+
+/* Completed state */
+.todo-list li.completed {
+  opacity: 0.5;
+}
+
+.todo-list li.completed span {
+  text-decoration: line-through;
+  color: var(--text-secondary);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Todo Item Elements
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.todo-list input[type="checkbox"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+  accent-color: var(--accent);
+  flex-shrink: 0;
+}
+
+.todo-list span {
+  flex: 1;
+  font-size: 1rem;
+  color: var(--text-primary);
+  word-break: break-word;
+  text-align: left;
+}
+
+.todo-list button {
+  width: 2rem;
+  height: 2rem;
+  background: transparent;
+  color: var(--text-muted);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 1.25rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.todo-list button:hover {
+  background: var(--danger);
+  color: white;
+  transform: scale(1.1);
+}
+
+.todo-list button:active {
+  transform: scale(0.95);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Stats Footer
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.todo-app > p {
+  margin: 0;
+  padding: var(--space-md) var(--space-lg);
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-weight: 400;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Scrollbar Styling
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.todo-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.todo-list::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+.todo-list::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.todo-list::-webkit-scrollbar-thumb:hover {
+  background: var(--border-light);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Responsive Design
+   ══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 640px) {
+  body {
+    padding: var(--space-md);
+  }
+  
+  .todo-app {
+    max-width: 100%;
+  }
+  
+  .todo-app h1 {
+    font-size: 1.5rem;
+    padding: var(--space-lg) var(--space-md);
+  }
+  
+  .input-section {
+    flex-direction: column;
+  }
+  
+  .input-section button {
+    width: 100%;
+  }
+  
+  .filters {
+    flex-direction: column;
+  }
+  
+  .todo-list li {
+    padding: var(--space-sm) var(--space-md);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Animations
+   ══════════════════════════════════════════════════════════════════════════ */
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.todo-app {
+  animation: slideIn 0.3s ease;
+}
