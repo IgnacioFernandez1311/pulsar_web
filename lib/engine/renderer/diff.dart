@@ -74,8 +74,31 @@ void _patchAttributes(Element el, ElementMorphic prev, ElementMorphic next) {
   next.attributes.forEach((key, attr) {
     if (attr is StringAttribute) {
       el.setAttribute(key, attr.value);
+    } else if (attr is BooleanAttribute) {
+      if (attr.value) {
+        el.setAttribute(key, '');
+      } else {
+        el.removeAttribute(key);
+      }
+    } else if (attr is ClassAttribute) {
+      el.setAttribute('class', attr.classes);
+    } else if (attr is StyleAttribute) {
+      el.removeAttribute('style');
+      final htmlElement = el as HTMLElement;
+      attr.styles.forEach((prop, value) {
+        htmlElement.style.setProperty(_toKebabCase(prop), value);
+      });
     }
+    // Note: EventAttribute listeners are bound at DOM creation time
+    // and remain stable across morphs.
   });
+}
+
+String _toKebabCase(String input) {
+  return input.replaceAllMapped(
+    RegExp(r'[A-Z]'),
+    (m) => '-${m.group(0)!.toLowerCase()}',
+  );
 }
 
 class _KeyedChild {

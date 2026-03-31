@@ -1,6 +1,7 @@
 // lib/routing/router_component.dart
 
 import 'package:pulsar_web/pulsar.dart';
+import 'package:pulsar_web/engine/runtime/component_runtime.dart';
 
 final class RouterComponent extends Component {
   static RouterComponent? _instance;
@@ -16,7 +17,16 @@ final class RouterComponent extends Component {
     required Component Function(Component page) layout,
   }) : layoutBuilder = layout;
 
-  void onMount() {
+  @override
+  void attach(ComponentRuntime runtime) {
+    final isFirstAttach = !attached;
+    super.attach(runtime);
+    if (isFirstAttach) {
+      _onMount();
+    }
+  }
+
+  void _onMount() {
     _instance = this;
     window.onPopState.listen((_) => update());
   }
