@@ -1,7 +1,5 @@
 import 'package:pulsar_web/pulsar.dart';
 
-// lib/core/morphic.dart
-
 /// Base type for all morphable nodes in Pulsar.
 ///
 /// A Morphic represents a piece of UI that can evolve (morph)
@@ -29,7 +27,7 @@ final class TextMorphic extends Morphic {
 final class ElementMorphic extends Morphic {
   final String tag;
   final Map<String, Attribute> attributes;
-  final List<Object> children; // 🔑 Object en lugar de dynamic
+  final List<Object> children; //  Object instead of dynamic
 
   const ElementMorphic({
     required this.tag,
@@ -66,4 +64,4 @@ final class ElementMorphic extends Morphic {
   }
 }
 
-// ComponentNode ELIMINADO - Components se resuelven directamente
+// ComponentNode DELETED - Components resolved directly

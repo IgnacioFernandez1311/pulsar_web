@@ -4,67 +4,67 @@ import 'package:pulsar_web/pulsar.dart';
 // Void Elements (sin children)
 // ==============================
 
-class Img extends VoidElement {
-  Img({super.key}) : super('img');
+final class Img extends ElementBuilder<Img> {
+  Img({super.key}) : super('img', isVoid: true);
 
   Img src(String url) {
     attr('src', StringAttribute(url));
-    return this;
+    return self;
   }
 
   Img alt(String text) {
     attr('alt', StringAttribute(text));
-    return this;
+    return self;
   }
 
   Img width(int w) {
     attr('width', StringAttribute('$w'));
-    return this;
+    return self;
   }
 
   Img height(int h) {
     attr('height', StringAttribute('$h'));
-    return this;
+    return self;
   }
 
   Img loading(String l) {
     attr('loading', StringAttribute(l));
-    return this;
+    return self;
   }
 
   Img decoding(String d) {
     attr('decoding', StringAttribute(d));
-    return this;
+    return self;
   }
 
   Img srcset(String ss) {
     attr('srcset', StringAttribute(ss));
-    return this;
+    return self;
   }
 
   Img sizes(String s) {
     attr('sizes', StringAttribute(s));
-    return this;
+    return self;
   }
 
   Img crossorigin(String c) {
     attr('crossorigin', StringAttribute(c));
-    return this;
+    return self;
   }
 
   Img referrerpolicy(String rp) {
     attr('referrerpolicy', StringAttribute(rp));
-    return this;
+    return self;
   }
 
   Img ismap([bool im = true]) {
     if (im) attr('ismap', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Img usemap(String um) {
     attr('usemap', StringAttribute(um));
-    return this;
+    return self;
   }
 }
 
@@ -150,255 +150,255 @@ enum InputType {
   const InputType(this.value);
 }
 
-class Input extends VoidElement {
-  Input({super.key}) : super('input');
+final class Input extends ElementBuilder<Input> {
+  Input({super.key}) : super('input', isVoid: true);
 
   Input type(InputType t) {
     attr('type', StringAttribute(t.value));
-    return this;
+    return self;
   }
 
   Input placeholder(String text) {
     attr('placeholder', StringAttribute(text));
-    return this;
+    return self;
   }
 
   Input value(String val) {
     attr('value', StringAttribute(val));
-    return this;
+    return self;
   }
 
   Input name(String n) {
     attr('name', StringAttribute(n));
-    return this;
+    return self;
   }
 
   Input disabled([bool d = true]) {
     if (d) attr('disabled', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Input checked([bool c = true]) {
     if (c) attr('checked', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Input required([bool r = true]) {
     if (r) attr('required', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Input readonly([bool r = true]) {
     if (r) attr('readonly', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Input min(String m) {
     attr('min', StringAttribute(m));
-    return this;
+    return self;
   }
 
   Input max(String m) {
     attr('max', StringAttribute(m));
-    return this;
+    return self;
   }
 
   Input step(String s) {
     attr('step', StringAttribute(s));
-    return this;
+    return self;
   }
 
   Input pattern(String p) {
     attr('pattern', StringAttribute(p));
-    return this;
+    return self;
   }
 
   Input maxlength(int m) {
     attr('maxlength', StringAttribute('$m'));
-    return this;
+    return self;
   }
 
   Input minlength(int m) {
     attr('minlength', StringAttribute('$m'));
-    return this;
+    return self;
   }
 
   Input size(int s) {
     attr('size', StringAttribute('$s'));
-    return this;
+    return self;
   }
 
   Input autocomplete(String a) {
     attr('autocomplete', StringAttribute(a));
-    return this;
+    return self;
   }
 
   Input autofocus([bool af = true]) {
     if (af) attr('autofocus', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Input multiple([bool m = true]) {
     if (m) attr('multiple', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Input accept(String a) {
     attr('accept', StringAttribute(a));
-    return this;
+    return self;
   }
 
   Input capture(String c) {
     attr('capture', StringAttribute(c));
-    return this;
+    return self;
   }
 
   Input list(String l) {
     attr('list', StringAttribute(l));
-    return this;
+    return self;
   }
 
   Input form(String f) {
     attr('form', StringAttribute(f));
-    return this;
+    return self;
   }
 
   Input formaction(String fa) {
     attr('formaction', StringAttribute(fa));
-    return this;
+    return self;
   }
 
   Input formmethod(String fm) {
     attr('formmethod', StringAttribute(fm));
-    return this;
+    return self;
   }
 
   Input formenctype(String fe) {
     attr('formenctype', StringAttribute(fe));
-    return this;
+    return self;
   }
 
   Input formnovalidate([bool fnv = true]) {
     if (fnv) attr('formnovalidate', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Input formtarget(String ft) {
     attr('formtarget', StringAttribute(ft));
-    return this;
+    return self;
   }
 }
 
-class Hr extends VoidElement {
-  Hr({super.key}) : super('hr');
+final class Hr extends ElementBuilder<Hr> {
+  Hr({super.key}) : super('hr', isVoid: true);
 }
 
-class Br extends VoidElement {
-  Br({super.key}) : super('br');
+final class Br extends ElementBuilder<Br> {
+  Br({super.key}) : super('br', isVoid: true);
 }
 
-class Wbr extends VoidElement {
-  Wbr({super.key}) : super('wbr');
+final class Wbr extends ElementBuilder<Wbr> {
+  Wbr({super.key}) : super('wbr', isVoid: true);
 }
 
 // ==============================
 // Document Metadata
 // ==============================
 
-class Meta extends VoidElement {
-  Meta({super.key}) : super('meta');
+final class Meta extends ElementBuilder<Meta> {
+  Meta({super.key}) : super('meta', isVoid: true);
 
   Meta name(String n) {
     attr('name', StringAttribute(n));
-    return this;
+    return self;
   }
 
   Meta content(String c) {
     attr('content', StringAttribute(c));
-    return this;
+    return self;
   }
 
   Meta charset(String c) {
     attr('charset', StringAttribute(c));
-    return this;
+    return self;
   }
 
   Meta httpEquiv(String he) {
     attr('http-equiv', StringAttribute(he));
-    return this;
+    return self;
   }
 
   Meta property(String p) {
     attr('property', StringAttribute(p));
-    return this;
+    return self;
   }
 }
 
-class Link extends VoidElement {
-  Link({super.key}) : super('link');
+final class Link extends ElementBuilder<Link> {
+  Link({super.key}) : super('link', isVoid: true);
 
   Link rel(String r) {
     attr('rel', StringAttribute(r));
-    return this;
+    return self;
   }
 
   Link href(String h) {
     attr('href', StringAttribute(h));
-    return this;
+    return self;
   }
 
   Link type(String t) {
     attr('type', StringAttribute(t));
-    return this;
+    return self;
   }
 
   Link media(String m) {
     attr('media', StringAttribute(m));
-    return this;
+    return self;
   }
 
   Link hreflang(String hl) {
     attr('hreflang', StringAttribute(hl));
-    return this;
+    return self;
   }
 
   Link sizes(String s) {
     attr('sizes', StringAttribute(s));
-    return this;
+    return self;
   }
 
   Link crossorigin(String c) {
     attr('crossorigin', StringAttribute(c));
-    return this;
+    return self;
   }
 
   Link integrity(String i) {
     attr('integrity', StringAttribute(i));
-    return this;
+    return self;
   }
 
   Link referrerpolicy(String rp) {
     attr('referrerpolicy', StringAttribute(rp));
-    return this;
+    return self;
   }
 
   Link as(String a) {
     attr('as', StringAttribute(a));
-    return this;
+    return self;
   }
 }
 
-class Base extends VoidElement {
-  Base({super.key}) : super('base');
+final class Base extends ElementBuilder<Base> {
+  Base({super.key}) : super('base', isVoid: true);
 
   Base href(String h) {
     attr('href', StringAttribute(h));
-    return this;
+    return self;
   }
 
   Base target(String t) {
     attr('target', StringAttribute(t));
-    return this;
+    return self;
   }
 }
 
@@ -406,90 +406,90 @@ class Base extends VoidElement {
 // Media Source Elements
 // ==============================
 
-class Source extends VoidElement {
-  Source({super.key}) : super('source');
+final class Source extends ElementBuilder<Source> {
+  Source({super.key}) : super('source', isVoid: true);
 
   Source src(String s) {
     attr('src', StringAttribute(s));
-    return this;
+    return self;
   }
 
   Source type(String t) {
     attr('type', StringAttribute(t));
-    return this;
+    return self;
   }
 
   Source srcset(String ss) {
     attr('srcset', StringAttribute(ss));
-    return this;
+    return self;
   }
 
   Source sizes(String s) {
     attr('sizes', StringAttribute(s));
-    return this;
+    return self;
   }
 
   Source media(String m) {
     attr('media', StringAttribute(m));
-    return this;
+    return self;
   }
 
   Source width(int w) {
     attr('width', StringAttribute('$w'));
-    return this;
+    return self;
   }
 
   Source height(int h) {
     attr('height', StringAttribute('$h'));
-    return this;
+    return self;
   }
 }
 
-class Track extends VoidElement {
-  Track({super.key}) : super('track');
+final class Track extends ElementBuilder<Track> {
+  Track({super.key}) : super('track', isVoid: true);
 
   Track src(String s) {
     attr('src', StringAttribute(s));
-    return this;
+    return self;
   }
 
   Track kind(String k) {
     attr('kind', StringAttribute(k));
-    return this;
+    return self;
   }
 
   Track srclang(String sl) {
     attr('srclang', StringAttribute(sl));
-    return this;
+    return self;
   }
 
   Track label(String l) {
     attr('label', StringAttribute(l));
-    return this;
+    return self;
   }
 
   Track defaultTrack([bool d = true]) {
     if (d) attr('default', BooleanAttribute(true));
-    return this;
+    return self;
   }
 }
 
-class Path extends VoidElement {
-  Path({super.key}) : super('path');
+final class Path extends ElementBuilder<Path> {
+  Path({super.key}) : super('path', isVoid: true);
 
   Path d(String value) {
     attr('d', StringAttribute(value));
-    return this;
+    return self;
   }
 }
 
 // SVG polyline
-class Polyline extends VoidElement {
-  Polyline({super.key}) : super('polyline');
+final class Polyline extends ElementBuilder<Polyline> {
+  Polyline({super.key}) : super('polyline', isVoid: true);
 
   Polyline points(String value) {
     attr('points', StringAttribute(value));
-    return this;
+    return self;
   }
 }
 
@@ -497,12 +497,12 @@ class Polyline extends VoidElement {
 // Table Structure
 // ==============================
 
-class Col extends VoidElement {
-  Col({super.key}) : super('col');
+final class Col extends ElementBuilder<Col> {
+  Col({super.key}) : super('col', isVoid: true);
 
   Col span(int s) {
     attr('span', StringAttribute('$s'));
-    return this;
+    return self;
   }
 }
 
@@ -510,17 +510,17 @@ class Col extends VoidElement {
 // Embedded Objects
 // ==============================
 
-class Param extends VoidElement {
-  Param({super.key}) : super('param');
+final class Param extends ElementBuilder<Param> {
+  Param({super.key}) : super('param', isVoid: true);
 
   Param name(String n) {
     attr('name', StringAttribute(n));
-    return this;
+    return self;
   }
 
   Param value(String v) {
     attr('value', StringAttribute(v));
-    return this;
+    return self;
   }
 }
 
@@ -528,32 +528,32 @@ class Param extends VoidElement {
 // Image Maps
 // ==============================
 
-class Area extends VoidElement {
-  Area({super.key}) : super('area');
+final class Area extends ElementBuilder<Area> {
+  Area({super.key}) : super('area', isVoid: true);
 
   Area alt(String a) {
     attr('alt', StringAttribute(a));
-    return this;
+    return self;
   }
 
   Area coords(String c) {
     attr('coords', StringAttribute(c));
-    return this;
+    return self;
   }
 
   Area shape(String s) {
     attr('shape', StringAttribute(s));
-    return this;
+    return self;
   }
 
   Area href(String h) {
     attr('href', StringAttribute(h));
-    return this;
+    return self;
   }
 
   Area target(String t) {
     attr('target', StringAttribute(t));
-    return this;
+    return self;
   }
 
   Area download([String? filename]) {
@@ -562,16 +562,16 @@ class Area extends VoidElement {
     } else {
       attr('download', BooleanAttribute(true));
     }
-    return this;
+    return self;
   }
 
   Area ping(String p) {
     attr('ping', StringAttribute(p));
-    return this;
+    return self;
   }
 
   Area rel(String r) {
     attr('rel', StringAttribute(r));
-    return this;
+    return self;
   }
 }

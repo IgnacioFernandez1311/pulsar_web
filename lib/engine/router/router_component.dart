@@ -1,6 +1,5 @@
-// lib/routing/router_component.dart
-
 import 'package:pulsar_web/pulsar.dart';
+import 'package:pulsar_web/engine/runtime/component_runtime.dart';
 
 final class RouterComponent extends Component {
   static RouterComponent? _instance;
@@ -16,7 +15,16 @@ final class RouterComponent extends Component {
     required Component Function(Component page) layout,
   }) : layoutBuilder = layout;
 
-  void onMount() {
+  @override
+  void attach(ComponentRuntime runtime) {
+    final isFirstAttach = !attached;
+    super.attach(runtime);
+    if (isFirstAttach) {
+      _onMount();
+    }
+  }
+
+  void _onMount() {
     _instance = this;
     window.onPopState.listen((_) => update());
   }
@@ -30,16 +38,16 @@ final class RouterComponent extends Component {
     final path = window.location.pathname;
     final resolved = router.resolve(path);
 
-    // Actualizar página actual
+    // Update current page
     if (_currentPage == null ||
         _currentPage.runtimeType != resolved.runtimeType) {
       _currentPage = resolved;
 
-      // Recrear layout con nueva página
+      // Recreate layout with a new page
       _layoutComponent = layoutBuilder(_currentPage!);
     }
 
-    // El layout es un component - se resolverá en resolveNode()
+    // Layout is a component - it'll be resolved by resolveNode()
     return _layoutComponent!.render();
   }
 }

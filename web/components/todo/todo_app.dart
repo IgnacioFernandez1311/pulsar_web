@@ -45,7 +45,7 @@ class TodoList {
 // Main app component
 final class TodoApp extends Component {
   @override
-  List<Stylesheet> get styles => [css("components/counter/todo.css")];
+  List<Stylesheet> get styles => [css("components/todo/todo.css")];
 
   final TodoList todos = TodoList();
   String inputValue = '';
@@ -129,11 +129,19 @@ final class TodoApp extends Component {
       // Input
       Div().classes("input-section")([
         Input()
-            .placeholder('What needs to be done?')
             .value(inputValue)
             .onInput(handleInput)
+            .placeholder('What needs to be done?')
             .onKeyDown(handleEnter)(),
         Button().onClick(handleAdd)(['Add']),
+        Button().onClick(
+          (_) => morph(
+            () => todos.items.addAll([
+              for (int i = 0; i < 100; i++)
+                Todo(id: i.toString(), text: 'Todo $i', completed: false),
+            ]),
+          ),
+        )(['Add x 100']),
       ]),
 
       // Filters
@@ -208,71 +216,3 @@ class Todo {
     );
   }
 }
-
-/*
-
-final class Counter extends Component {
-  @override
-  List<Stylesheet> get styles => [css("components/counter/counter_app.css")];
-
-  int count = 0;
-
-  void increment(Event event) => morph(() => count++);
-  void decrement(Event event) => morph(() => count--);
-
-  @override
-  Morphic render() {
-    return Div()([
-      H1()(["Welcome to Pulsar Web"]),
-      Img().src("/assets/Logo.png").width(180)(),
-      Hr()(),
-      H2()([count]),
-      Div().classes("buttons")([
-        Button().onClick(decrement).classes("button-circular")(['-']),
-        Button().onClick(increment).classes("button-circular")(["+"]),
-      ]),
-    ]);
-  }
-}
-
-*/
-
-/*
-class CounterApp extends Component {
-  @override
-  List<Stylesheet> get styles => [css("components/counter/counter_app.css")];
-
-  int count = 0;
-
-  void increment(Event event) => setState(() => count++);
-
-  void decrement(Event event) => setState(() => count--);
-
-  @override
-  PulsarNode render() {
-    return div(
-      children: <PulsarNode>[
-        h1(children: [text("Welcome to Pulsar Web")]),
-        img(src: "assets/Logo.png", width: 180),
-        hr(),
-        h2(children: [text("\$count")]),
-        div(
-          classes: "buttons",
-          children: <PulsarNode>[
-            button(
-              classes: "button-circular",
-              onClick: decrement,
-              children: <PulsarNode>[text('-')],
-            ),
-            button(
-              classes: "button-circular",
-              onClick: increment,
-              children: <PulsarNode>[text("+")],
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-*/

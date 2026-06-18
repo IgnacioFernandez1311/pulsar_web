@@ -31,7 +31,7 @@ Pulsar's growth will be **slow, deliberate, and philosophically coherent**.
 ## Phase 1: Ecosystem and Structure (Immediate)
 
 **Status:** In Progress  
-**Timeline:** Q1-Q2 2025
+**Timeline:** Q1-Q2 2026
 
 ###  Pulsar Linter (Highest Priority)
 

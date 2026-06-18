@@ -29,7 +29,7 @@ class RenderContext {
     }
   }
 
-  // 🔑 FIX: runWithComponent mantiene el runtime actual
+  //  FIX: runWithComponent keeps current runtime
   static T runWithComponent<T>(Component component, T Function() fn) {
     final previous = _currentComponent;
     _currentComponent = component;
@@ -39,6 +39,6 @@ class RenderContext {
     } finally {
       _currentComponent = previous;
     }
-    // NOTE: NO tocamos _runtime, se mantiene del contexto parent
+    // NOTE: DON'T touch _runtime, keep parent context
   }
 }

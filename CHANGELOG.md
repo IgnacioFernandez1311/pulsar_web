@@ -1,3 +1,10 @@
+## 1.0.1
+- Added enums to element builders for type safe autocomplete on HTML elements.
+- Fix on Attribute shadowing.
+- Added docmunetation.
+- Fix on Scroll reset for element morphing.
+- Removed `ContentElement` and `VoidElement`. Not necessary.
+
 ## 1.0.0
 - Rethinked syntax to avoid verbosity.
 - Removed `onUnmount` because not necessary.

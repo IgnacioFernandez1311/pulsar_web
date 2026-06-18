@@ -2,8 +2,6 @@ import 'package:pulsar_web/pulsar.dart';
 
 typedef EventCallback = void Function(Event event);
 
-// lib/core/attributes.dart
-
 sealed class Attribute {
   const Attribute();
 }
@@ -28,14 +26,14 @@ class StyleAttribute extends Attribute {
   const StyleAttribute(this.styles);
 }
 
-// 🔑 ACTUALIZADO: Event attribute con owner
+//  UPDATED: Event attribute with owner
 class EventAttribute extends Attribute {
   final EventCallback callback;
-  final Component? owner; // 🔑 NUEVO
+  final Component? owner;
 
   const EventAttribute(this.callback, {this.owner});
 
-  // Helper para crear con owner desde context
+  // Helper to create with owner from context
   factory EventAttribute.fromContext(EventCallback callback) {
     return EventAttribute(callback, owner: RenderContext.currentComponent);
   }

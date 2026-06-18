@@ -17,10 +17,12 @@ import 'package:pulsar_web/pulsar.dart';
 /// ```
 // lib/core/element_builder.dart
 
-class ElementBuilder {
+base class ElementBuilder<T extends ElementBuilder<T>> {
   final String tag;
   final Object? key;
   final bool isVoid;
+
+  T get self => this as T;
 
   String? _classes;
   String? _id;
@@ -29,9 +31,9 @@ class ElementBuilder {
 
   ElementBuilder(this.tag, {this.key, this.isVoid = false});
 
-  ElementBuilder classes(String classes) {
+  T classes(String classes) {
     _classes = _classes == null ? classes : '$_classes $classes';
-    return this;
+    return self;
   }
 
   /// Sets the element's unique identifier.
@@ -40,9 +42,9 @@ class ElementBuilder {
   /// ```dart
   /// Div().id('main-content')
   /// ```
-  ElementBuilder id(String id) {
+  T id(String id) {
     _id = id;
-    return this;
+    return self;
   }
 
   /// Sets the element's title (tooltip text).
@@ -51,9 +53,9 @@ class ElementBuilder {
   /// ```dart
   /// Button().title('Click to submit')('Submit')
   /// ```
-  ElementBuilder title(String value) {
+  T title(String value) {
     attr('title', StringAttribute(value));
-    return this;
+    return self;
   }
 
   /// Hides the element from display.
@@ -63,14 +65,14 @@ class ElementBuilder {
   /// Div().hidden()  // hidden = true
   /// Div().hidden(false)  // explicitly visible
   /// ```
-  ElementBuilder hidden([bool h = true]) {
+  T hidden([bool h = true]) {
     if (h) {
       attr('hidden', BooleanAttribute(true));
     } else {
       // Remove attribute if explicitly set to false
       _attrs.remove('hidden');
     }
-    return this;
+    return self;
   }
 
   /// Sets the tab order index for keyboard navigation.
@@ -85,9 +87,9 @@ class ElementBuilder {
   /// Input().tabIndex(1)
   /// Button().tabIndex(-1)  // Skip in tab navigation
   /// ```
-  ElementBuilder tabIndex(int value) {
+  T tabIndex(int value) {
     attr('tabindex', StringAttribute('$value'));
-    return this;
+    return self;
   }
 
   /// Sets the language of the element's content.
@@ -97,9 +99,9 @@ class ElementBuilder {
   /// Div().lang('es')  // Spanish
   /// P().lang('en-US')  // English (US)
   /// ```
-  ElementBuilder lang(String value) {
+  T lang(String value) {
     attr('lang', StringAttribute(value));
-    return this;
+    return self;
   }
 
   /// Sets a custom data attribute.
@@ -109,9 +111,9 @@ class ElementBuilder {
   /// Div().data('user-id', '123')  // data-user-id="123"
   /// Div().data('count', '42')  // data-count="42"
   /// ```
-  ElementBuilder data(String key, String value) {
+  T data(String key, String value) {
     attr('data-$key', StringAttribute(value));
-    return this;
+    return self;
   }
 
   // ========================================
@@ -124,9 +126,9 @@ class ElementBuilder {
   /// ```dart
   /// Button().ariaLabel('Close dialog')('×')
   /// ```
-  ElementBuilder ariaLabel(String value) {
+  T ariaLabel(String value) {
     attr('aria-label', StringAttribute(value));
-    return this;
+    return self;
   }
 
   /// Hides the element from screen readers.
@@ -136,9 +138,9 @@ class ElementBuilder {
   /// Div().ariaHidden()  // aria-hidden="true"
   /// Div().ariaHidden(false)  // aria-hidden="false"
   /// ```
-  ElementBuilder ariaHidden([bool h = true]) {
+  T ariaHidden([bool h = true]) {
     attr('aria-hidden', StringAttribute(h ? 'true' : 'false'));
-    return this;
+    return self;
   }
 
   /// References another element by ID for accessible description.
@@ -147,14 +149,14 @@ class ElementBuilder {
   /// ```dart
   /// Input().ariaDescribedBy('help-text')
   /// ```
-  ElementBuilder ariaDescribedBy(String id) {
+  T ariaDescribedBy(String id) {
     attr('aria-describedby', StringAttribute(id));
-    return this;
+    return self;
   }
 
-  ElementBuilder style(Map<String, String> style) {
+  T style(Map<String, String> style) {
     _style = {...?_style, ...style};
-    return this;
+    return self;
   }
 
   /// Generic escape hatch for any attribute.
@@ -166,330 +168,330 @@ class ElementBuilder {
   /// Div().attr('custom-attribute', 'value')
   /// Div().attr('aria-label', 'Close button')
   /// ```
-  ElementBuilder attr(String name, Attribute value) {
+  T attr(String name, Attribute value) {
     _attrs[name] = value;
-    return this;
+    return self;
   }
 
-  ElementBuilder onClick(EventCallback handler) {
+  T onClick(EventCallback handler) {
     _attrs['onClick'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onDoubleClick(EventCallback handler) {
+  T onDoubleClick(EventCallback handler) {
     _attrs['onDoubleClick'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onMouseDown(EventCallback handler) {
+  T onMouseDown(EventCallback handler) {
     _attrs['onMouseDown'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onMouseUp(EventCallback handler) {
+  T onMouseUp(EventCallback handler) {
     _attrs['onMouseUp'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onMouseEnter(EventCallback handler) {
+  T onMouseEnter(EventCallback handler) {
     _attrs['onMouseEnter'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onMouseLeave(EventCallback handler) {
+  T onMouseLeave(EventCallback handler) {
     _attrs['onMouseLeave'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onMouseMove(EventCallback handler) {
+  T onMouseMove(EventCallback handler) {
     _attrs['onMouseMove'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onMouseOver(EventCallback handler) {
+  T onMouseOver(EventCallback handler) {
     _attrs['onMouseOver'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onMouseOut(EventCallback handler) {
+  T onMouseOut(EventCallback handler) {
     _attrs['onMouseOut'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onContextMenu(EventCallback handler) {
+  T onContextMenu(EventCallback handler) {
     _attrs['onContextMenu'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
   // ──────────────────────────────────────────────────────────────────────────
   // Form Events
   // ──────────────────────────────────────────────────────────────────────────
 
-  ElementBuilder onInput(EventCallback handler) {
+  T onInput(EventCallback handler) {
     _attrs['onInput'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onChange(EventCallback handler) {
+  T onChange(EventCallback handler) {
     _attrs['onChange'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onSubmit(EventCallback handler) {
+  T onSubmit(EventCallback handler) {
     _attrs['onSubmit'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onFocus(EventCallback handler) {
+  T onFocus(EventCallback handler) {
     _attrs['onFocus'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onBlur(EventCallback handler) {
+  T onBlur(EventCallback handler) {
     _attrs['onBlur'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onFocusIn(EventCallback handler) {
+  T onFocusIn(EventCallback handler) {
     _attrs['onFocusIn'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onFocusOut(EventCallback handler) {
+  T onFocusOut(EventCallback handler) {
     _attrs['onFocusOut'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onReset(EventCallback handler) {
+  T onReset(EventCallback handler) {
     _attrs['onReset'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onSelect(EventCallback handler) {
+  T onSelect(EventCallback handler) {
     _attrs['onSelect'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
   // ──────────────────────────────────────────────────────────────────────────
   // Keyboard Events
   // ──────────────────────────────────────────────────────────────────────────
 
-  ElementBuilder onKeyDown(EventCallback handler) {
+  T onKeyDown(EventCallback handler) {
     _attrs['onKeyDown'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onKeyUp(EventCallback handler) {
+  T onKeyUp(EventCallback handler) {
     _attrs['onKeyUp'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onKeyPress(EventCallback handler) {
+  T onKeyPress(EventCallback handler) {
     _attrs['onKeyPress'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
   // ──────────────────────────────────────────────────────────────────────────
   // Drag & Drop Events
   // ──────────────────────────────────────────────────────────────────────────
 
-  ElementBuilder onDrag(EventCallback handler) {
+  T onDrag(EventCallback handler) {
     _attrs['onDrag'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onDragStart(EventCallback handler) {
+  T onDragStart(EventCallback handler) {
     _attrs['onDragStart'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onDragEnd(EventCallback handler) {
+  T onDragEnd(EventCallback handler) {
     _attrs['onDragEnd'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onDragEnter(EventCallback handler) {
+  T onDragEnter(EventCallback handler) {
     _attrs['onDragEnter'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onDragLeave(EventCallback handler) {
+  T onDragLeave(EventCallback handler) {
     _attrs['onDragLeave'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onDragOver(EventCallback handler) {
+  T onDragOver(EventCallback handler) {
     _attrs['onDragOver'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onDrop(EventCallback handler) {
+  T onDrop(EventCallback handler) {
     _attrs['onDrop'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
   // ──────────────────────────────────────────────────────────────────────────
   // Clipboard Events
   // ──────────────────────────────────────────────────────────────────────────
 
-  ElementBuilder onCopy(EventCallback handler) {
+  T onCopy(EventCallback handler) {
     _attrs['onCopy'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onCut(EventCallback handler) {
+  T onCut(EventCallback handler) {
     _attrs['onCut'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onPaste(EventCallback handler) {
+  T onPaste(EventCallback handler) {
     _attrs['onPaste'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
   // ──────────────────────────────────────────────────────────────────────────
   // Media Events
   // ──────────────────────────────────────────────────────────────────────────
 
-  ElementBuilder onPlay(EventCallback handler) {
+  T onPlay(EventCallback handler) {
     _attrs['onPlay'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onPause(EventCallback handler) {
+  T onPause(EventCallback handler) {
     _attrs['onPause'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onEnded(EventCallback handler) {
+  T onEnded(EventCallback handler) {
     _attrs['onEnded'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onTimeUpdate(EventCallback handler) {
+  T onTimeUpdate(EventCallback handler) {
     _attrs['onTimeUpdate'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onVolumeChange(EventCallback handler) {
+  T onVolumeChange(EventCallback handler) {
     _attrs['onVolumeChange'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onLoadedData(EventCallback handler) {
+  T onLoadedData(EventCallback handler) {
     _attrs['onLoadedData'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onLoadedMetadata(EventCallback handler) {
+  T onLoadedMetadata(EventCallback handler) {
     _attrs['onLoadedMetadata'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onCanPlay(EventCallback handler) {
+  T onCanPlay(EventCallback handler) {
     _attrs['onCanPlay'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onCanPlayThrough(EventCallback handler) {
+  T onCanPlayThrough(EventCallback handler) {
     _attrs['onCanPlayThrough'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
   // ──────────────────────────────────────────────────────────────────────────
   // Scroll Events
   // ──────────────────────────────────────────────────────────────────────────
 
-  ElementBuilder onScroll(EventCallback handler) {
+  T onScroll(EventCallback handler) {
     _attrs['onScroll'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onWheel(EventCallback handler) {
+  T onWheel(EventCallback handler) {
     _attrs['onWheel'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
   // ──────────────────────────────────────────────────────────────────────────
   // Touch Events (Mobile)
   // ──────────────────────────────────────────────────────────────────────────
 
-  ElementBuilder onTouchStart(EventCallback handler) {
+  T onTouchStart(EventCallback handler) {
     _attrs['onTouchStart'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onTouchMove(EventCallback handler) {
+  T onTouchMove(EventCallback handler) {
     _attrs['onTouchMove'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onTouchEnd(EventCallback handler) {
+  T onTouchEnd(EventCallback handler) {
     _attrs['onTouchEnd'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onTouchCancel(EventCallback handler) {
+  T onTouchCancel(EventCallback handler) {
     _attrs['onTouchCancel'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
   // ──────────────────────────────────────────────────────────────────────────
   // Animation & Transition Events
   // ──────────────────────────────────────────────────────────────────────────
 
-  ElementBuilder onAnimationStart(EventCallback handler) {
+  T onAnimationStart(EventCallback handler) {
     _attrs['onAnimationStart'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onAnimationEnd(EventCallback handler) {
+  T onAnimationEnd(EventCallback handler) {
     _attrs['onAnimationEnd'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onAnimationIteration(EventCallback handler) {
+  T onAnimationIteration(EventCallback handler) {
     _attrs['onAnimationIteration'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onTransitionEnd(EventCallback handler) {
+  T onTransitionEnd(EventCallback handler) {
     _attrs['onTransitionEnd'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
   // ──────────────────────────────────────────────────────────────────────────
   // Pointer Events (Modern alternative to mouse/touch)
   // ──────────────────────────────────────────────────────────────────────────
 
-  ElementBuilder onPointerDown(EventCallback handler) {
+  T onPointerDown(EventCallback handler) {
     _attrs['onPointerDown'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onPointerUp(EventCallback handler) {
+  T onPointerUp(EventCallback handler) {
     _attrs['onPointerUp'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onPointerMove(EventCallback handler) {
+  T onPointerMove(EventCallback handler) {
     _attrs['onPointerMove'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onPointerEnter(EventCallback handler) {
+  T onPointerEnter(EventCallback handler) {
     _attrs['onPointerEnter'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onPointerLeave(EventCallback handler) {
+  T onPointerLeave(EventCallback handler) {
     _attrs['onPointerLeave'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
-  ElementBuilder onPointerCancel(EventCallback handler) {
+  T onPointerCancel(EventCallback handler) {
     _attrs['onPointerCancel'] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
   // ──────────────────────────────────────────────────────────────────────────
@@ -505,14 +507,14 @@ class ElementBuilder {
   /// ```dart
   /// Div().on('customevent', handleCustom)
   /// ```
-  ElementBuilder on(String event, EventCallback handler) {
+  T on(String event, EventCallback handler) {
     // Normalize event name to camelCase with 'on' prefix
     final eventName = event.startsWith('on')
         ? event
         : 'on${event[0].toUpperCase()}${event.substring(1)}';
 
     _attrs[eventName] = EventAttribute.fromContext(handler);
-    return this;
+    return self;
   }
 
   /// Call operator for children
@@ -570,22 +572,4 @@ class ElementBuilder {
 
     return result;
   }
-}
-
-// ==============================
-// ContentElement (elementos con children)
-// ==============================
-
-/// Base class for elements that can have children and support text shorthand
-class ContentElement extends ElementBuilder {
-  ContentElement(super.tag, {super.key});
-}
-
-// ==============================
-// VoidElement (elementos sin children)
-// ==============================
-
-/// Base class for void elements (cannot have children)
-class VoidElement extends ElementBuilder {
-  VoidElement(super.tag, {super.key}) : super(isVoid: true);
 }

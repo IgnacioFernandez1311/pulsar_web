@@ -1,80 +1,81 @@
 import 'package:pulsar_web/pulsar.dart';
+import 'package:pulsar_web/engine/morphic/enums.dart';
 
 // ==============================
 // Document Structure
 // ==============================
 
-class Html extends ContentElement {
+final class Html extends ElementBuilder<Html> {
   Html({super.key}) : super('html');
 
   @override
   Html lang(String value) {
     attr('lang', StringAttribute(value));
-    return this;
+    return self;
   }
 }
 
-class Head extends ContentElement {
+final class Head extends ElementBuilder<Head> {
   Head({super.key}) : super('head');
 }
 
-class Body extends ContentElement {
+final class Body extends ElementBuilder<Body> {
   Body({super.key}) : super('body');
 }
 
-class Title extends ContentElement {
+final class Title extends ElementBuilder<Title> {
   Title({super.key}) : super('title');
 }
 
-class Style extends ContentElement {
+final class Style extends ElementBuilder<Style> {
   Style({super.key}) : super('style');
 
   Style type(String t) {
     attr('type', StringAttribute(t));
-    return this;
+    return self;
   }
 
   Style media(String m) {
     attr('media', StringAttribute(m));
-    return this;
+    return self;
   }
 }
 
-class Script extends ContentElement {
+final class Script extends ElementBuilder<Script> {
   Script({super.key}) : super('script');
 
   Script src(String s) {
     attr('src', StringAttribute(s));
-    return this;
+    return self;
   }
 
   Script type(String t) {
     attr('type', StringAttribute(t));
-    return this;
+    return self;
   }
 
   Script async([bool a = true]) {
     if (a) attr('async', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Script defer([bool d = true]) {
     if (d) attr('defer', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Script crossorigin(String c) {
     attr('crossorigin', StringAttribute(c));
-    return this;
+    return self;
   }
 
   Script integrity(String i) {
     attr('integrity', StringAttribute(i));
-    return this;
+    return self;
   }
 }
 
-class Noscript extends ContentElement {
+final class Noscript extends ElementBuilder<Noscript> {
   Noscript({super.key}) : super('noscript');
 }
 
@@ -82,15 +83,15 @@ class Noscript extends ContentElement {
 // Basic Elements
 // ==============================
 
-class Div extends ContentElement {
+final class Div extends ElementBuilder<Div> {
   Div({super.key}) : super('div');
 }
 
-class Span extends ContentElement {
+final class Span extends ElementBuilder<Span> {
   Span({super.key}) : super('span');
 }
 
-class P extends ContentElement {
+final class P extends ElementBuilder<P> {
   P({super.key}) : super('p');
 }
 
@@ -98,27 +99,27 @@ class P extends ContentElement {
 // Headings
 // ==============================
 
-class H1 extends ContentElement {
+final class H1 extends ElementBuilder<H1> {
   H1({super.key}) : super('h1');
 }
 
-class H2 extends ContentElement {
+final class H2 extends ElementBuilder<H2> {
   H2({super.key}) : super('h2');
 }
 
-class H3 extends ContentElement {
+final class H3 extends ElementBuilder<H3> {
   H3({super.key}) : super('h3');
 }
 
-class H4 extends ContentElement {
+final class H4 extends ElementBuilder<H4> {
   H4({super.key}) : super('h4');
 }
 
-class H5 extends ContentElement {
+final class H5 extends ElementBuilder<H5> {
   H5({super.key}) : super('h5');
 }
 
-class H6 extends ContentElement {
+final class H6 extends ElementBuilder<H6> {
   H6({super.key}) : super('h6');
 }
 
@@ -126,43 +127,43 @@ class H6 extends ContentElement {
 // Semantic Sections
 // ==============================
 
-class Header extends ContentElement {
+final class Header extends ElementBuilder<Header> {
   Header({super.key}) : super('header');
 }
 
-class Footer extends ContentElement {
+final class Footer extends ElementBuilder<Footer> {
   Footer({super.key}) : super('footer');
 }
 
-class Main extends ContentElement {
+final class Main extends ElementBuilder<Main> {
   Main({super.key}) : super('main');
 }
 
-class Section extends ContentElement {
+final class Section extends ElementBuilder<Section> {
   Section({super.key}) : super('section');
 }
 
-class Article extends ContentElement {
+final class Article extends ElementBuilder<Article> {
   Article({super.key}) : super('article');
 }
 
-class Aside extends ContentElement {
+final class Aside extends ElementBuilder<Aside> {
   Aside({super.key}) : super('aside');
 }
 
-class Nav extends ContentElement {
+final class Nav extends ElementBuilder<Nav> {
   Nav({super.key}) : super('nav');
 }
 
-class Address extends ContentElement {
+final class Address extends ElementBuilder<Address> {
   Address({super.key}) : super('address');
 }
 
-class Hgroup extends ContentElement {
+final class Hgroup extends ElementBuilder<Hgroup> {
   Hgroup({super.key}) : super('hgroup');
 }
 
-class Search extends ContentElement {
+final class Search extends ElementBuilder<Search> {
   Search({super.key}) : super('search');
 }
 
@@ -170,77 +171,77 @@ class Search extends ContentElement {
 // Text Content
 // ==============================
 
-class Blockquote extends ContentElement {
+final class Blockquote extends ElementBuilder<Blockquote> {
   Blockquote({super.key}) : super('blockquote');
 
   Blockquote cite(String c) {
     attr('cite', StringAttribute(c));
-    return this;
+    return self;
   }
 }
 
-class Pre extends ContentElement {
+final class Pre extends ElementBuilder<Pre> {
   Pre({super.key}) : super('pre');
 }
 
-class Code extends ContentElement {
+final class Code extends ElementBuilder<Code> {
   Code({super.key}) : super('code');
 }
 
-class Samp extends ContentElement {
+final class Samp extends ElementBuilder<Samp> {
   Samp({super.key}) : super('samp');
 }
 
-class Kbd extends ContentElement {
+final class Kbd extends ElementBuilder<Kbd> {
   Kbd({super.key}) : super('kbd');
 }
 
-class Var extends ContentElement {
+final class Var extends ElementBuilder<Var> {
   Var({super.key}) : super('var');
 }
 
-class Abbr extends ContentElement {
+final class Abbr extends ElementBuilder<Abbr> {
   Abbr({super.key}) : super('abbr');
 
   @override
   Abbr title(String value) {
     attr('title', StringAttribute(value));
-    return this;
+    return self;
   }
 }
 
-class Data extends ContentElement {
+final class Data extends ElementBuilder<Data> {
   Data({super.key}) : super('data');
 
   Data value(String v) {
     attr('value', StringAttribute(v));
-    return this;
+    return self;
   }
 }
 
-class Time extends ContentElement {
+final class Time extends ElementBuilder<Time> {
   Time({super.key}) : super('time');
 
   Time datetime(String dt) {
     attr('datetime', StringAttribute(dt));
-    return this;
+    return self;
   }
 }
 
-class Q extends ContentElement {
+final class Q extends ElementBuilder<Q> {
   Q({super.key}) : super('q');
 
   Q cite(String c) {
     attr('cite', StringAttribute(c));
-    return this;
+    return self;
   }
 }
 
-class Cite extends ContentElement {
+final class Cite extends ElementBuilder<Cite> {
   Cite({super.key}) : super('cite');
 }
 
-class Dfn extends ContentElement {
+final class Dfn extends ElementBuilder<Dfn> {
   Dfn({super.key}) : super('dfn');
 }
 
@@ -248,152 +249,120 @@ class Dfn extends ContentElement {
 // Text Formatting
 // ==============================
 
-class Strong extends ContentElement {
+final class Strong extends ElementBuilder<Strong> {
   Strong({super.key}) : super('strong');
 }
 
-class Em extends ContentElement {
+final class Em extends ElementBuilder<Em> {
   Em({super.key}) : super('em');
 }
 
-class B extends ContentElement {
+final class B extends ElementBuilder<B> {
   B({super.key}) : super('b');
 }
 
-class I extends ContentElement {
+final class I extends ElementBuilder<I> {
   I({super.key}) : super('i');
 }
 
-class U extends ContentElement {
+final class U extends ElementBuilder<U> {
   U({super.key}) : super('u');
 }
 
-class S extends ContentElement {
+final class S extends ElementBuilder<S> {
   S({super.key}) : super('s');
 }
 
-class Small extends ContentElement {
+final class Small extends ElementBuilder<Small> {
   Small({super.key}) : super('small');
 }
 
-class Mark extends ContentElement {
+final class Mark extends ElementBuilder<Mark> {
   Mark({super.key}) : super('mark');
 }
 
-class Del extends ContentElement {
+final class Del extends ElementBuilder<Del> {
   Del({super.key}) : super('del');
 
   Del cite(String c) {
     attr('cite', StringAttribute(c));
-    return this;
+    return self;
   }
 
   Del datetime(String dt) {
     attr('datetime', StringAttribute(dt));
-    return this;
+    return self;
   }
 }
 
-class Ins extends ContentElement {
+final class Ins extends ElementBuilder<Ins> {
   Ins({super.key}) : super('ins');
 
   Ins cite(String c) {
     attr('cite', StringAttribute(c));
-    return this;
+    return self;
   }
 
   Ins datetime(String dt) {
     attr('datetime', StringAttribute(dt));
-    return this;
+    return self;
   }
 }
 
-class Sub extends ContentElement {
+final class Sub extends ElementBuilder<Sub> {
   Sub({super.key}) : super('sub');
 }
 
-class Sup extends ContentElement {
+final class Sup extends ElementBuilder<Sup> {
   Sup({super.key}) : super('sup');
 }
 
-class Ruby extends ContentElement {
+final class Ruby extends ElementBuilder<Ruby> {
   Ruby({super.key}) : super('ruby');
 }
 
-class Rt extends ContentElement {
+final class Rt extends ElementBuilder<Rt> {
   Rt({super.key}) : super('rt');
 }
 
-class Rp extends ContentElement {
+final class Rp extends ElementBuilder<Rp> {
   Rp({super.key}) : super('rp');
 }
 
-class Bdi extends ContentElement {
+final class Bdi extends ElementBuilder<Bdi> {
   Bdi({super.key}) : super('bdi');
 }
 
-class Bdo extends ContentElement {
+final class Bdo extends ElementBuilder<Bdo> {
   Bdo({super.key}) : super('bdo');
 
   Bdo dir(String d) {
     attr('dir', StringAttribute(d));
-    return this;
+    return self;
   }
 }
 
-// ==============================
-// Links and Navigation
-// ==============================
-
-/// Link and form target contexts.
-///
-/// Provides type-safe values for the `target` attribute of `<a>` and `<form>` elements.
-///
-/// Usage:
-/// ```dart
-/// A().href('/page').target(Target.blank)
-/// Form().action('/submit').target(Target.self)
-/// ```
-enum Target {
-  /// Opens in a new tab or window.
-  blank('_blank'),
-
-  /// Opens in the same frame (default behavior).
-  self('_self'),
-
-  /// Opens in the parent frame.
-  parent('_parent'),
-
-  /// Opens in the full window, breaking out of all frames.
-  top('_top');
-
-  /// The HTML attribute value.
-  final String value;
-
-  const Target(this.value);
-}
-
-class A extends ContentElement {
+final class A extends ElementBuilder<A> {
   A({super.key}) : super('a');
 
   A href(String url) {
     attr('href', StringAttribute(url));
-    return this;
+    return self;
   }
 
   A target(Target target) {
     attr('target', StringAttribute(target.value));
-    return this;
+    return self;
   }
 
   A targetCustom(String value) {
     attr('target', StringAttribute(value));
-    return this;
+    return self;
   }
 
   A rel(String r) {
     attr('rel', StringAttribute(r));
-    return this;
+    return self;
   }
 
   A download([String? filename]) {
@@ -402,22 +371,22 @@ class A extends ContentElement {
     } else {
       attr('download', BooleanAttribute(true));
     }
-    return this;
+    return self;
   }
 
   A hreflang(String lang) {
     attr('hreflang', StringAttribute(lang));
-    return this;
+    return self;
   }
 
   A type(String t) {
     attr('type', StringAttribute(t));
-    return this;
+    return self;
   }
 
   A ping(String urls) {
     attr('ping', StringAttribute(urls));
-    return this;
+    return self;
   }
 }
 
@@ -425,432 +394,370 @@ class A extends ContentElement {
 // Lists
 // ==============================
 
-class Ul extends ContentElement {
+final class Ul extends ElementBuilder<Ul> {
   Ul({super.key}) : super('ul');
 }
 
-class Ol extends ContentElement {
+final class Ol extends ElementBuilder<Ol> {
   Ol({super.key}) : super('ol');
 
   Ol start(int s) {
     attr('start', StringAttribute('$s'));
-    return this;
+    return self;
   }
 
   Ol reversed([bool r = true]) {
     if (r) attr('reversed', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Ol type(String t) {
     attr('type', StringAttribute(t));
-    return this;
+    return self;
   }
 }
 
-class Li extends ContentElement {
+final class Li extends ElementBuilder<Li> {
   Li({super.key}) : super('li');
 
   Li value(int v) {
     attr('value', StringAttribute('$v'));
-    return this;
+    return self;
   }
 }
 
-class Dl extends ContentElement {
+final class Dl extends ElementBuilder<Dl> {
   Dl({super.key}) : super('dl');
 }
 
-class Dt extends ContentElement {
+final class Dt extends ElementBuilder<Dt> {
   Dt({super.key}) : super('dt');
 }
 
-class Dd extends ContentElement {
+final class Dd extends ElementBuilder<Dd> {
   Dd({super.key}) : super('dd');
 }
 
-class Menu extends ContentElement {
+final class Menu extends ElementBuilder<Menu> {
   Menu({super.key}) : super('menu');
 }
 
-// ==============================
-// Forms
-// ==============================
-
-/// HTTP methods for form submission.
-///
-/// Provides type-safe values for the `method` attribute of `<form>` elements.
-///
-/// Usage:
-/// ```dart
-/// Form().method(FormMethod.post)
-/// Form().method(FormMethod.get)
-/// ```
-enum FormMethod {
-  /// GET method - form data sent in URL query string.
-  ///
-  /// Use for idempotent operations (searches, filters).
-  /// Data is visible in URL and browser history.
-  get('get'),
-
-  /// POST method - form data sent in request body.
-  ///
-  /// Use for operations that modify data (create, update, delete).
-  /// Data is not visible in URL.
-  post('post'),
-
-  /// DIALOG method - closes dialog and submits form data to dialog opener.
-  ///
-  /// Only works when form is inside a `<dialog>` element.
-  dialog('dialog');
-
-  /// The HTML attribute value.
-  final String value;
-
-  const FormMethod(this.value);
-}
-
-class Form extends ContentElement {
+final class Form extends ElementBuilder<Form> {
   Form({super.key}) : super('form');
 
   Form action(String a) {
     attr('action', StringAttribute(a));
-    return this;
+    return self;
   }
 
   Form method(FormMethod m) {
     attr('method', StringAttribute(m.value));
-    return this;
+    return self;
   }
 
   Form enctype(String e) {
     attr('enctype', StringAttribute(e));
-    return this;
+    return self;
   }
 
   Form target(String t) {
     attr('target', StringAttribute(t));
-    return this;
+    return self;
   }
 
   Form name(String n) {
     attr('name', StringAttribute(n));
-    return this;
+    return self;
   }
 
   Form novalidate([bool nv = true]) {
     if (nv) attr('novalidate', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Form autocomplete(String a) {
     attr('autocomplete', StringAttribute(a));
-    return this;
+    return self;
   }
 }
 
-class Label extends ContentElement {
+final class Label extends ElementBuilder<Label> {
   Label({super.key}) : super('label');
 
   Label htmlFor(String id) {
     attr('for', StringAttribute(id));
-    return this;
+    return self;
   }
 }
 
-/// HTML button types.
-///
-/// Provides type-safe values for the `type` attribute of `<button>` elements.
-///
-/// Usage:
-/// ```dart
-/// Button().type(ButtonType.submit)
-/// Button().type(ButtonType.reset)
-/// ```
-enum ButtonType {
-  /// Submit button - submits the form.
-  submit('submit'),
-
-  /// Reset button - resets form fields to initial values.
-  reset('reset'),
-
-  /// Generic button - no default behavior.
-  button('button');
-
-  /// The HTML attribute value.
-  final String value;
-
-  const ButtonType(this.value);
-}
-
-class Button extends ContentElement {
+final class Button extends ElementBuilder<Button> {
   Button({super.key}) : super('button');
 
   Button type(ButtonType t) {
     attr('type', StringAttribute(t.value));
-    return this;
+    return self;
   }
 
   Button name(String n) {
     attr('name', StringAttribute(n));
-    return this;
+    return self;
   }
 
   Button value(String v) {
     attr('value', StringAttribute(v));
-    return this;
+    return self;
   }
 
   Button disabled([bool d = true]) {
     if (d) attr('disabled', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Button form(String f) {
     attr('form', StringAttribute(f));
-    return this;
+    return self;
   }
 
   Button formaction(String fa) {
     attr('formaction', StringAttribute(fa));
-    return this;
+    return self;
   }
 
   Button formmethod(String fm) {
     attr('formmethod', StringAttribute(fm));
-    return this;
+    return self;
   }
 }
 
-class Select extends ContentElement {
+final class Select extends ElementBuilder<Select> {
   Select({super.key}) : super('select');
 
   Select name(String n) {
     attr('name', StringAttribute(n));
-    return this;
+    return self;
   }
 
   Select multiple([bool m = true]) {
     if (m) attr('multiple', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Select size(int s) {
     attr('size', StringAttribute('$s'));
-    return this;
+    return self;
   }
 
   Select disabled([bool d = true]) {
     if (d) attr('disabled', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Select required([bool r = true]) {
     if (r) attr('required', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Select form(String f) {
     attr('form', StringAttribute(f));
-    return this;
+    return self;
   }
 }
 
-class Option extends ContentElement {
+final class Option extends ElementBuilder<Option> {
   Option({super.key}) : super('option');
 
   Option value(String val) {
     attr('value', StringAttribute(val));
-    return this;
+    return self;
   }
 
   Option selected([bool isSelected = true]) {
     if (isSelected) {
       attr('selected', BooleanAttribute(true));
     }
-    return this;
+    return self;
   }
 
   Option disabled([bool d = true]) {
     if (d) attr('disabled', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Option label(String l) {
     attr('label', StringAttribute(l));
-    return this;
+    return self;
   }
 }
 
-class Optgroup extends ContentElement {
+final class Optgroup extends ElementBuilder<Optgroup> {
   Optgroup({super.key}) : super('optgroup');
 
   Optgroup label(String l) {
     attr('label', StringAttribute(l));
-    return this;
+    return self;
   }
 
   Optgroup disabled([bool d = true]) {
     if (d) attr('disabled', BooleanAttribute(true));
-    return this;
+    return self;
   }
 }
 
-class Textarea extends ContentElement {
+final class Textarea extends ElementBuilder<Textarea> {
   Textarea({super.key}) : super('textarea');
 
   Textarea name(String n) {
     attr('name', StringAttribute(n));
-    return this;
+    return self;
   }
 
   Textarea rows(int r) {
     attr('rows', StringAttribute('$r'));
-    return this;
+    return self;
   }
 
   Textarea cols(int c) {
     attr('cols', StringAttribute('$c'));
-    return this;
+    return self;
   }
 
   Textarea placeholder(String p) {
     attr('placeholder', StringAttribute(p));
-    return this;
+    return self;
   }
 
   Textarea disabled([bool d = true]) {
     if (d) attr('disabled', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Textarea readonly([bool r = true]) {
     if (r) attr('readonly', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Textarea required([bool r = true]) {
     if (r) attr('required', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Textarea maxlength(int m) {
     attr('maxlength', StringAttribute('$m'));
-    return this;
+    return self;
   }
 
   Textarea minlength(int m) {
     attr('minlength', StringAttribute('$m'));
-    return this;
+    return self;
   }
 
   Textarea wrap(String w) {
     attr('wrap', StringAttribute(w));
-    return this;
+    return self;
   }
 
   Textarea autocomplete(String a) {
     attr('autocomplete', StringAttribute(a));
-    return this;
+    return self;
   }
 
   Textarea form(String f) {
     attr('form', StringAttribute(f));
-    return this;
+    return self;
   }
 }
 
-class Fieldset extends ContentElement {
+final class Fieldset extends ElementBuilder<Fieldset> {
   Fieldset({super.key}) : super('fieldset');
 
   Fieldset disabled([bool d = true]) {
     if (d) attr('disabled', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Fieldset form(String f) {
     attr('form', StringAttribute(f));
-    return this;
+    return self;
   }
 
   Fieldset name(String n) {
     attr('name', StringAttribute(n));
-    return this;
+    return self;
   }
 }
 
-class Legend extends ContentElement {
+final class Legend extends ElementBuilder<Legend> {
   Legend({super.key}) : super('legend');
 }
 
-class Datalist extends ContentElement {
+final class Datalist extends ElementBuilder<Datalist> {
   Datalist({super.key}) : super('datalist');
 }
 
-class Output extends ContentElement {
+final class Output extends ElementBuilder<Output> {
   Output({super.key}) : super('output');
 
   Output htmlFor(String f) {
     attr('for', StringAttribute(f));
-    return this;
+    return self;
   }
 
   Output form(String f) {
     attr('form', StringAttribute(f));
-    return this;
+    return self;
   }
 
   Output name(String n) {
     attr('name', StringAttribute(n));
-    return this;
+    return self;
   }
 }
 
-class Progress extends ContentElement {
+final class Progress extends ElementBuilder<Progress> {
   Progress({super.key}) : super('progress');
 
   Progress value(num v) {
     attr('value', StringAttribute('$v'));
-    return this;
+    return self;
   }
 
   Progress max(num m) {
     attr('max', StringAttribute('$m'));
-    return this;
+    return self;
   }
 }
 
-class Meter extends ContentElement {
+final class Meter extends ElementBuilder<Meter> {
   Meter({super.key}) : super('meter');
 
   Meter value(num v) {
     attr('value', StringAttribute('$v'));
-    return this;
+    return self;
   }
 
   Meter min(num m) {
     attr('min', StringAttribute('$m'));
-    return this;
+    return self;
   }
 
   Meter max(num m) {
     attr('max', StringAttribute('$m'));
-    return this;
+    return self;
   }
 
   Meter low(num l) {
     attr('low', StringAttribute('$l'));
-    return this;
+    return self;
   }
 
   Meter high(num h) {
     attr('high', StringAttribute('$h'));
-    return this;
+    return self;
   }
 
   Meter optimum(num o) {
     attr('optimum', StringAttribute('$o'));
-    return this;
+    return self;
   }
 }
 
@@ -858,84 +765,84 @@ class Meter extends ContentElement {
 // Tables
 // ==============================
 
-class Table extends ContentElement {
+final class Table extends ElementBuilder<Table> {
   Table({super.key}) : super('table');
 }
 
-class Caption extends ContentElement {
+final class Caption extends ElementBuilder<Caption> {
   Caption({super.key}) : super('caption');
 }
 
-class Colgroup extends ContentElement {
+final class Colgroup extends ElementBuilder<Colgroup> {
   Colgroup({super.key}) : super('colgroup');
 
   Colgroup span(int s) {
     attr('span', StringAttribute('$s'));
-    return this;
+    return self;
   }
 }
 
-class Thead extends ContentElement {
+final class Thead extends ElementBuilder<Thead> {
   Thead({super.key}) : super('thead');
 }
 
-class Tbody extends ContentElement {
+final class Tbody extends ElementBuilder<Tbody> {
   Tbody({super.key}) : super('tbody');
 }
 
-class Tfoot extends ContentElement {
+final class Tfoot extends ElementBuilder<Tfoot> {
   Tfoot({super.key}) : super('tfoot');
 }
 
-class Tr extends ContentElement {
+final class Tr extends ElementBuilder<Tr> {
   Tr({super.key}) : super('tr');
 }
 
-class Th extends ContentElement {
+final class Th extends ElementBuilder<Th> {
   Th({super.key}) : super('th');
 
   Th colspan(int c) {
     attr('colspan', StringAttribute('$c'));
-    return this;
+    return self;
   }
 
   Th rowspan(int r) {
     attr('rowspan', StringAttribute('$r'));
-    return this;
+    return self;
   }
 
   Th scope(String s) {
     attr('scope', StringAttribute(s));
-    return this;
+    return self;
   }
 
   Th headers(String h) {
     attr('headers', StringAttribute(h));
-    return this;
+    return self;
   }
 
   Th abbr(String a) {
     attr('abbr', StringAttribute(a));
-    return this;
+    return self;
   }
 }
 
-class Td extends ContentElement {
+final class Td extends ElementBuilder<Td> {
   Td({super.key}) : super('td');
 
   Td colspan(int c) {
     attr('colspan', StringAttribute('$c'));
-    return this;
+    return self;
   }
 
   Td rowspan(int r) {
     attr('rowspan', StringAttribute('$r'));
-    return this;
+    return self;
   }
 
   Td headers(String h) {
     attr('headers', StringAttribute(h));
-    return this;
+    return self;
   }
 }
 
@@ -943,155 +850,155 @@ class Td extends ContentElement {
 // Media Elements
 // ==============================
 
-class Figure extends ContentElement {
+final class Figure extends ElementBuilder<Figure> {
   Figure({super.key}) : super('figure');
 }
 
-class Figcaption extends ContentElement {
+final class Figcaption extends ElementBuilder<Figcaption> {
   Figcaption({super.key}) : super('figcaption');
 }
 
-class Picture extends ContentElement {
+final class Picture extends ElementBuilder<Picture> {
   Picture({super.key}) : super('picture');
 }
 
-class Video extends ContentElement {
+final class Video extends ElementBuilder<Video> {
   Video({super.key}) : super('video');
 
   Video src(String s) {
     attr('src', StringAttribute(s));
-    return this;
+    return self;
   }
 
   Video controls([bool c = true]) {
     if (c) attr('controls', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Video autoplay([bool a = true]) {
     if (a) attr('autoplay', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Video loop([bool l = true]) {
     if (l) attr('loop', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Video muted([bool m = true]) {
     if (m) attr('muted', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Video poster(String p) {
     attr('poster', StringAttribute(p));
-    return this;
+    return self;
   }
 
   Video width(int w) {
     attr('width', StringAttribute('$w'));
-    return this;
+    return self;
   }
 
   Video height(int h) {
     attr('height', StringAttribute('$h'));
-    return this;
+    return self;
   }
 
   Video preload(String p) {
     attr('preload', StringAttribute(p));
-    return this;
+    return self;
   }
 
   Video crossorigin(String c) {
     attr('crossorigin', StringAttribute(c));
-    return this;
+    return self;
   }
 }
 
-class Audio extends ContentElement {
+final class Audio extends ElementBuilder<Audio> {
   Audio({super.key}) : super('audio');
 
   Audio src(String s) {
     attr('src', StringAttribute(s));
-    return this;
+    return self;
   }
 
   Audio controls([bool c = true]) {
     if (c) attr('controls', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Audio autoplay([bool a = true]) {
     if (a) attr('autoplay', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Audio loop([bool l = true]) {
     if (l) attr('loop', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Audio muted([bool m = true]) {
     if (m) attr('muted', BooleanAttribute(true));
-    return this;
+    return self;
   }
 
   Audio preload(String p) {
     attr('preload', StringAttribute(p));
-    return this;
+    return self;
   }
 
   Audio crossorigin(String c) {
     attr('crossorigin', StringAttribute(c));
-    return this;
+    return self;
   }
 }
 
-class Canvas extends ContentElement {
+final class Canvas extends ElementBuilder<Canvas> {
   Canvas({super.key}) : super('canvas');
 
   Canvas width(int w) {
     attr('width', StringAttribute('$w'));
-    return this;
+    return self;
   }
 
   Canvas height(int h) {
     attr('height', StringAttribute('$h'));
-    return this;
+    return self;
   }
 }
 
-class Svg extends ContentElement {
+final class Svg extends ElementBuilder<Svg> {
   Svg({super.key}) : super('svg');
 
   Svg width(String w) {
     attr('width', StringAttribute(w));
-    return this;
+    return self;
   }
 
   Svg height(String h) {
     attr('height', StringAttribute(h));
-    return this;
+    return self;
   }
 
   Svg viewBox(String vb) {
     attr('viewBox', StringAttribute(vb));
-    return this;
+    return self;
   }
 
   Svg xmlns(String ns) {
     attr('xmlns', StringAttribute(ns));
-    return this;
+    return self;
   }
 }
 
-class Math extends ContentElement {
+final class Math extends ElementBuilder<Math> {
   Math({super.key}) : super('math');
 
   Math xmlns(String ns) {
     attr('xmlns', StringAttribute(ns));
-    return this;
+    return self;
   }
 }
 
@@ -1099,109 +1006,109 @@ class Math extends ContentElement {
 // Embedded Content
 // ==============================
 
-class Iframe extends ContentElement {
+final class Iframe extends ElementBuilder<Iframe> {
   Iframe({super.key}) : super('iframe');
 
   Iframe src(String s) {
     attr('src', StringAttribute(s));
-    return this;
+    return self;
   }
 
   Iframe srcdoc(String sd) {
     attr('srcdoc', StringAttribute(sd));
-    return this;
+    return self;
   }
 
   Iframe name(String n) {
     attr('name', StringAttribute(n));
-    return this;
+    return self;
   }
 
   Iframe sandbox(String s) {
     attr('sandbox', StringAttribute(s));
-    return this;
+    return self;
   }
 
   Iframe allow(String a) {
     attr('allow', StringAttribute(a));
-    return this;
+    return self;
   }
 
   Iframe width(int w) {
     attr('width', StringAttribute('$w'));
-    return this;
+    return self;
   }
 
   Iframe height(int h) {
     attr('height', StringAttribute('$h'));
-    return this;
+    return self;
   }
 
   Iframe loading(String l) {
     attr('loading', StringAttribute(l));
-    return this;
+    return self;
   }
 
   Iframe referrerpolicy(String rp) {
     attr('referrerpolicy', StringAttribute(rp));
-    return this;
+    return self;
   }
 }
 
-class Embed extends ContentElement {
+final class Embed extends ElementBuilder<Embed> {
   Embed({super.key}) : super('embed');
 
   Embed src(String s) {
     attr('src', StringAttribute(s));
-    return this;
+    return self;
   }
 
   Embed type(String t) {
     attr('type', StringAttribute(t));
-    return this;
+    return self;
   }
 
   Embed width(int w) {
     attr('width', StringAttribute('$w'));
-    return this;
+    return self;
   }
 
   Embed height(int h) {
     attr('height', StringAttribute('$h'));
-    return this;
+    return self;
   }
 }
 
-class ObjectTag extends ContentElement {
+final class ObjectTag extends ElementBuilder<ObjectTag> {
   ObjectTag({super.key}) : super('object');
 
   ObjectTag type(String t) {
     attr('type', StringAttribute(t));
-    return this;
+    return self;
   }
 
   ObjectTag name(String n) {
     attr('name', StringAttribute(n));
-    return this;
+    return self;
   }
 
   ObjectTag width(int w) {
     attr('width', StringAttribute('$w'));
-    return this;
+    return self;
   }
 
   ObjectTag height(int h) {
     attr('height', StringAttribute('$h'));
-    return this;
+    return self;
   }
 }
 
-class Portal extends ContentElement {
+final class Portal extends ElementBuilder<Portal> {
   Portal({super.key}) : super('portal');
 
   Portal src(String s) {
     attr('src', StringAttribute(s));
-    return this;
+    return self;
   }
 }
 
@@ -1209,25 +1116,25 @@ class Portal extends ContentElement {
 // Interactive Elements
 // ==============================
 
-class Details extends ContentElement {
+final class Details extends ElementBuilder<Details> {
   Details({super.key}) : super('details');
 
   Details open([bool o = true]) {
     if (o) attr('open', BooleanAttribute(true));
-    return this;
+    return self;
   }
 }
 
-class Summary extends ContentElement {
+final class Summary extends ElementBuilder<Summary> {
   Summary({super.key}) : super('summary');
 }
 
-class Dialog extends ContentElement {
+final class Dialog extends ElementBuilder<Dialog> {
   Dialog({super.key}) : super('dialog');
 
   Dialog open([bool o = true]) {
     if (o) attr('open', BooleanAttribute(true));
-    return this;
+    return self;
   }
 }
 
@@ -1235,15 +1142,15 @@ class Dialog extends ContentElement {
 // Web Components
 // ==============================
 
-class Template extends ContentElement {
+final class Template extends ElementBuilder<Template> {
   Template({super.key}) : super('template');
 }
 
-class Slot extends ContentElement {
+final class Slot extends ElementBuilder<Slot> {
   Slot({super.key}) : super('slot');
 
   Slot name(String n) {
     attr('name', StringAttribute(n));
-    return this;
+    return self;
   }
 }

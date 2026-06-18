@@ -2,21 +2,15 @@ import 'package:pulsar_web/pulsar.dart';
 import 'package:pulsar_web/engine/router/route_match.dart';
 import 'package:pulsar_web/types.dart';
 
-// lib/engine/router/route.dart
-
 class Route {
   final String path;
   final Component Function(ParamsContext params) builder;
-  final bool catchAll; // ← NUEVO
+  final bool catchAll;
 
   late final RegExp _regex;
   late final List<String> _paramNames;
 
-  Route({
-    required this.path,
-    required this.builder,
-    this.catchAll = false, // ← NUEVO
-  }) {
+  Route({required this.path, required this.builder, this.catchAll = false}) {
     final names = <String>[];
 
     var pattern = path.replaceAllMapped(RegExp(r':(\w+)'), (m) {
@@ -26,11 +20,9 @@ class Route {
 
     _paramNames = names;
 
-    // ✅ Si es catchAll, matchea el prefijo y todo lo que sigue
+    // if catchAll, matches prefix and every next route
     if (catchAll) {
-      _regex = RegExp(
-        '^$pattern(/.*)?',
-      ); // Matchea /docs, /docs/, /docs/anything
+      _regex = RegExp('^$pattern(/.*)?'); // Match /docs, /docs/, /docs/anything
     } else {
       _regex = RegExp('^$pattern\$');
     }
