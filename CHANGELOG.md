@@ -1,3 +1,8 @@
+## 1.1.0
+- Added `pulsar_lint` support.
+- Correction on createDOM utility for registering nodes.
+- Created new `Morphic` element, `Fragment` element.
+
 ## 1.0.1
 - Added enums to element builders for type safe autocomplete on HTML elements.
 - Fix on Attribute shadowing.

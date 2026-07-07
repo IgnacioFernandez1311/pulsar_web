@@ -4,33 +4,17 @@ import 'package:pulsar_web/pulsar.dart';
 // Mutable handler infrastructure
 // ─────────────────────────────────────────────────────────────────────────────
 
-/// A mutable wrapper around an [EventAttribute].
-///
-/// Registered once on the DOM element at mount time via [_registerHandler].
-/// On every patch, only [attr] is swapped — the JS function reference never
-/// changes, so no removeEventListener/addEventListener is needed.
-///
-/// This is what makes positional unkeyed diffing correct: the DOM node is
-/// reused, the JS listener is reused, and the callback it delegates to is
-/// always the latest one from the most recent render pass.
 class _MutableHandler {
   EventAttribute attr;
   _MutableHandler(this.attr);
 }
 
-/// Per-element map of mutable handlers, keyed by attribute name (e.g. 'onClick').
-/// Stored in an Expando so it lives alongside the DOM node without modifying it.
 final _handlers = Expando<Map<String, _MutableHandler>>();
 
 Map<String, _MutableHandler> _handlersFor(Element element) {
   return _handlers[element] ??= {};
 }
 
-/// Registers a new JS event listener backed by a [_MutableHandler].
-///
-/// The JS closure captures [wrapper] by reference. Swapping [wrapper.attr]
-/// in [updateHandler] is all that's needed to redirect future events to a
-/// new callback — no DOM mutation required.
 void _registerHandler(Element element, String key, EventAttribute attr) {
   final eventName = key.startsWith('on') ? key.substring(2).toLowerCase() : key;
 
@@ -56,17 +40,11 @@ void _registerHandler(Element element, String key, EventAttribute attr) {
   element.addEventListener(eventName, jsHandler);
 }
 
-/// Updates the handler wrapper for [key] on [element] with a new [attr].
-///
-/// Called by [_patchAttributes] in diff.dart whenever a DOM node is reused
-/// at the same position. The JS listener stays registered — only the Dart
-/// callback it delegates to is updated.
 void updateHandler(Element element, String key, EventAttribute attr) {
   final map = _handlers[element];
   if (map != null && map.containsKey(key)) {
     map[key]!.attr = attr;
   } else {
-    // Not yet registered — first time this event appears on this node.
     _registerHandler(element, key, attr);
   }
 }
@@ -75,16 +53,25 @@ void updateHandler(Element element, String key, EventAttribute attr) {
 // createDom
 // ─────────────────────────────────────────────────────────────────────────────
 
-/// Creates a real DOM [Node] from a resolved [Morphic] tree.
+/// Creates a single DOM [Node] from a resolved [Morphic].
 ///
-/// The optional [componentOwner] identifies which [Component] this element
-/// is the root output of. When provided, the created node is registered with
-/// the [ComponentRuntime] so that [requestUpdateFor] can diff it directly on
-/// future morphs without traversing the full tree.
+/// [FragmentMorphic] cannot be passed here directly — fragments produce
+/// multiple sibling nodes and have no single root. Use [createDomNodes]
+/// when the caller may encounter a fragment.
 ///
-/// Pass [componentOwner] only for the root element of a component's render
-/// output — never for nested elements within the same component.
+/// The optional [componentOwner] marks the root element as belonging to
+/// a specific [Component], registering it with the [ComponentRuntime] for
+/// granular diffing. For child components, ownership is looked up via
+/// [ComponentRuntime.ownerOf].
 Node createDom(Morphic node, {Component? componentOwner}) {
+  if (node is FragmentMorphic) {
+    throw UnsupportedError(
+      'createDom cannot create a single node from FragmentMorphic. '
+      'Use createDomNodes() instead, or ensure fragments are only used '
+      'as children of an ElementMorphic.',
+    );
+  }
+
   if (node is TextMorphic) {
     return document.createTextNode(node.value);
   }
@@ -106,31 +93,58 @@ Node createDom(Morphic node, {Component? componentOwner}) {
           htmlElement.style.setProperty(_toKebabCase(k), value);
         });
       } else if (attr is EventAttribute) {
-        // Register via mutable wrapper so patch can update the callback
-        // without touching the DOM listener registration.
         _registerHandler(element, key, attr);
       }
     });
 
     // ── Children ─────────────────────────────────────────────────────────
+    // Each child may be a fragment — use createDomNodes to expand them.
     final morphicChildren = node.children.cast<Morphic>();
     for (final child in morphicChildren) {
-      element.append(createDom(child));
+      Component? childOwner;
+      try {
+        childOwner = RenderContext.runtime.ownerOf(child);
+      } catch (_) {}
+
+      for (final domNode in createDomNodes(child, componentOwner: childOwner)) {
+        element.append(domNode);
+      }
     }
 
     // ── Component node registration ───────────────────────────────────────
     if (componentOwner != null) {
       try {
         RenderContext.runtime.registerComponentDomNode(componentOwner, element);
-      } catch (_) {
-        // RenderContext not active in static render paths or tests.
-      }
+      } catch (_) {}
     }
 
     return element;
   }
 
   throw UnsupportedError('Unknown node type: ${node.runtimeType}');
+}
+
+/// Creates one or more DOM nodes from a resolved [Morphic].
+///
+/// For [FragmentMorphic], returns one node per child (recursively expanded).
+/// For all other Morphic types, returns a single-element list.
+///
+/// This is the correct entry point when iterating children that may include
+/// fragments — both in [createDom] and in [diff.dart]'s [_createDomNodes].
+List<Node> createDomNodes(Morphic node, {Component? componentOwner}) {
+  if (node is FragmentMorphic) {
+    final nodes = <Node>[];
+    for (final child in node.children) {
+      Component? childOwner;
+      try {
+        childOwner = RenderContext.runtime.ownerOf(child);
+      } catch (_) {}
+      nodes.addAll(createDomNodes(child, componentOwner: childOwner));
+    }
+    return nodes;
+  }
+
+  return [createDom(node, componentOwner: componentOwner)];
 }
 
 String _toKebabCase(String input) {

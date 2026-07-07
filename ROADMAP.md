@@ -152,7 +152,7 @@ linter:
 ### Fragment Implementation
 
 **Status:** Planned  
-**Timeline:** Q2 2025
+**Timeline:** Q2 2026
 
 A new `Morphic` type that allows grouping multiple elements without adding extra DOM nodes.
 
@@ -549,9 +549,9 @@ test('render performance stays under threshold', () {
 - ✅ Documentation and examples
 
 ### v1.1 (Q2 2026)
-- 🔄 Pulsar Linter
-- 🔄 Fragment implementation
-- 🔄 CLI enhancements (basic)
+- ✅ Pulsar Linter
+- ✅ Fragment implementation
+- ✅ CLI enhancements (basic)
 
 ### v1.2 (Q3 2026)
 - 🔄 DevTools (alpha)

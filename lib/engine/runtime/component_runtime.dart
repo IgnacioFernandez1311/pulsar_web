@@ -8,13 +8,13 @@ final class ComponentRuntime {
   Morphic? _currentTree;
   bool _mounted = false;
 
-  /// Maps each mounted Component to its current resolved Morphic tree.
-  /// Used as the "prev" snapshot for local diffing on morph.
   final Map<Component, Morphic> _componentTrees = {};
-
-  /// Maps each mounted Component to its root DOM node.
-  /// patch() operates directly on this node — no traversal needed.
   final Map<Component, Node> _componentNodes = {};
+
+  /// Maps each resolved Morphic root to the Component that produced it.
+  /// Built during resolveNode, consumed during createDom to register
+  /// component DOM nodes without needing a second resolve pass.
+  final Map<Morphic, Component> _morphicOwners = {};
 
   ComponentRuntime(this.renderer);
 
@@ -31,13 +31,12 @@ final class ComponentRuntime {
     root.attach(this);
 
     RenderContext.run(this, () {
-      // resolveNode registers each Component's tree as it recurses.
-      // createDom registers each Component's DOM node as it recurses.
-      final tree = resolveNode(root.render(), owner: root);
+      final tree = resolveNode(root.render());
       _currentTree = tree;
+      _componentTrees[root] = tree;
+      _morphicOwners[tree] = root;
 
       final dom = createDom(tree, componentOwner: root);
-      _componentTrees[root] = tree;
       _componentNodes[root] = dom;
 
       renderer.mount(tree);
@@ -53,6 +52,7 @@ final class ComponentRuntime {
     _currentTree = null;
     _componentTrees.clear();
     _componentNodes.clear();
+    _morphicOwners.clear();
     _mounted = false;
   }
 
@@ -60,11 +60,6 @@ final class ComponentRuntime {
   // Update
   // ─────────────────────────────────────────────────────────────────────────
 
-  /// Granular update — re-renders and diffs only [component]'s subtree.
-  ///
-  /// This is the primary update path. It never touches the root tree or
-  /// any sibling component. The browser only sees changes inside the
-  /// single DOM node that belongs to [component].
   void requestUpdateFor(Component component) {
     if (!_mounted) return;
 
@@ -76,8 +71,6 @@ final class ComponentRuntime {
     final domNode = _componentNodes[component];
     final prevTree = _componentTrees[component];
 
-    // Not yet registered: component called morph() before its first
-    // resolveNode pass completed. Fall back gracefully.
     if (domNode == null || prevTree == null) {
       _requestRootUpdate();
       return;
@@ -85,28 +78,19 @@ final class ComponentRuntime {
 
     RenderContext.run(this, () {
       RenderContext.runWithComponent(component, () {
-        final nextTree = resolveNode(component.render(), owner: component);
-
-        // Diff directly against the component's own DOM node.
-        // No other part of the DOM is examined or mutated.
+        final nextTree = resolveNode(component.render());
         patch(domNode, prevTree, nextTree);
-
         _componentTrees[component] = nextTree;
         component.onMorph();
       });
     });
   }
 
-  /// Full-tree update. Only used for the root component and as a safety
-  /// fallback. In normal operation every morph goes through [requestUpdateFor].
   void _requestRootUpdate() {
     if (!_mounted) return;
 
     RenderContext.run(this, () {
-      final nextTree = resolveNode(
-        rootComponent!.render(),
-        owner: rootComponent!,
-      );
+      final nextTree = resolveNode(rootComponent!.render());
       renderer.update(_currentTree!, nextTree);
       _currentTree = nextTree;
       _componentTrees[rootComponent!] = nextTree;
@@ -115,20 +99,19 @@ final class ComponentRuntime {
   }
 
   // ─────────────────────────────────────────────────────────────────────────
-  // Registry — internal, called by resolveNode and createDom
+  // Registry
   // ─────────────────────────────────────────────────────────────────────────
 
-  /// Stores the Morphic tree for a component.
-  /// Called by [resolveNode] as soon as a component's render output is resolved.
   void registerComponentTree(Component component, Morphic tree) {
     _componentTrees.putIfAbsent(component, () => tree);
+    _morphicOwners.putIfAbsent(tree, () => component);
   }
 
-  /// Stores the root DOM node for a component.
-  /// Called by [createDom] once the Element for a component's root is created.
   void registerComponentDomNode(Component component, Node dom) {
     _componentNodes.putIfAbsent(component, () => dom);
   }
+
+  Component? ownerOf(Morphic tree) => _morphicOwners[tree];
 
   void unregisterComponent(Component component) {
     _componentNodes.remove(component);
@@ -140,14 +123,14 @@ final class ComponentRuntime {
 // resolveNode
 // ─────────────────────────────────────────────────────────────────────────────
 
-/// Resolves a Morphic tree, expanding any [Component] instances found.
+/// Resolves a Morphic tree by expanding all [Component] instances found.
 ///
-/// The optional [owner] parameter identifies which [Component] is responsible
-/// for the top-level node being resolved. It is only meaningful at the call
-/// site in [ComponentRuntime.mount] and [requestUpdateFor] — it should NOT be
-/// forwarded when recursing into children, because each child [Component] will
-/// register itself independently when the recursion reaches it.
-Morphic resolveNode(dynamic node, {Component? owner}) {
+/// [FragmentMorphic] nodes are preserved in the resolved tree — they are
+/// NOT flattened here. Flattening happens at the DOM level in [createDom]
+/// and [_patchChildren] in diff.dart, where the parent element context is
+/// available. Preserving fragments in the resolved tree lets the differ
+/// compare prev/next fragments at the same position accurately.
+Morphic resolveNode(dynamic node) {
   // ── Component ────────────────────────────────────────────────────────────
   if (node is Component) {
     node.attach(RenderContext.runtime);
@@ -156,35 +139,28 @@ Morphic resolveNode(dynamic node, {Component? owner}) {
       return node.render();
     });
 
-    // Resolve the component's own subtree. The component is the owner of
-    // its render output — not whatever called resolveNode on it.
-    final resolved = resolveNode(rendered, owner: node);
-
-    // Register the tree. The matching DOM node will arrive via createDom.
+    final resolved = resolveNode(rendered);
     RenderContext.runtime.registerComponentTree(node, resolved);
-
-    // Create and register the DOM node immediately, while we still know
-    // which component this subtree belongs to.
-    final dom = createDom(resolved, componentOwner: node);
-    RenderContext.runtime.registerComponentDomNode(node, dom);
-
     return resolved;
+  }
+
+  // ── FragmentMorphic ──────────────────────────────────────────────────────
+  if (node is FragmentMorphic) {
+    final resolvedChildren = <Morphic>[];
+    for (final child in node.children) {
+      resolvedChildren.add(resolveNode(child));
+    }
+    return FragmentMorphic(children: resolvedChildren, key: node.key);
   }
 
   // ── ElementMorphic ───────────────────────────────────────────────────────
   if (node is ElementMorphic) {
     final resolvedChildren = <Morphic>[];
-
     for (final child in node.children) {
-      try {
-        // Do not forward owner — children register themselves.
-        final resolved = resolveNode(child);
-        resolvedChildren.add(resolved);
-      } catch (e) {
-        continue;
-      }
+      if (child == null) continue;
+      final resolved = resolveNode(child);
+      resolvedChildren.add(resolved);
     }
-
     return ElementMorphic(
       tag: node.tag,
       attributes: node.attributes,
@@ -193,15 +169,10 @@ Morphic resolveNode(dynamic node, {Component? owner}) {
     );
   }
 
-  // ── TextMorphic ──────────────────────────────────────────────────────────
-  if (node is TextMorphic) {
-    return node;
-  }
-
-  // ── String ───────────────────────────────────────────────────────────────
-  if (node is String) {
-    return TextMorphic(node);
-  }
+  // ── Primitives ───────────────────────────────────────────────────────────
+  if (node is TextMorphic) return node;
+  if (node is String) return TextMorphic(node);
+  if (node is int || node is double) return TextMorphic(node.toString());
 
   throw UnsupportedError('Unknown node type: ${node.runtimeType}');
 }

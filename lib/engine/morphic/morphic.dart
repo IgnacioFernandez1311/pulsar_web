@@ -9,7 +9,7 @@ sealed class Morphic {
   const Morphic({this.key});
 }
 
-/// Text content node
+/// Text content node.
 final class TextMorphic extends Morphic {
   final String value;
 
@@ -23,11 +23,11 @@ final class TextMorphic extends Morphic {
   int get hashCode => value.hashCode;
 }
 
-/// HTML element node
+/// HTML element node.
 final class ElementMorphic extends Morphic {
   final String tag;
   final Map<String, Attribute> attributes;
-  final List<Object> children; //  Object instead of dynamic
+  final List<Object> children;
 
   const ElementMorphic({
     required this.tag,
@@ -64,4 +64,43 @@ final class ElementMorphic extends Morphic {
   }
 }
 
-// ComponentNode DELETED - Components resolved directly
+/// A grouping node that produces no DOM element.
+///
+/// [FragmentMorphic] holds a list of children that are inserted directly
+/// as siblings into the parent DOM node. It is the Morphic representation
+/// of [Fragment] — a way to group multiple nodes without introducing a
+/// wrapper element in the HTML output.
+///
+/// ## Example
+///
+/// ```dart
+/// // Fragment in render() — no extra div wrapper in the DOM
+/// Fragment()([
+///   Span()(['First']),
+///   Span()(['Second']),
+/// ])
+/// ```
+///
+/// ## Diffing
+///
+/// [FragmentMorphic] is preserved in the resolved tree so that
+/// [_patchChildren] can diff it correctly against a previous fragment
+/// at the same position, updating only the children that changed.
+final class FragmentMorphic extends Morphic {
+  final List<Morphic> children;
+
+  const FragmentMorphic({required this.children, super.key});
+
+  @override
+  bool operator ==(Object other) {
+    if (other is! FragmentMorphic) return false;
+    if (children.length != other.children.length) return false;
+    for (int i = 0; i < children.length; i++) {
+      if (children[i] != other.children[i]) return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, children.length);
+}

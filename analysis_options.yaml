@@ -19,10 +19,8 @@ include: package:lints/recommended.yaml
 #   rules:
 #     - camel_case_types
 
-analyzer:
-  errors:
-    curly_braces_in_flow_control_structures: ignore
-    invalid_runtime_check_with_js_interop_types: ignore
+#analyzer:
+#  errors:
 #   exclude:
 #     - path/to/excluded/files/**
 
