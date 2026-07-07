@@ -157,7 +157,6 @@ Morphic resolveNode(dynamic node) {
   if (node is ElementMorphic) {
     final resolvedChildren = <Morphic>[];
     for (final child in node.children) {
-      if (child == null) continue;
       final resolved = resolveNode(child);
       resolvedChildren.add(resolved);
     }

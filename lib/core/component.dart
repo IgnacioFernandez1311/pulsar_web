@@ -1,9 +1,9 @@
 // lib/core/component.dart
 
 import 'package:pulsar_web/engine/morphic/morphic.dart';
+import 'package:pulsar_web/engine/renderer/render_context.dart';
 import 'package:pulsar_web/engine/runtime/component_runtime.dart';
 import 'package:pulsar_web/engine/stylesheet/stylesheet.dart';
-import 'package:pulsar_web/engine/renderer/render_context.dart';
 
 /// Base class for all Pulsar components.
 ///
@@ -49,6 +49,8 @@ abstract base class Component {
   ComponentRuntime? _runtime;
   bool attached = false;
 
+  ComponentRuntime? get componentRuntime => _runtime;
+
   ComponentRuntime get runtime {
     final contextComponent = RenderContext.currentComponent;
     if (contextComponent == this) {
@@ -61,8 +63,6 @@ abstract base class Component {
     }
     return r;
   }
-
-  ComponentRuntime? get componentRuntime => _runtime;
 
   List<Stylesheet> get styles => const [];
 
@@ -94,24 +94,12 @@ abstract base class Component {
     _runtime = null;
   }
 
-  void onMorph() {}
-
   void morph(void Function() updater) {
     updater();
     update();
   }
 
-  void update() {
-    if (!attached) {
-      throw StateError(
-        'Cannot update: component is not mounted. '
-        'Make sure component is stored as field, not created inline.',
-      );
-    }
-    // Granular update: only this component's subtree is re-rendered and
-    // diffed. No other component or DOM node is touched.
-    runtime.requestUpdateFor(this);
-  }
+  void onMorph() {}
 
   /// Produces the Morphic tree for this component's current state.
   ///
@@ -131,4 +119,16 @@ abstract base class Component {
   /// Morphic render() => Ul()([ todos.map((t) => TodoItem(todo: t)) ]);
   /// ```
   Morphic render();
+
+  void update() {
+    if (!attached) {
+      throw StateError(
+        'Cannot update: component is not mounted. '
+        'Make sure component is stored as field, not created inline.',
+      );
+    }
+    // Granular update: only this component's subtree is re-rendered and
+    // diffed. No other component or DOM node is touched.
+    runtime.requestUpdateFor(this);
+  }
 }
