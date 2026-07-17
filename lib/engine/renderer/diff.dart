@@ -169,7 +169,11 @@ void _patchAttributes(Element el, ElementMorphic prev, ElementMorphic next) {
 void _setDomProperty(Element el, String key, String value) {
   switch (key) {
     case 'value':
-      if (el is HTMLInputElement) el.value = value;
+      if (el is HTMLInputElement) {
+        el.value = value;
+      } else if (el is HTMLTextAreaElement) {
+        el.value = value;
+      }
     default:
       break;
   }
@@ -178,18 +182,23 @@ void _setDomProperty(Element el, String key, String value) {
 void _setDomBooleanProperty(Element el, String key, bool value) {
   switch (key) {
     case 'checked':
-      if (el is HTMLInputElement) el.checked = value;
+      if (el is HTMLInputElement) {
+        el.checked = value;
+      }
     case 'disabled':
-      if (el is HTMLInputElement)
+      if (el is HTMLInputElement) {
         el.disabled = value;
-      else if (el is HTMLButtonElement)
+      } else if (el is HTMLButtonElement) {
         el.disabled = value;
-      else if (el is HTMLSelectElement)
+      } else if (el is HTMLSelectElement) {
         el.disabled = value;
-      else if (el is HTMLTextAreaElement)
+      } else if (el is HTMLTextAreaElement) {
         el.disabled = value;
+      }
     case 'selected':
-      if (el is HTMLOptionElement) el.selected = value;
+      if (el is HTMLOptionElement) {
+        el.selected = value;
+      }
     default:
       break;
   }
@@ -198,20 +207,29 @@ void _setDomBooleanProperty(Element el, String key, bool value) {
 void _resetDomProperty(Element el, String key) {
   switch (key) {
     case 'checked':
-      if (el is HTMLInputElement) el.checked = false;
+      if (el is HTMLInputElement) {
+        el.checked = false;
+      }
     case 'value':
-      if (el is HTMLInputElement) el.value = '';
+      if (el is HTMLInputElement) {
+        el.value = '';
+      } else if (el is HTMLTextAreaElement) {
+        el.value = '';
+      }
     case 'disabled':
-      if (el is HTMLInputElement)
+      if (el is HTMLInputElement) {
         el.disabled = false;
-      else if (el is HTMLButtonElement)
+      } else if (el is HTMLButtonElement) {
         el.disabled = false;
-      else if (el is HTMLSelectElement)
+      } else if (el is HTMLSelectElement) {
         el.disabled = false;
-      else if (el is HTMLTextAreaElement)
+      } else if (el is HTMLTextAreaElement) {
         el.disabled = false;
+      }
     case 'selected':
-      if (el is HTMLOptionElement) el.selected = false;
+      if (el is HTMLOptionElement) {
+        el.selected = false;
+      }
     default:
       break;
   }

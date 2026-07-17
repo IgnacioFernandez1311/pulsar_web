@@ -1,3 +1,10 @@
+## 1.1.1
+- `RenderNode` as a `sealed` type replaces `dynamic` in `resolveNode`.
+- `ResolveResult` makes rendering errors part of the model.
+- Explicit owners removes the shared `_morphicOwners` map.
+- Fixed `MorphicChildren.normalize`. `Component` no longer calls `render()` within the normalizer.
+- `registerComponentTree` always updates the snapshot instead of using `putIfAbsent`.
+
 ## 1.1.0
 - Added `pulsar_lint` support.
 - Correction on createDOM utility for registering nodes.

@@ -1,9 +1,6 @@
 import 'package:pulsar_web/pulsar.dart';
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Mutable handler infrastructure
-// ─────────────────────────────────────────────────────────────────────────────
-
 class _MutableHandler {
   EventAttribute attr;
   _MutableHandler(this.attr);
@@ -49,26 +46,32 @@ void updateHandler(Element element, String key, EventAttribute attr) {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // createDom
-// ─────────────────────────────────────────────────────────────────────────────
 
-/// Creates a single DOM [Node] from a resolved [Morphic].
+/// Creates a single DOM [Node] from a fully resolved [Morphic].
 ///
-/// [FragmentMorphic] cannot be passed here directly — fragments produce
-/// multiple sibling nodes and have no single root. Use [createDomNodes]
-/// when the caller may encounter a fragment.
+/// ## owners parameter
 ///
-/// The optional [componentOwner] marks the root element as belonging to
-/// a specific [Component], registering it with the [ComponentRuntime] for
-/// granular diffing. For child components, ownership is looked up via
-/// [ComponentRuntime.ownerOf].
-Node createDom(Morphic node, {Component? componentOwner}) {
+/// [owners] is the map produced by [resolveNode] that pairs each component's
+/// root [Morphic] to its [Component]. It is passed explicitly here rather than
+/// being read from shared mutable state. This makes the data flow visible:
+/// resolveNode produces owners, createDom consumes them, ComponentRuntime
+/// stores the resulting DOM nodes.
+///
+/// ## Two-phase invariant
+///
+/// [resolveNode] never creates DOM. [createDom] never resolves Components.
+/// Every [Morphic] passed here must be fully resolved — no [Component]
+/// instances should remain in the children list.
+Node createDom(
+  Morphic node, {
+  Component? componentOwner,
+  Map<Morphic, Component> owners = const {},
+}) {
   if (node is FragmentMorphic) {
     throw UnsupportedError(
-      'createDom cannot create a single node from FragmentMorphic. '
-      'Use createDomNodes() instead, or ensure fragments are only used '
-      'as children of an ElementMorphic.',
+      'createDom cannot produce a single Node from FragmentMorphic. '
+      'Use createDomNodes() when iterating children that may include fragments.',
     );
   }
 
@@ -79,7 +82,7 @@ Node createDom(Morphic node, {Component? componentOwner}) {
   if (node is ElementMorphic) {
     final element = document.createElement(node.tag);
 
-    // ── Attributes ───────────────────────────────────────────────────────
+    // Attributes
     node.attributes.forEach((key, attr) {
       if (attr is StringAttribute) {
         element.setAttribute(key, attr.value);
@@ -97,54 +100,60 @@ Node createDom(Morphic node, {Component? componentOwner}) {
       }
     });
 
-    // ── Children ─────────────────────────────────────────────────────────
-    // Each child may be a fragment — use createDomNodes to expand them.
-    final morphicChildren = node.children.cast<Morphic>();
-    for (final child in morphicChildren) {
-      Component? childOwner;
-      try {
-        childOwner = RenderContext.runtime.ownerOf(child);
-      } catch (_) {}
-
-      for (final domNode in createDomNodes(child, componentOwner: childOwner)) {
+    // Children
+    // Children are fully resolved Morphic. No Components remain.
+    // Fragments expand into multiple sibling nodes via createDomNodes.
+    // owners is consulted to find the owning Component for each child
+    // that is a component's root — no shared mutable state needed.
+    for (final child in node.children.cast<Morphic>()) {
+      final childOwner = owners[child];
+      for (final domNode in createDomNodes(
+        child,
+        componentOwner: childOwner,
+        owners: owners,
+      )) {
         element.append(domNode);
       }
     }
 
-    // ── Component node registration ───────────────────────────────────────
+    // Component node registration
     if (componentOwner != null) {
       try {
         RenderContext.runtime.registerComponentDomNode(componentOwner, element);
-      } catch (_) {}
+      } catch (_) {
+        // RenderContext not active in static paths or tests — safe to ignore.
+      }
     }
 
     return element;
   }
 
-  throw UnsupportedError('Unknown node type: ${node.runtimeType}');
+  throw UnsupportedError('Unknown Morphic type: ${node.runtimeType}');
 }
 
 /// Creates one or more DOM nodes from a resolved [Morphic].
 ///
-/// For [FragmentMorphic], returns one node per child (recursively expanded).
-/// For all other Morphic types, returns a single-element list.
+/// For [FragmentMorphic], expands into one node per child recursively.
+/// For all other types, returns a single-element list.
 ///
-/// This is the correct entry point when iterating children that may include
-/// fragments — both in [createDom] and in [diff.dart]'s [_createDomNodes].
-List<Node> createDomNodes(Morphic node, {Component? componentOwner}) {
+/// Use this whenever iterating children that may contain fragments.
+List<Node> createDomNodes(
+  Morphic node, {
+  Component? componentOwner,
+  Map<Morphic, Component> owners = const {},
+}) {
   if (node is FragmentMorphic) {
     final nodes = <Node>[];
     for (final child in node.children) {
-      Component? childOwner;
-      try {
-        childOwner = RenderContext.runtime.ownerOf(child);
-      } catch (_) {}
-      nodes.addAll(createDomNodes(child, componentOwner: childOwner));
+      final childOwner = owners[child];
+      nodes.addAll(
+        createDomNodes(child, componentOwner: childOwner, owners: owners),
+      );
     }
     return nodes;
   }
 
-  return [createDom(node, componentOwner: componentOwner)];
+  return [createDom(node, componentOwner: componentOwner, owners: owners)];
 }
 
 String _toKebabCase(String input) {

@@ -564,7 +564,7 @@ final class UserProfile extends Component {
 
 ### 6. Fluent Element Builders
 
-Pulsar 1.0 uses Dart's call operator for concise, type-safe element creation:
+Pulsar 1.1 uses Dart's call operator for concise, type-safe element creation:
 
 ```dart
 // Simple text
@@ -621,11 +621,11 @@ Work with HTML, CSS, and browser APIs, don't hide them.
 
 ---
 
-## Pulsar 1.0: Foundation Release
+## Pulsar v1: Foundation Release
 
-Version 1.0 represents Pulsar's **philosophical foundation**, not feature completeness.
+Version v1 represents Pulsar's **philosophical foundation**, not feature completeness.
 
-### What 1.0 Means
+### What v1 Means
 
 **Philosophically coherent:**
 - Every design decision aligns with core principles
@@ -641,7 +641,7 @@ Version 1.0 represents Pulsar's **philosophical foundation**, not feature comple
 - You can build real apps with confidence
 - Missing features (SSR, DevTools) don't compromise the foundation
 
-### What Changed in 1.0
+### What Changed in v1
 
 #### Fluent Element Builders
 
@@ -653,7 +653,7 @@ div(
 )
 ```
 
-**After (v1.0):**
+**After (v1):**
 ```dart
 Div().classes('container')([
   H1()(['Title']),

@@ -518,8 +518,8 @@ base class ElementBuilder<T extends ElementBuilder<T>> {
   }
 
   /// Call operator for children
-  Morphic call([List<dynamic>? children]) {
-    // 🔑 Void elements no pueden tener children
+  Morphic call<M>([List<M>? children]) {
+    // Void elements can't have children
     if (isVoid && children != null && children.isNotEmpty) {
       throw ArgumentError(
         '<$tag> is a void element and cannot have children. '
@@ -529,7 +529,7 @@ base class ElementBuilder<T extends ElementBuilder<T>> {
 
     final normalizedChildren = isVoid
         ? <Object>[]
-        : _normalizeChildren(children ?? []);
+        : MorphicChildren.normalize(children ?? []);
 
     final finalAttrs = <String, Attribute>{
       if (_classes != null) 'class': ClassAttribute(_classes!),
@@ -544,32 +544,5 @@ base class ElementBuilder<T extends ElementBuilder<T>> {
       attributes: finalAttrs,
       children: normalizedChildren,
     );
-  }
-
-  List<Object> _normalizeChildren(List<dynamic> children) {
-    final result = <Object>[];
-
-    for (final child in children) {
-      if (child == null) {
-        continue;
-      } else if (child is String) {
-        result.add(TextMorphic(child));
-      } else if (child is num) {
-        result.add(TextMorphic(child.toString()));
-      } else if (child is Morphic) {
-        result.add(child);
-      } else if (child is Component) {
-        result.add(child);
-      } else if (child is Iterable) {
-        result.addAll(_normalizeChildren(child.toList()));
-      } else {
-        throw ArgumentError(
-          'Invalid child type: ${child.runtimeType}. '
-          'Expected String, Morphic, Component, Iterable, or null.',
-        );
-      }
-    }
-
-    return result;
   }
 }

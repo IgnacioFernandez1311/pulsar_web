@@ -38,43 +38,21 @@ import 'package:pulsar_web/pulsar.dart';
 /// a flex container where an extra div would break layout).
 ///
 /// If a wrapper element is acceptable, prefer a plain [Div] or [Span].
+
+/// Produces a [FragmentMorphic] containing [children].
+///
+/// Children follow the same normalization rules as [ElementBuilder]:
+/// strings become [TextMorphic], numbers become [TextMorphic],
+/// [Morphic] nodes are included as-is, and nested [Iterable]s are flattened.
 final class Fragment {
   final Object? key;
 
   const Fragment({this.key});
 
-  /// Produces a [FragmentMorphic] containing [children].
-  ///
-  /// Children follow the same normalization rules as [ElementBuilder]:
-  /// strings become [TextMorphic], numbers become [TextMorphic],
-  /// [Morphic] nodes are included as-is, and nested [Iterable]s are flattened.
-  FragmentMorphic call([List<dynamic>? children]) {
-    final normalized = _normalizeChildren(children ?? const []);
-    return FragmentMorphic(children: normalized, key: key);
-  }
-
-  List<Morphic> _normalizeChildren(List<dynamic> children) {
-    final result = <Morphic>[];
-
-    for (final child in children) {
-      if (child == null) {
-        continue;
-      } else if (child is String) {
-        result.add(TextMorphic(child));
-      } else if (child is num) {
-        result.add(TextMorphic(child.toString()));
-      } else if (child is Morphic) {
-        result.add(child);
-      } else if (child is Iterable) {
-        result.addAll(_normalizeChildren(child.toList()));
-      } else {
-        throw ArgumentError(
-          'Invalid Fragment child type: ${child.runtimeType}. '
-          'Expected String, num, Morphic, Iterable, or null.',
-        );
-      }
-    }
-
-    return result;
+  // Al usar <T>, Dart permite pasar cualquier lista mixta de forma nativa.
+  FragmentMorphic call<T>([List<T>? children]) {
+    // Le pasamos la lista al normalizador único
+    final normalized = MorphicChildren.normalize(children);
+    return FragmentMorphic(children: normalized as List<Morphic>, key: key);
   }
 }

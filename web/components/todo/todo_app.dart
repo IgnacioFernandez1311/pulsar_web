@@ -122,52 +122,48 @@ final class TodoApp extends Component {
   }
 
   @override
-  Morphic render() {
-    return Div().classes("todo-app")([
-      H1()(['Todo List']),
+  Morphic render() => Main().classes("todo-app")([
+    H1()(['Todo List']),
 
-      // Input
-      Div().classes("input-section")([
-        Input()
-            .value(inputValue)
-            .onInput(handleInput)
-            .placeholder('What needs to be done?')
-            .onKeyDown(handleEnter)(),
-        Button().onClick(handleAdd)(['Add']),
-        Button().onClick(
-          (_) => morph(
-            () => todos.items.addAll([
-              for (int i = 0; i < 100; i++)
-                Todo(id: i.toString(), text: 'Todo $i', completed: false),
-            ]),
-          ),
-        )(['Add x 100']),
+    // Input
+    Div().classes("input-section")([
+      Input()
+          .value(inputValue)
+          .onInput(handleInput)
+          .placeholder('What needs to be done?')
+          .onKeyDown(handleEnter)(),
+      Button().onClick(handleAdd)(['Add']),
+      Button().onClick(
+        (_) => morph(
+          () => todos.items.addAll([
+            for (int i = 0; i < 100; i++)
+              Todo(id: i.toString(), text: 'Todo $i', completed: false),
+          ]),
+        ),
+      )(['Add x 100']),
+    ]),
+
+    // Filters
+    Div().classes("filters")([
+      Button()
+          .onClick((_) => setFilter(Filter.all))
+          .classes(currentFilter == Filter.all ? 'active' : '')(['All']),
+      Button()
+          .onClick((_) => setFilter(Filter.active))
+          .classes(currentFilter == Filter.active ? 'active' : '')(['Active']),
+      Button()
+          .onClick((_) => setFilter(Filter.completed))
+          .classes(currentFilter == Filter.completed ? 'active' : '')([
+        'Completed',
       ]),
+    ]),
 
-      // Filters
-      Div().classes("filters")([
-        Button()
-            .onClick((_) => setFilter(Filter.all))
-            .classes(currentFilter == Filter.all ? 'active' : '')(['All']),
-        Button()
-            .onClick((_) => setFilter(Filter.active))
-            .classes(currentFilter == Filter.active ? 'active' : '')([
-          'Active',
-        ]),
-        Button()
-            .onClick((_) => setFilter(Filter.completed))
-            .classes(currentFilter == Filter.completed ? 'active' : '')([
-          'Completed',
-        ]),
-      ]),
+    // Todo list
+    Ul().classes("todo-list")([todoElements]),
 
-      // Todo list
-      Ul().classes("todo-list")([todoElements]),
-
-      // Stats
-      P()(['${todos.active.length} items left']),
-    ]);
-  }
+    // Stats
+    P()(['${todos.active.length} items left']),
+  ]);
 }
 
 // Child component

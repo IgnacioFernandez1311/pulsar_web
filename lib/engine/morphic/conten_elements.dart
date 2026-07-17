@@ -626,6 +626,11 @@ final class Textarea extends ElementBuilder<Textarea> {
     return self;
   }
 
+  Textarea value(String val) {
+    attr('value', StringAttribute(val));
+    return self;
+  }
+
   Textarea disabled([bool d = true]) {
     if (d) attr('disabled', BooleanAttribute(true));
     return self;
