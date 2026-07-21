@@ -3,7 +3,6 @@ description: A Dart-first web framework for building structured, maintainable ap
 version: 1.1.2
 repository: https://github.com/IgnacioFernandez1311/pulsar_web
 homepage: https://pulsar-web.netlify.app
-publish_to: none
 
 topics:
   - web
