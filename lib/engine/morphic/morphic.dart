@@ -253,7 +253,7 @@ final class _FunctionChild extends _ValidChild {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// MorphicChildren — normalizador de children
+// MorphicChildren — children normalizer
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// Normalizes raw Dart child values into a flat [List<Object>] suitable

@@ -116,6 +116,37 @@ base class ElementBuilder<T extends ElementBuilder<T>> {
     return self;
   }
 
+  /// Injects raw HTML as the inner content of this element.
+  ///
+  /// Uses [HTMLElement.setHTMLUnsafe] under the hood — which means the
+  /// browser parses and renders the HTML directly, bypassing Pulsar's
+  /// normal child reconciliation for this element.
+  ///
+  /// ## When to use
+  ///
+  /// Only use this with **trusted HTML** — content produced by a controlled
+  /// pipeline such as Markdown parsed by `pulsar_content`. Never pass raw
+  /// user input here.
+  ///
+  /// ## Effect on children
+  ///
+  /// When [innerHTML] is set, the element's children list is ignored.
+  /// The raw HTML becomes the entire content of the element.
+  ///
+  /// ## Example
+  ///
+  /// ```dart
+  /// // Renders pre-parsed Markdown HTML
+  /// Div()
+  ///   .classes('content-body')
+  ///   .innerHTML(node.body)
+  ///   ();
+  /// ```
+  T innerHTML(String html) {
+    attr('innerHTML', InnerHtmlAttribute(html));
+    return self;
+  }
+
   // ========================================
   // ARIA Attributes (Basic Accessibility)
   // ========================================

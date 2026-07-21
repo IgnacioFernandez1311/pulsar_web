@@ -1,6 +1,9 @@
 import 'package:pulsar_web/pulsar.dart';
 
+// ─────────────────────────────────────────────────────────────────────────────
 // Mutable handler infrastructure
+// ─────────────────────────────────────────────────────────────────────────────
+
 class _MutableHandler {
   EventAttribute attr;
   _MutableHandler(this.attr);
@@ -46,7 +49,9 @@ void updateHandler(Element element, String key, EventAttribute attr) {
   }
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
 // createDom
+// ─────────────────────────────────────────────────────────────────────────────
 
 /// Creates a single DOM [Node] from a fully resolved [Morphic].
 ///
@@ -82,7 +87,7 @@ Node createDom(
   if (node is ElementMorphic) {
     final element = document.createElement(node.tag);
 
-    // Attributes
+    // ── Attributes ───────────────────────────────────────────────────────
     node.attributes.forEach((key, attr) {
       if (attr is StringAttribute) {
         element.setAttribute(key, attr.value);
@@ -97,11 +102,15 @@ Node createDom(
         });
       } else if (attr is EventAttribute) {
         _registerHandler(element, key, attr);
+      } else if (attr is InnerHtmlAttribute) {
+        // Inject pre-parsed HTML directly. Children are ignored when this
+        // attribute is present — the raw HTML becomes the full content.
+        (element as HTMLElement).setHTMLUnsafe(attr.html.toJS);
       }
     });
 
-    // Children
-    // Children are fully resolved Morphic. No Components remain.
+    // ── Children ─────────────────────────────────────────────────────────
+    // Children are fully resolved Morphic — no Components remain.
     // Fragments expand into multiple sibling nodes via createDomNodes.
     // owners is consulted to find the owning Component for each child
     // that is a component's root — no shared mutable state needed.
@@ -116,7 +125,7 @@ Node createDom(
       }
     }
 
-    // Component node registration
+    // ── Component node registration ───────────────────────────────────────
     if (componentOwner != null) {
       try {
         RenderContext.runtime.registerComponentDomNode(componentOwner, element);

@@ -1,3 +1,8 @@
+## 1.1.2
+- Added `innerHTML` configuration function on `ElementBuilder`.
+- Added `InnerHtmlAttribute` for `innerHTML` utility.
+- More documentation.
+
 ## 1.1.1
 - `RenderNode` as a `sealed` type replaces `dynamic` in `resolveNode`.
 - `ResolveResult` makes rendering errors part of the model.

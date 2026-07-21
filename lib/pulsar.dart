@@ -20,6 +20,7 @@ export 'package:pulsar_web/engine/morphic/element_builder.dart';
 export 'package:pulsar_web/engine/morphic/conten_elements.dart';
 export 'package:pulsar_web/engine/morphic/void_elements.dart';
 export 'package:pulsar_web/engine/morphic/fragment_element.dart';
+export 'package:pulsar_web/engine/morphic/enums.dart';
 
 // Router Exports
 export 'package:pulsar_web/engine/router/route.dart';

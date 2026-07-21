@@ -1054,8 +1054,8 @@ final class Iframe extends ElementBuilder<Iframe> {
     return self;
   }
 
-  Iframe referrerpolicy(String rp) {
-    attr('referrerpolicy', StringAttribute(rp));
+  Iframe referrerpolicy(Referrer rp) {
+    attr('referrerpolicy', StringAttribute(rp.value));
     return self;
   }
 }

@@ -52,8 +52,8 @@ final class Img extends ElementBuilder<Img> {
     return self;
   }
 
-  Img referrerpolicy(String rp) {
-    attr('referrerpolicy', StringAttribute(rp));
+  Img referrerpolicy(Referrer rp) {
+    attr('referrerpolicy', StringAttribute(rp.value));
     return self;
   }
 

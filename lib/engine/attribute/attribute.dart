@@ -26,14 +26,31 @@ class StyleAttribute extends Attribute {
   const StyleAttribute(this.styles);
 }
 
-//  UPDATED: Event attribute with owner
+/// Injects raw HTML into an element via [HTMLElement.setHTMLUnsafe].
+///
+/// Used by [ElementBuilder.innerHTML] to render pre-parsed HTML content —
+/// for example, Markdown converted to HTML by [pulsar_content].
+///
+/// ## Safety
+///
+/// [setHTMLUnsafe] bypasses Pulsar's normal child normalization. Only use
+/// this with trusted HTML sources — content parsed from Markdown files,
+/// never with raw user input.
+///
+/// When [InnerHtmlAttribute] is present on an element, its children list
+/// is ignored. The raw HTML becomes the entire content of the element.
+class InnerHtmlAttribute extends Attribute {
+  final String html;
+  const InnerHtmlAttribute(this.html);
+}
+
+/// Event attribute with owner for granular update context.
 class EventAttribute extends Attribute {
   final EventCallback callback;
   final Component? owner;
 
   const EventAttribute(this.callback, {this.owner});
 
-  // Helper to create with owner from context
   factory EventAttribute.fromContext(EventCallback callback) {
     return EventAttribute(callback, owner: RenderContext.currentComponent);
   }

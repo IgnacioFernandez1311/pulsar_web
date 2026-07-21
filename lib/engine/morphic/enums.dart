@@ -272,7 +272,7 @@ enum Rel {
 }
 
 /// Referrer policy for links and resources.
-enum ReferrerPolicy {
+enum Referrer {
   /// Never send referrer.
   noReferrer('no-referrer'),
 
@@ -298,7 +298,7 @@ enum ReferrerPolicy {
   unsafeUrl('unsafe-url');
 
   final String value;
-  const ReferrerPolicy(this.value);
+  const Referrer(this.value);
 }
 
 // ══════════════════════════════════════════════════════════════════════════════

@@ -162,6 +162,15 @@ void _patchAttributes(Element el, ElementMorphic prev, ElementMorphic next) {
       });
     } else if (attr is EventAttribute) {
       updateHandler(el, key, attr);
+    } else if (attr is InnerHtmlAttribute) {
+      // Re-inject only if the HTML changed — setHTMLUnsafe resets the entire
+      // DOM subtree, so skipping it when content is identical avoids
+      // unnecessary browser work and preserves any child scroll state.
+      final prevAttr = prev.attributes[key];
+      final prevHtml = prevAttr is InnerHtmlAttribute ? prevAttr.html : null;
+      if (prevHtml != attr.html) {
+        (el as HTMLElement).setHTMLUnsafe(attr.html.toJS);
+      }
     }
   });
 }

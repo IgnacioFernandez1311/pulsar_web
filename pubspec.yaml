@@ -1,8 +1,9 @@
 name: pulsar_web
 description: A Dart-first web framework for building structured, maintainable applications with explicit architecture and long-term clarity.
-version: 1.1.1
+version: 1.1.2
 repository: https://github.com/IgnacioFernandez1311/pulsar_web
 homepage: https://pulsar-web.netlify.app
+publish_to: none
 
 topics:
   - web
